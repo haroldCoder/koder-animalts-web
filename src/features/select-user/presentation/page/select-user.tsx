@@ -59,6 +59,7 @@ export const SelectUser = () => {
                     }
 
                     <Button
+                        disabled={!select}
                         className="w-full h-12 mt-7 rounded-xl bg-mist-700 hover:bg-mist-800 text-white dark:bg-mist-700 dark:hover:bg-mist-800 dark:text-white transition-colors"
                         onClick={() => {
                             navigate("/home")

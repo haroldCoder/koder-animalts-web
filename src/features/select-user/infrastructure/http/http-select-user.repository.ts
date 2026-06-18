@@ -25,7 +25,7 @@ export class HttpSelectUserRepository implements ISelectUserRepository {
                     userId,
                     phone,
                     clinicId,
-                    speciality
+                    specialty: speciality
                 }
             })
         } catch (error) {
