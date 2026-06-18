@@ -5,6 +5,7 @@ import { useSignupUsers } from "@/features/auth/application/queries";
 import { useForm, Controller } from "react-hook-form";
 import { HttpException } from "@/common";
 import { Spinner } from "@/components/ui/spinner";
+import { useNavigate } from "react-router-dom";
 
 type RegisterForm = {
     email: string
@@ -15,7 +16,7 @@ type RegisterForm = {
 }
 
 export const SignUp = () => {
-    const { mutate, isPending, error } = useSignupUsers();
+    const { mutateAsync, isPending, error } = useSignupUsers();
     const { register, handleSubmit, getValues, control, formState: { errors } } = useForm<RegisterForm>({
         defaultValues: {
             email: '',
@@ -24,13 +25,16 @@ export const SignUp = () => {
             image: null
         }
     });
+    const navigate = useNavigate();
 
     const [preview, setPreview] = useState<string | null>(null);
     const [isDragging, setIsDragging] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const onSubmit = (data: RegisterForm) => {
-        mutate(data);
+        mutateAsync(data).then(() => {
+            navigate('/select-user');
+        })
     }
 
     return (

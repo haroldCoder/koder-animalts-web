@@ -4,9 +4,11 @@ import { Button } from '@/components/ui/button'
 import { useLoginUser } from '@/features/auth/application/queries'
 import { HttpException } from '@/common'
 import { Spinner } from '@/components/ui/spinner'
+import { useNavigate } from 'react-router-dom'
 
 export const Login = () => {
-    const { mutate, isPending, error } = useLoginUser();
+    const navigate = useNavigate();
+    const { mutateAsync, isPending, error } = useLoginUser();
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -16,7 +18,9 @@ export const Login = () => {
     });
 
     const onSubmit = (data: any) => {
-        mutate(data);
+        mutateAsync(data).then(() => {
+            navigate('/select-user');
+        })
     }
 
     return (
