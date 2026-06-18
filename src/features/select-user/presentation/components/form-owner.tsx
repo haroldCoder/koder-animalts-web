@@ -3,12 +3,18 @@ import { Input } from '@/components/ui/input';
 import { CheckIcon } from 'lucide-react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelectOwner } from '@/features/select-user/application/queries';
+import { toast } from 'sonner';
+import { useAuth } from '@/common/hooks';
+import { Spinner } from '@/components/ui/spinner';
 
 interface FormOwnerProps {
     setSelect: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const FormOwner = React.memo(({ setSelect }: FormOwnerProps) => {
+    const { user } = useAuth();
+
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             phone: '',
@@ -16,9 +22,21 @@ export const FormOwner = React.memo(({ setSelect }: FormOwnerProps) => {
         }
     });
 
+    const { mutateAsync: selectOwner, isPending, isError } = useSelectOwner();
+
     const onSubmit = (data: { phone: string, address: string }) => {
-        console.log(data);
-        setSelect(true);
+        if (!user) return;
+        selectOwner({ userId: user, phone: data.phone, address: data.address })
+            .then(() => {
+                setSelect(true);
+                toast.success("Usuario seleccionado correctamente", {
+                    duration: 1000,
+                    className: "text-green-500 bg-dark"
+                });
+            })
+            .catch(() => {
+                toast.error("Error al seleccionar el usuario");
+            });
     }
 
     return (
@@ -50,10 +68,11 @@ export const FormOwner = React.memo(({ setSelect }: FormOwnerProps) => {
 
                 <div className='w-full flex justify-end'>
                     <Button
+                        disabled={isPending}
                         type="submit"
                         className="h-12 rounded-xl bg-mist-700 hover:bg-mist-800 text-white dark:bg-mist-700 dark:hover:bg-mist-800 dark:text-white transition-colors"
                     >
-                        Guardar <CheckIcon className="size-4" />
+                        {isPending ? <Spinner /> : <>Guardar <CheckIcon className="size-4" /></>}
                     </Button>
                 </div>
             </form>

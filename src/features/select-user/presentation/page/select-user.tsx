@@ -5,11 +5,13 @@ import { useEffect, useMemo, useState } from "react";
 import { FormOwner, FormVeterinarian, UserNotFound } from "../components";
 import { userTypes } from "../constants";
 import { userExistLocalData } from "../utils";
+import { useNavigate } from "react-router-dom";
 
 export const SelectUser = () => {
     const [userType, setUserType] = useState<"owner" | "veterinary">("owner");
     const [select, setSelect] = useState<boolean>(false);
     const [hasUser, setHasUser] = useState<boolean | null>(null);
+    const navigate = useNavigate();
 
     const usersTypeRender = useMemo(() => {
         return userTypes.filter((user) => select ? userType == user.value : true);
@@ -48,17 +50,18 @@ export const SelectUser = () => {
                     </Tabs>
 
                     {
-                        userType === "owner" ? (
-                            <FormOwner setSelect={setSelect} />
-                        ) : (
-                            <FormVeterinarian setSelect={setSelect} />
-                        )
+                        !select && (
+                            userType === "owner" ? (
+                                <FormOwner setSelect={setSelect} />
+                            ) : (
+                                <FormVeterinarian setSelect={setSelect} />
+                            ))
                     }
 
                     <Button
                         className="w-full h-12 mt-7 rounded-xl bg-mist-700 hover:bg-mist-800 text-white dark:bg-mist-700 dark:hover:bg-mist-800 dark:text-white transition-colors"
                         onClick={() => {
-
+                            navigate("/home")
                         }}
                     >Continuar</Button>
                 </div>
