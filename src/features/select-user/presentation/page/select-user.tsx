@@ -6,12 +6,18 @@ import { FormOwner, FormVeterinarian, UserNotFound } from "../components";
 import { userTypes } from "../constants";
 import { userExistLocalData } from "../utils";
 import { useNavigate } from "react-router-dom";
+import { useUserAvailable } from "../hooks";
+import { useAuth } from "@/common/hooks";
+import { Spinner } from "@/components/ui/spinner";
 
 export const SelectUser = () => {
     const [userType, setUserType] = useState<"owner" | "veterinary">("owner");
     const [select, setSelect] = useState<boolean>(false);
     const [hasUser, setHasUser] = useState<boolean | null>(null);
     const navigate = useNavigate();
+    const { user: userId } = useAuth();
+
+    const { userAvailable, loading } = useUserAvailable(userId!);
 
     const usersTypeRender = useMemo(() => {
         return userTypes.filter((user) => select ? userType == user.value : true);
@@ -23,6 +29,16 @@ export const SelectUser = () => {
 
     if (!hasUser) {
         return <UserNotFound />;
+    }
+
+    if (loading) {
+        return <div className="w-full h-screen flex justify-center items-center">
+            <Spinner className="w-10" />
+        </div>;
+    }
+
+    if (!userAvailable) {
+        navigate("/home")
     }
 
     return (
