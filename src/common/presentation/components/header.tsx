@@ -19,11 +19,11 @@ export const Header = () => {
     return (
         <header className="flex justify-between py-4 px-6 bg-background border-b">
             <div className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                    <span className="text-primary-foreground font-bold">A</span>
+                <div className="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center">
+                    <span className="text-white font-bold">A</span>
                 </div>
                 <div>
-                    <h1 className="text-xl font-bold text-orange-500">Dashboard</h1>
+                    <h1 className="text-xl font-bold text-amber-500">Dashboard</h1>
                     <p className="text-sm text-muted-foreground">
                         Bienvenido, {user.role == UserRole.veterinary && 'Dr.'} {user.name}
                     </p>

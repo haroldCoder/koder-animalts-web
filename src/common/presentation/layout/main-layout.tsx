@@ -3,6 +3,7 @@ import { Header } from '../components'
 import { useGetUser, UserEntity } from '@/features/user'
 import { useAuth } from '@/common/hooks'
 import { Spinner } from '@/components/ui/spinner'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface Props {
     children: ReactNode
@@ -26,10 +27,14 @@ export const MainLayout = ({ children }: Props) => {
 
     return (
         <MainLayoutContext.Provider value={{ user: userData! }}>
-            <Header />
-            <main className="flex-1 overflow-y-auto p-4 md:p-6 h-screen">
-                {children}
-            </main>
+            <div className="flex flex-col h-screen w-full overflow-hidden">
+                <Header />
+                <ScrollArea className="flex-1 min-h-0 w-full bg-bg-1">
+                    <main className="p-4 md:p-6 pb-24">
+                        {children}
+                    </main>
+                </ScrollArea>
+            </div>
         </MainLayoutContext.Provider>
     )
 }
