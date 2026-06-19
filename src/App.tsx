@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
 import { AuthScreen } from './features/auth/presentation/pages/auth-screen'
 import { SelectUser } from './features/select-user/presentation/page/select-user'
-import { Home } from './features/home/presentation/pages/home'
+import Home from './home'
 import ProtectedRoute from './protected-route'
 
 function App() {
