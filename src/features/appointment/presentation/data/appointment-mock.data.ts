@@ -1,0 +1,38 @@
+export const appointmentMockData = [
+    {
+        id: '1',
+        nextDate: new Date(),
+        vaccineName: 'Vaccine 1',
+        dateAdministered: new Date(),
+        lotNumber: '123',
+        petName: 'Pet 1',
+        veterinaryName: 'Veterinary 1',
+    },
+    {
+        id: '2',
+        nextDate: new Date(),
+        vaccineName: 'Vaccine 2',
+        dateAdministered: new Date(),
+        lotNumber: '123',
+        petName: 'Pet 2',
+        veterinaryName: 'Veterinary 2',
+    },
+    {
+        id: '3',
+        nextDate: new Date(),
+        vaccineName: 'Vaccine 3',
+        dateAdministered: new Date(),
+        lotNumber: '123',
+        petName: 'Pet 3',
+        veterinaryName: 'Veterinary 3',
+    },
+    {
+        id: '4',
+        nextDate: new Date(),
+        vaccineName: 'Vaccine 4',
+        dateAdministered: new Date(),
+        lotNumber: '123',
+        petName: 'Pet 4',
+        veterinaryName: 'Veterinary 4',
+    },
+]
