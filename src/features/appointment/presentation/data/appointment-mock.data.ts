@@ -10,7 +10,7 @@ export const appointmentMockData = [
     },
     {
         id: '2',
-        nextDate: new Date(),
+        nextDate: new Date(new Date().setDate(new Date().getDate() + 1)), // Mañana
         vaccineName: 'Vaccine 2',
         dateAdministered: new Date(),
         lotNumber: '123',
@@ -19,7 +19,7 @@ export const appointmentMockData = [
     },
     {
         id: '3',
-        nextDate: new Date(),
+        nextDate: new Date(new Date().setDate(new Date().getDate() + 7)), // En una semana (no debe aparecer en avisos)
         vaccineName: 'Vaccine 3',
         dateAdministered: new Date(),
         lotNumber: '123',
