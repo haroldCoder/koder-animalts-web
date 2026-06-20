@@ -3,11 +3,24 @@ import { AppointmentCard } from "../appointments";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useMemo } from "react";
+import { useAuth } from "@/common/hooks";
+import { useGetAppointmentsByUserId } from "@/features/appointment/application/queries";
+import { appointmentNext } from "@/features/appointment/domain/utils";
+import { Error, Loading } from "@/common/presentation/components";
 
 export const OwnerNextAppointments = () => {
+    const { user } = useAuth();
+
+    const {
+        data,
+        isLoading,
+        error
+    } = useGetAppointmentsByUserId(user!);
+
     const appointmentsData = useMemo(() => {
-        return appointmentMockData.slice(0, 3);
-    }, [])
+        if (!data) return [];
+        return appointmentNext(data?.slice(0, 3));
+    }, [data])
 
     return (
         <section className="mt-10 mb-10 max-w-[80vw]">
@@ -18,11 +31,19 @@ export const OwnerNextAppointments = () => {
                 </Button>
             </div>
 
-            <div className="px-7 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
-                {appointmentsData.map((appointment) => (
-                    <AppointmentCard key={appointment.id} appointment={appointment} />
-                ))}
-            </div>
-        </section>
+            {isLoading ? (
+                <Loading />
+            ) : error ? (
+                <Error message="Error al cargar las citas" />
+            ) : appointmentsData.length === 0 ? (
+                <div className="text-center text-text-2 text-base">¡No hay próximas citas agendadas!</div>
+            ) : (
+                <div className="px-7 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
+                    {appointmentsData.map((appointment) => (
+                        <AppointmentCard key={appointment.id} appointment={appointment} />
+                    ))}
+                </div>
+            )}
+        </section >
     )
 }
