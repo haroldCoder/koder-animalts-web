@@ -1,7 +1,7 @@
 export interface PetEntity {
     id: string;
     name: string;
-    birthdate: string;
+    birthdate: Date | string;
     image?: string;
     breed: string;
     isActive: boolean;

@@ -23,7 +23,7 @@ export const PetCard: React.FC<PetCardProps> = ({ pet }) => {
             <div className="flex flex-col">
                 <h3 className="text-lg font-bold text-text-1 leading-tight">{pet.name}</h3>
                 <p className="text-sm font-medium text-text-2 mt-0.5">{pet.breed}</p>
-                <p className="text-xs text-text-3 mt-1">Nacimiento: {pet.birthdate}</p>
+                <p className="text-xs text-text-3 mt-1">Nacimiento: {pet.birthdate.toString()}</p>
             </div>
         </article>
     );
