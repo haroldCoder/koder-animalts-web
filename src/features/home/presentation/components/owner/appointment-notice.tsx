@@ -1,17 +1,25 @@
-import { appointmentMockData } from "@/features/appointment/presentation/data";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { BellRing } from "lucide-react";
 import { useMemo } from "react";
 import { dateIsToday, dateIsTomorrow } from "../../utils";
+import { useGetAppointmentsByUserId } from "@/features/appointment/application/queries";
+import { useAuth } from "@/common/hooks";
+import { Loading } from "@/common/presentation/components";
 
 
 export const AppointmentNotice = () => {
+    const { user } = useAuth();
+    const { data: appointments, isLoading } = useGetAppointmentsByUserId(user!);
+
     const notices = useMemo(() => {
-        return appointmentMockData.filter(app => {
-            const dateObj = new Date(app.nextDate);
+        if (!appointments) return [];
+        return appointments.filter(app => {
+            const dateObj = new Date(app.date);
             return dateIsToday(dateObj) || dateIsTomorrow(dateObj);
         });
-    }, []);
+    }, [appointments]);
+
+    if (isLoading) return <Loading />;
 
     if (notices.length === 0) return <p className="text-lg text-center font-medium text-green-600">¡Estamos al dia con tus citas! 🙌</p>;
 
@@ -23,7 +31,7 @@ export const AppointmentNotice = () => {
             </h2>
             <div className="flex gap-5 overflow-x-auto pb-4">
                 {notices.map((appointment) => {
-                    const dateObj = new Date(appointment.nextDate);
+                    const dateObj = new Date(appointment.date);
                     const dayLabel = dateIsToday(dateObj) ? "hoy" : "mañana";
 
                     return (
@@ -47,7 +55,7 @@ export const AppointmentNotice = () => {
                             </p>
 
                             <span className="mt-3 text-[11px] font-bold uppercase tracking-wider text-main bg-main/10 px-2 py-1 rounded-md">
-                                {appointment.vaccineName}
+                                {appointment.reasonForVisit}
                             </span>
                         </article>
                     );

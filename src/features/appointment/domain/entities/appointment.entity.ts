@@ -1,9 +1,12 @@
+import { ConsultationType } from "../enums";
+
 export interface AppointmentEntity {
     id: string,
-    nextDate: Date,
-    vaccineName: string,
-    dateAdministered: Date,
-    lotNumber: string,
+    reasonForVisit: string,
+    date: Date,
+    notes: string | null,
+    type: ConsultationType,
+    clinicName: string,
     petName: string,
     veterinaryName: string,
 }

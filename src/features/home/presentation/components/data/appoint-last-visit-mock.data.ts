@@ -1,32 +1,55 @@
-export const appointmentLastVisitMockData = [
+import { AppointmentEntity } from "@/features/appointment/domain/entities";
+import { ConsultationType } from "@/features/appointment/domain/enums";
+
+export const appointmentLastVisitMockData: AppointmentEntity[] = [
     {
-        id: 1,
+        id: "1",
+        date: new Date(),
+        reasonForVisit: "Consulta general",
+        notes: "Todo bien",
+        type: ConsultationType.CONSULTATION,
+        clinicName: "VetCare Center",
         petName: "Bimbo",
         veterinaryName: "Dr. Carlos Ruiz",
-        clinicName: "VetCare Center",
     },
     {
-        id: 2,
+        id: "2",
+        date: new Date(),
+        reasonForVisit: "Consulta general",
+        notes: "Todo bien",
+        type: ConsultationType.CONSULTATION,
+        clinicName: "Animal Health",
         petName: "Luna",
         veterinaryName: "Dra. Ana Silva",
-        clinicName: "Animal Health",
     },
     {
-        id: 3,
+        id: "3",
+        date: new Date(),
+        reasonForVisit: "Consulta general",
+        notes: "Todo bien",
+        type: ConsultationType.CONSULTATION,
+        clinicName: "PetLife Clinic",
         petName: "Max",
         veterinaryName: "Dr. Jorge Paz",
-        clinicName: "PetLife Clinic",
     },
     {
-        id: 4,
+        id: "4",
+        date: new Date(),
+        reasonForVisit: "Consulta general",
+        notes: "Todo bien",
+        type: ConsultationType.CONSULTATION,
+        clinicName: "VetCare Center",
         petName: "Bella",
         veterinaryName: "Dra. Sofía Castro",
-        clinicName: "VetCare Center",
     },
     {
-        id: 5,
+        id: "5",
+        date: new Date(),
+        reasonForVisit: "Consulta general",
+        notes: "Todo bien",
+        type: ConsultationType.CONSULTATION,
+        clinicName: "Mascotas Felices",
         petName: "Toby",
         veterinaryName: "Dr. Juan Pérez",
-        clinicName: "Mascotas Felices",
     }
 ];

@@ -6,7 +6,7 @@ interface AppointmentCardProps {
 }
 
 export const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
-    const dateObj = new Date(appointment.nextDate);
+    const dateObj = new Date(appointment.date);
 
     const formattedDay = new Intl.DateTimeFormat('es-ES', { day: '2-digit' }).format(dateObj);
     const formattedMonth = new Intl.DateTimeFormat('es-ES', { month: 'short' }).format(dateObj).replace('.', '');
@@ -22,7 +22,7 @@ export const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment })
 
             <div className="flex flex-col justify-center flex-1">
                 <div className="flex justify-between items-start gap-2">
-                    <h3 className="text-lg font-bold text-text-1 leading-tight">{appointment.vaccineName}</h3>
+                    <h3 className="text-lg font-bold text-text-1 leading-tight">{appointment.reasonForVisit}</h3>
                     <span className="bg-bg-2 text-text-2 px-3 py-1 rounded-full text-xs font-bold shadow-sm whitespace-nowrap">
                         {formattedTime}
                     </span>
@@ -35,10 +35,6 @@ export const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment })
                     <span className="flex items-center gap-1.5">
                         <User className="w-3.5 h-3.5 text-main" />
                         {appointment.veterinaryName}
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                        <Syringe className="w-3.5 h-3.5 text-main" />
-                        Lote: {appointment.lotNumber}
                     </span>
                 </div>
             </div>
