@@ -8,7 +8,7 @@ export class ApiResponseToDomain {
         return appointments.data.map((appointment) => ({
             id: appointment.id,
             reasonForVisit: appointment.reasonForVisit,
-            date: new Date(appointment.visitDate),
+            date: new Date(appointment.visitDate.replace("Z", "")),
             notes: appointment.notes,
             type: appointment.type as ConsultationType,
             clinicName: appointment.veterinarian.clinic.name,

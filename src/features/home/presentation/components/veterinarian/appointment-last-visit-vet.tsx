@@ -6,7 +6,7 @@ import { AppointmentEntity } from "@/features/appointment/domain/entities";
 import { useMemo } from "react";
 import { VisitCard } from "../visit-card";
 
-export const VisitCardVet = () => {
+export const AppointmentLastVisitVet = () => {
     const { user: vetId } = useAuth();
     const { data, isLoading } = useGetAppointmentsByUserId(vetId!);
 

@@ -2,7 +2,7 @@ export interface ClinicSummaryResponseEntity {
     statusCode: number;
     data: {
         totalPets: number;
-        totalOwners: number;
+        totalUsers: number;
         clinicName: string;
     }
 }

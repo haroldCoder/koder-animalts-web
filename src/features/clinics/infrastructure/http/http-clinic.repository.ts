@@ -17,7 +17,12 @@ export class HttpClinicRepository implements IClinicRepository {
     async summaryClinic(userId: string): Promise<ClinicSummaryEntity> {
         try {
             const response = await apiClient.get<ClinicSummaryResponseEntity>(`/veterinary-clinics/summary/veterinarian/userId/${userId}`);
-            return response.data;
+
+            return {
+                totalOwners: response.data.totalUsers,
+                totalPets: response.data.totalPets,
+                clinicName: response.data.clinicName
+            };
         } catch (error) {
             console.error('Error fetching summary clinic:', error);
             throw error;
