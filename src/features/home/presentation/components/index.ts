@@ -4,3 +4,5 @@ export * from './owner/appointment-notice'
 export * from './owner/appointment-last-visit'
 export * from './pet-card'
 export * from './appointments'
+export * from './veterinarian/appointment-notice-vet'
+export * from "./card-notice"

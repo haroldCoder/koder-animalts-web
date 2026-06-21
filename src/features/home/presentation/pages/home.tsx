@@ -1,7 +1,7 @@
 import { MainLayoutContext } from "@/common/presentation/layout";
 import { UserRole } from "@/features/user";
 import { useContext } from "react";
-import { OwnerNextAppointments, OwnerPets, AppointmentNotice, AppointmentLastVisit } from "../components";
+import { OwnerNextAppointments, OwnerPets, AppointmentNotice, AppointmentLastVisit, AppointmentNoticeVet } from "../components";
 
 export const Home = () => {
     const { user } = useContext(MainLayoutContext)!;
@@ -12,6 +12,7 @@ export const Home = () => {
             {user.role === UserRole.owner && <OwnerPets />}
             {user.role === UserRole.owner && <OwnerNextAppointments />}
             {user.role === UserRole.owner && <AppointmentLastVisit />}
+            {user.role === UserRole.veterinary && <AppointmentNoticeVet />}
         </div>
     );
 };

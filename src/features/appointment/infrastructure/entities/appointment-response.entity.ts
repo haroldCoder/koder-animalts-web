@@ -24,7 +24,13 @@ export interface AppointmentResponseEntity {
             }
         ],
         pet: {
-            name: string
+            name: string,
+            mainImage: string,
+            owner?: {
+                user: {
+                    name: string
+                }
+            }
         },
         veterinarian: {
             user: {

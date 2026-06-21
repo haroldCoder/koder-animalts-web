@@ -13,7 +13,9 @@ export class ApiResponseToDomain {
             type: appointment.type as ConsultationType,
             clinicName: appointment.veterinarian.clinic.name,
             petName: appointment.pet.name,
+            petPhoto: appointment.pet.mainImage,
             veterinaryName: appointment.veterinarian.user.name,
+            ownerName: appointment.pet.owner?.user.name,
         }));
     }
 }
