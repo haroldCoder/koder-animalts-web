@@ -17,4 +17,17 @@ export class HttpPetRepository implements IPetRepository {
             throw error;
         }
     }
+
+    async searchPetByVeterinarianUserId(userId: string, petName?: string, ownerName?: string): Promise<PetEntity[]> {
+        try {
+            const response = await apiClient.get<PetResponseEntity>(
+                `/pet/veterinarian/userId/${userId}?petName=${petName}&ownerName=${ownerName}`
+            );
+
+            return ApiResponseToDomain.toPetEntityData(response);
+        } catch (error) {
+            console.error('Error fetching pets by veterinarian userId:', error);
+            throw error;
+        }
+    }
 }
