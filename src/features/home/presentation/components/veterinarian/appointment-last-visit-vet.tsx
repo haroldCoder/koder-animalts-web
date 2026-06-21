@@ -1,23 +1,22 @@
 import { useAuth } from "@/common/hooks";
-import { Button } from "@/components/ui/button";
-import { Download, FileText, Stethoscope, Building2 } from "lucide-react";
-import { useGetAppointmentsByUserId } from "@/features/appointment/application/queries";
-import { useMemo } from "react";
-import { AppointmentEntity } from "@/features/appointment/domain/entities";
 import { Loading } from "@/common/presentation/components";
+import { Button } from "@/components/ui/button";
+import { useGetAppointmentsByUserId } from "@/features/appointment/application/queries";
+import { AppointmentEntity } from "@/features/appointment/domain/entities";
+import { useMemo } from "react";
 import { VisitCard } from "../visit-card";
 
-export const AppointmentLastVisit = () => {
-    const { user } = useAuth();
-    const { data: appointments, isLoading } = useGetAppointmentsByUserId(user!);
+export const VisitCardVet = () => {
+    const { user: vetId } = useAuth();
+    const { data, isLoading } = useGetAppointmentsByUserId(vetId!);
 
     const appointmentData = useMemo(() => {
-        return appointments?.filter((appointment: AppointmentEntity) => {
+        return data?.filter((appointment: AppointmentEntity) => {
             const visitDate = new Date(appointment.date);
             const diffInDays = (visitDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24);
             return diffInDays <= 7;
         }).slice(0, 4);
-    }, [appointments]);
+    }, [data]);
 
     return (
         <section className="px-4 mx-14 mt-10 mb-10">
@@ -34,5 +33,5 @@ export const AppointmentLastVisit = () => {
                 ))}
             </div>
         </section>
-    );
-};
+    )
+}

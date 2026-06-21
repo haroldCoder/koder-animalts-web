@@ -6,3 +6,6 @@ export * from './pet-card'
 export * from './appointments'
 export * from './veterinarian/appointment-notice-vet'
 export * from "./card-notice"
+export * from "./veterinarian/search-pet"
+export * from "./veterinarian/appointment-last-visit-vet"
+
