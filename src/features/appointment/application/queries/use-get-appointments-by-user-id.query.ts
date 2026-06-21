@@ -11,5 +11,6 @@ export const useGetAppointmentsByUserId = (userId: string) => {
         queryKey: ["appointments", "user", userId],
         queryFn: () => getAppointmentsByUserIdUseCase.execute(userId),
         enabled: !!userId,
+        staleTime: 1000 * 60 * 5
     });
 };

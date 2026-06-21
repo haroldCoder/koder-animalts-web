@@ -6,7 +6,6 @@ import { useAuth } from "@/common/hooks"
 import { Loading } from "@/common/presentation/components"
 import { PetEntity } from "@/features/pet/domain/entities"
 import { PetCard } from "../pet-card"
-import { petsMockData } from "@/features/pet/presentation/data"
 import { ChevronRight } from "lucide-react"
 
 export const SearchPet = () => {
@@ -20,8 +19,8 @@ export const SearchPet = () => {
     }, [search])
 
     const { data, isLoading } = useSearchPetByVeterinarianUserId(user!, {
-        petName: shouldFetch ? search : undefined,
-        ownerName: shouldFetch ? search : undefined
+        petName: (shouldFetch && search != "") ? search : undefined,
+        ownerName: (shouldFetch && search != "") ? search : undefined
     });
 
     const petsData = useMemo(() => {

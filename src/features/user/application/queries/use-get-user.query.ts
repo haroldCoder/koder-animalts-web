@@ -11,5 +11,6 @@ export const useGetUser = (userId: string | undefined) => {
         queryKey: ["user", userId],
         queryFn: () => getUserUseCase.execute(userId!),
         enabled: !!userId,
+        staleTime: 1000 * 60 * 5
     });
 };

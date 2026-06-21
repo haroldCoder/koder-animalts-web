@@ -11,5 +11,6 @@ export const useGetPetsByOwnerUserId = (userId: string) => {
         queryKey: ["pets", "owner", userId],
         queryFn: () => getPetsByOwnerUserIdUseCase.execute(userId),
         enabled: !!userId,
+        staleTime: 1000 * 60 * 5
     });
 };
