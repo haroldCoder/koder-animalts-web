@@ -2,32 +2,41 @@ import { useContext } from "react";
 import { MainLayoutContext } from "../layout";
 import { UserRole } from "@/features/user/domain/enums";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
+import { NavMenu } from "./nav-menu";
+import { routes } from "../constants";
 
 export const Header = () => {
     const { user } = useContext(MainLayoutContext)!;
     const navigation = useNavigate();
+    const location = useLocation();
 
     const logout = () => {
         localStorage.removeItem('user');
         navigation('/auth');
     }
 
+    const currentRoute = Object.values(routes).find(r => r.path === location.pathname) as { label: string };
+
+    const pageTitle = currentRoute?.label || "Dashboard";
+
     return (
-        <header className="flex justify-between py-4 px-6 bg-background border-b">
+        <header className="flex items-center justify-between py-4 px-6 bg-background border-b">
             <div className="flex items-center gap-2">
                 <div className="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center">
                     <span className="text-white font-bold">A</span>
                 </div>
                 <div>
-                    <h1 className="text-xl font-bold text-amber-500">Dashboard</h1>
+                    <h1 className="text-xl font-bold text-amber-500">{pageTitle}</h1>
                     <p className="text-sm text-muted-foreground">
                         Bienvenido, {user.role == UserRole.veterinary && 'Dr.'} {user.name}
                     </p>
                 </div>
             </div>
+
+            <NavMenu />
+
             <div className="flex items-center gap-10">
                 <Avatar className={"w-10 h-10 "}>
                     <AvatarImage src={user.image ?? ""} />
