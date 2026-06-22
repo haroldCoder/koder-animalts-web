@@ -4,5 +4,5 @@ export interface UserEntity {
     name: string;
     email: string;
     role: UserRole;
-    image: string;
+    image?: string;
 }
