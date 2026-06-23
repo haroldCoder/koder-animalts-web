@@ -7,27 +7,27 @@ export const routes = {
         path: "/",
     },
     pets: {
-        path: "/home/pets",
+        path: "/pets",
         label: "Mascotas"
     },
     history: {
-        path: "/home/history",
+        path: "/history",
         label: "Historial de citas"
     },
     appointments: {
-        path: "/home/appointments",
+        path: "/appointments",
         label: "Próximas citas"
     },
     schedule: {
-        path: "/home/schedule",
+        path: "/schedule",
         label: "Programar cita"
     },
     documents: {
-        path: "/home/documents",
+        path: "/documents",
         label: "Documentos de las mascotas"
     },
     vaccinations: {
-        path: "/home/vaccinations",
+        path: "/vaccinations",
         label: "Vacunas"
     },
 };

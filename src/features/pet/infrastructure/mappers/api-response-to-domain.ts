@@ -10,6 +10,13 @@ export class ApiResponseToDomain {
             image: pet.mainImage,
             breed: pet.breed,
             isActive: pet.isActive,
+            species: pet.species,
+            weight: pet.weight,
+            microchip: pet.microchip,
+            color: pet.color,
+            iaImage: pet.iaImage,
+            images: pet.images,
+            clinicName: pet.clinicName,
         }));
     }
 }
