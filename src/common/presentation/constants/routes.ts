@@ -10,6 +10,10 @@ export const routes = {
         path: "/pets",
         label: "Mascotas"
     },
+    createPet: {
+        path: "/create-pet",
+        label: "Crear Mascota"
+    },
     history: {
         path: "/history",
         label: "Historial de citas"

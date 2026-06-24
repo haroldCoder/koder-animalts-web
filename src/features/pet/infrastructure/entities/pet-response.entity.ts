@@ -14,6 +14,6 @@ export interface PetResponseEntity {
         color: string;
         iaImage?: string;
         images: string[];
-        clinicName: string;
+        clinicName?: string;
     }>;
 }

@@ -5,6 +5,8 @@ import { CardMainPet } from "../components";
 import { Error, Loading } from "@/common/presentation/components";
 import { Button } from "@/components/ui/button";
 import { PawPrint } from "lucide-react";
+import { Link } from "react-router-dom";
+import { routes } from "@/common/presentation/constants";
 
 export const OwnerPetsView = () => {
     const { user } = useAuth();
@@ -21,10 +23,12 @@ export const OwnerPetsView = () => {
     return (
         <div className="flex flex-col gap-4 h-screen">
             <div className="flex justify-end">
-                <Button className="cursor-pointer flex gap-3 px-8 py-6">
-                    Agregar Mascota
-                    <PawPrint className="text-main" />
-                </Button>
+                <Link to={`/home${routes.createPet.path}`}>
+                    <Button className="cursor-pointer flex gap-3 px-8 py-6">
+                        Agregar Mascota
+                        <PawPrint className="text-main" />
+                    </Button>
+                </Link>
             </div>
             <ScrollArea className="border rounded-xl">
                 <div className="flex flex-wrap gap-8 p-4">

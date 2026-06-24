@@ -3,6 +3,7 @@ import { Home as HomeFeature } from "./features/home/presentation/pages/home"
 import { MainLayout } from "./common/presentation/layout"
 import { OwnerPetsView } from "./features/pet/presentation/pages/owner-pets-view"
 import { routes } from "./common/presentation/constants"
+import { CreatePet } from "./features/pet/presentation/pages/create-pet"
 
 function HomeLayout() {
     return (
@@ -12,6 +13,7 @@ function HomeLayout() {
                     {/* El path "/" aquí corresponde a "/home" porque el padre en App.tsx ya define ese prefijo */}
                     <Route path="/" element={<HomeFeature />} />
                     <Route path={routes.pets.path} element={<OwnerPetsView />} />
+                    <Route path={routes.createPet.path} element={<CreatePet />} />
                     {/* Ejemplo para otra ruta:
                         <Route path="/dashboard" element={<Dashboard />} /> 
                         Esto respondería a "/home/dashboard"
