@@ -6,21 +6,28 @@ import { useAuth } from "@/common/hooks"
 import { useGetPetsByOwnerUserId } from "@/features/pet/application/queries"
 import { useMemo } from "react"
 import { Error, Loading } from "@/common/presentation/components"
+import { useNavigate } from "react-router-dom"
+import { routes } from "@/common/presentation/constants"
 
 export const OwnerPets = () => {
     const { user } = useAuth();
 
     const { data, isLoading, error } = useGetPetsByOwnerUserId(user!);
+    const navigation = useNavigate();
 
     const petsData = useMemo(() => {
         return data;
     }, [data]);
 
+    const goToCreatePet = () => {
+        navigation(`/${routes.home.path}/${routes.createPet.path}`);
+    }
+
     return (
         <section>
             <div className="flex gap-4 items-center">
                 <h2 className="text-2xl font-bold text-text-2">Tus mascotas</h2>
-                <Button className="cursor-pointer flex items-center gap-3 bg-bg-2 hover:bg-bg-3 text-text-2 transition-colors">
+                <Button onClick={goToCreatePet} className="cursor-pointer flex items-center gap-3 bg-bg-2 hover:bg-bg-3 text-text-2 transition-colors">
                     <Plus className="rounded-full bg-main text-white" />
                     Agregar
                 </Button>

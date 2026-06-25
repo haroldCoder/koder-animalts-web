@@ -8,5 +8,12 @@ export interface PetResponseEntity {
         mainImage?: string;
         breed: string;
         isActive: boolean;
+        species: string;
+        weight: number;
+        microchip: string;
+        color: string;
+        iaImage?: string;
+        images: string[];
+        clinicName?: string;
     }>;
 }
