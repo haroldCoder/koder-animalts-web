@@ -10,5 +10,10 @@ export interface AppointmentEntity {
     petName: string,
     veterinaryName: string,
     petPhoto: string,
-    ownerName?: string
+    ownerName?: string,
+    clinicId: string,
+    petId: string,
+    veterinaryId: string,
+    ownerId?: string
+    documentIds?: string[]
 }

@@ -11,6 +11,7 @@ export const appointmentLastVisitMockData: AppointmentEntity[] = [
         clinicName: "VetCare Center",
         petName: "Bimbo",
         veterinaryName: "Dr. Carlos Ruiz",
+        petPhoto: "",
     },
     {
         id: "2",
@@ -21,6 +22,7 @@ export const appointmentLastVisitMockData: AppointmentEntity[] = [
         clinicName: "Animal Health",
         petName: "Luna",
         veterinaryName: "Dra. Ana Silva",
+        petPhoto: "",
     },
     {
         id: "3",
@@ -31,6 +33,7 @@ export const appointmentLastVisitMockData: AppointmentEntity[] = [
         clinicName: "PetLife Clinic",
         petName: "Max",
         veterinaryName: "Dr. Jorge Paz",
+        petPhoto: "",
     },
     {
         id: "4",
@@ -41,6 +44,7 @@ export const appointmentLastVisitMockData: AppointmentEntity[] = [
         clinicName: "VetCare Center",
         petName: "Bella",
         veterinaryName: "Dra. Sofía Castro",
+        petPhoto: "",
     },
     {
         id: "5",
@@ -51,5 +55,6 @@ export const appointmentLastVisitMockData: AppointmentEntity[] = [
         clinicName: "Mascotas Felices",
         petName: "Toby",
         veterinaryName: "Dr. Juan Pérez",
+        petPhoto: "",
     }
 ];
