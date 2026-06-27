@@ -1,22 +1,18 @@
 import { useAuth } from "@/common/hooks";
 import { Button } from "@/components/ui/button";
-import { Download, FileText, Stethoscope, Building2 } from "lucide-react";
 import { useGetAppointmentsByUserId } from "@/features/appointment/application/queries";
 import { useMemo } from "react";
 import { AppointmentEntity } from "@/features/appointment/domain/entities";
 import { Loading } from "@/common/presentation/components";
 import { VisitCard } from "../visit-card";
+import { getDateLast } from "@/common/utils";
 
 export const AppointmentLastVisit = () => {
     const { user } = useAuth();
     const { data: appointments, isLoading } = useGetAppointmentsByUserId(user!);
 
     const appointmentData = useMemo(() => {
-        return appointments?.filter((appointment: AppointmentEntity) => {
-            const visitDate = new Date(appointment.date);
-            const diffInDays = (visitDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24);
-            return diffInDays <= 7;
-        }).slice(0, 4);
+        return appointments?.filter((appointment: AppointmentEntity) => getDateLast(appointment.date)).slice(0, 4);
     }, [appointments]);
 
     return (

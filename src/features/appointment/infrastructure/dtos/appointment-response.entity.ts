@@ -1,4 +1,4 @@
-export interface AppointmentResponseEntity {
+export interface AppointmentResponseDto {
     statusCode: number;
     data: Array<{
         id: string,
@@ -24,21 +24,26 @@ export interface AppointmentResponseEntity {
             }
         ],
         pet: {
+            id: string,
             name: string,
             mainImage: string,
             owner?: {
+                id: string,
                 user: {
                     name: string
                 }
             }
         },
         veterinarian: {
+            id: string,
             user: {
                 name: string
             },
             clinic: {
                 name: string
+                id: string
             }
         };
+        documentIds: string[]
     }>
 }

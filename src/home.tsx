@@ -4,6 +4,7 @@ import { MainLayout } from "./common/presentation/layout"
 import { OwnerPetsView } from "./features/pet/presentation/pages/owner-pets-view"
 import { routes } from "./common/presentation/constants"
 import { CreatePet } from "./features/pet/presentation/pages/create-pet"
+import { AppointmentHistory } from "./features/appointment/presentation/appointment-history"
 
 function HomeLayout() {
     return (
@@ -14,6 +15,7 @@ function HomeLayout() {
                     <Route path="/" element={<HomeFeature />} />
                     <Route path={routes.pets.path} element={<OwnerPetsView />} />
                     <Route path={routes.createPet.path} element={<CreatePet />} />
+                    <Route path={routes.history.path} element={<AppointmentHistory />} />
                     {/* Ejemplo para otra ruta:
                         <Route path="/dashboard" element={<Dashboard />} /> 
                         Esto respondería a "/home/dashboard"

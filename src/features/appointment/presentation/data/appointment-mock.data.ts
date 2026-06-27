@@ -11,6 +11,12 @@ export const appointmentMockData: AppointmentEntity[] = [
         clinicName: 'Clinic 1',
         petName: 'Pet 1',
         veterinaryName: 'Veterinary 1',
+        documentIds: ["1"],
+        veterinaryId: "1",
+        ownerId: "1",
+        clinicId: "1",
+        petPhoto: "https://images.sample.com/dog.jpg",
+        petId: "1"
     },
     {
         id: '2',
@@ -21,6 +27,12 @@ export const appointmentMockData: AppointmentEntity[] = [
         clinicName: 'Clinic 2',
         petName: 'Pet 2',
         veterinaryName: 'Veterinary 2',
+        documentIds: ["1"],
+        veterinaryId: "1",
+        ownerId: "1",
+        clinicId: "1",
+        petPhoto: "https://images.sample.com/cat.jpg",
+        petId: "1"
     },
     {
         id: '3',
@@ -31,6 +43,12 @@ export const appointmentMockData: AppointmentEntity[] = [
         clinicName: 'Clinic 3',
         petName: 'Pet 3',
         veterinaryName: 'Veterinary 3',
+        documentIds: ["1"],
+        veterinaryId: "1",
+        ownerId: "1",
+        clinicId: "1",
+        petPhoto: "https://images.sample.com/dog2.jpg",
+        petId: "1"
     },
     {
         id: '4',
@@ -41,5 +59,11 @@ export const appointmentMockData: AppointmentEntity[] = [
         clinicName: 'Clinic 4',
         petName: 'Pet 4',
         veterinaryName: 'Veterinary 4',
+        documentIds: ["1"],
+        veterinaryId: "1",
+        ownerId: "1",
+        clinicId: "1",
+        petPhoto: "https://images.sample.com/dog3.jpg",
+        petId: "1"
     },
 ]

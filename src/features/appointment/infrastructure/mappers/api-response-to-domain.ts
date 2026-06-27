@@ -1,10 +1,10 @@
 import { AppointmentEntity } from "../../domain/entities";
 import { ConsultationType } from "../../domain/enums";
-import { AppointmentResponseEntity } from "../entities";
+import { AppointmentResponseDto } from "../dtos";
 
 export class ApiResponseToDomain {
 
-    static toAppointmentEntityData(appointments: AppointmentResponseEntity): AppointmentEntity[] {
+    static toAppointmentEntityData(appointments: AppointmentResponseDto): AppointmentEntity[] {
         return appointments.data.map((appointment) => ({
             id: appointment.id,
             reasonForVisit: appointment.reasonForVisit,
@@ -16,6 +16,11 @@ export class ApiResponseToDomain {
             petPhoto: appointment.pet.mainImage,
             veterinaryName: appointment.veterinarian.user.name,
             ownerName: appointment.pet.owner?.user.name,
+            documentIds: appointment.documentIds,
+            veterinaryId: appointment.veterinarian.id,
+            petId: appointment.pet.id,
+            clinicId: appointment.veterinarian.clinic.id,
+            ownerId: appointment.pet.owner?.id,
         }));
     }
 }

@@ -1,7 +1,7 @@
 import { apiClient } from "@/common";
 import { AppointmentEntity } from "../../domain/entities";
 import { IAppointmentRepository } from "../../domain/repositories";
-import { AppointmentResponseEntity } from "../entities";
+import { AppointmentResponseEntity } from "../dtos";
 import { ApiResponseToDomain } from "../mappers";
 
 export class HttpAppointmentRepository implements IAppointmentRepository {
