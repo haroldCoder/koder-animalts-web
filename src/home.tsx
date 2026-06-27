@@ -6,6 +6,7 @@ import { routes } from "./common/presentation/constants"
 import { CreatePet } from "./features/pet/presentation/pages/create-pet"
 import { AppointmentHistory } from "./features/appointment/presentation/appointment-history"
 import { UpcomingAppointment } from "./features/appointment/presentation/upcoming-appointment"
+import { DocumentsView } from "./features/document/presentation/documents-view"
 
 function HomeLayout() {
     return (
@@ -18,6 +19,7 @@ function HomeLayout() {
                     <Route path={routes.createPet.path} element={<CreatePet />} />
                     <Route path={routes.history.path} element={<AppointmentHistory />} />
                     <Route path={routes.appointments.path} element={<UpcomingAppointment />} />
+                    <Route path={routes.documents.path} element={<DocumentsView />} />
                     {/* Ejemplo para otra ruta:
                         <Route path="/dashboard" element={<Dashboard />} /> 
                         Esto respondería a "/home/dashboard"
