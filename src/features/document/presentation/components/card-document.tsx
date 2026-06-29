@@ -76,7 +76,7 @@ export const CardDocument: React.FC<CardDocumentProps> = ({ documentFile }: { do
 
             {
                 open && (
-                    <Popup isOpen={open} onClose={() => setOpen(false)} title={documentFile.name}>
+                    <Popup isOpen={open} className='h-[75vh]' onClose={() => setOpen(false)} title={documentFile.name}>
                         <iframe src={documentFile.fileUrl} className="w-full h-full" title={documentFile.name} />
                     </Popup>
                 )

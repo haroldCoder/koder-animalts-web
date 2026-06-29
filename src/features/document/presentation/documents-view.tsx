@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { startOfDay, endOfDay } from 'date-fns'
 import {
     FileText,
@@ -9,8 +9,10 @@ import {
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { mockDocuments } from './data'
 import { AppliedFilter, CardDocument, DatePicker, EmptyFilters } from './components'
+import { useGetDocumentsByUserId } from '../application/queries'
+import { useAuth } from '@/common/hooks'
+import { Loading } from '@/common/presentation/components'
 
 
 export const DocumentsView = () => {
@@ -20,8 +22,17 @@ export const DocumentsView = () => {
     const [startDate, setStartDate] = useState<Date | undefined>()
     const [endDate, setEndDate] = useState<Date | undefined>()
 
+    const { user } = useAuth();
+    const { data: documents, isLoading } = useGetDocumentsByUserId(user!, {
+        startDate,
+        endDate,
+        documentName: appliedDocumentName,
+        veterinarianName: appliedVeterinarianName
+    });
+
     const filteredDocuments = useMemo(() => {
-        return mockDocuments.filter(doc => {
+        if (!documents) return [];
+        return documents.filter(doc => {
             if (appliedDocumentName && !doc.name.toLowerCase().includes(appliedDocumentName.toLowerCase())) {
                 return false
             }
@@ -36,17 +47,17 @@ export const DocumentsView = () => {
             }
             return true
         })
-    }, [appliedDocumentName, appliedVeterinarianName, startDate, endDate])
+    }, [appliedDocumentName, appliedVeterinarianName, startDate, endDate, documents])
 
     const hasActiveFilters = !!(appliedDocumentName || appliedVeterinarianName || startDate || endDate || searchQuery)
 
-    const handleClearFilters = () => {
+    const handleClearFilters = useCallback(() => {
         setSearchQuery("")
         setAppliedDocumentName("")
         setAppliedVeterinarianName("")
         setStartDate(undefined)
         setEndDate(undefined)
-    }
+    }, [])
 
     return (
         <div className="w-full flex flex-col gap-6 p-6">
@@ -113,7 +124,7 @@ export const DocumentsView = () => {
                             variant="ghost"
                             size="sm"
                             onClick={handleClearFilters}
-                            className="h-9 gap-1.5 text-muted-foreground hover:text-foreground cursor-pointer"
+                            className="h-9 bg-bg-dark-1 gap-1.5 text-bg-white-3 hover:text-foreground cursor-pointer"
                         >
                             <X className="h-4 w-4" />
                             <span>Limpiar</span>
@@ -122,30 +133,35 @@ export const DocumentsView = () => {
                 </div>
             </div>
 
-            <div className="flex flex-col gap-4">
-                {(appliedDocumentName || appliedVeterinarianName || startDate || endDate) && (
-                    <AppliedFilter
-                        appliedDocumentName={appliedDocumentName}
-                        setAppliedDocumentName={setAppliedDocumentName}
-                        appliedVeterinarianName={appliedVeterinarianName}
-                        setAppliedVeterinarianName={setAppliedVeterinarianName}
-                        startDate={startDate}
-                        setStartDate={setStartDate}
-                        endDate={endDate}
-                        setEndDate={setEndDate}
-                    />
-                )}
+            {
+                isLoading ?
+                    <Loading /> :
 
-                {filteredDocuments.length === 0 ? (
-                    <EmptyFilters handleClearFilters={handleClearFilters} hasActiveFilters={hasActiveFilters} />
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {filteredDocuments.map((doc) => (
-                            <CardDocument key={doc.id} documentFile={doc} />
-                        ))}
+                    <div className="flex flex-col gap-4">
+                        {(appliedDocumentName || appliedVeterinarianName || startDate || endDate) && (
+                            <AppliedFilter
+                                appliedDocumentName={appliedDocumentName}
+                                setAppliedDocumentName={setAppliedDocumentName}
+                                appliedVeterinarianName={appliedVeterinarianName}
+                                setAppliedVeterinarianName={setAppliedVeterinarianName}
+                                startDate={startDate}
+                                setStartDate={setStartDate}
+                                endDate={endDate}
+                                setEndDate={setEndDate}
+                            />
+                        )}
+
+                        {filteredDocuments.length === 0 ? (
+                            <EmptyFilters handleClearFilters={handleClearFilters} hasActiveFilters={hasActiveFilters} />
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {filteredDocuments.map((doc) => (
+                                    <CardDocument key={doc.id} documentFile={doc} />
+                                ))}
+                            </div>
+                        )}
                     </div>
-                )}
-            </div>
+            }
         </div>
     )
 }

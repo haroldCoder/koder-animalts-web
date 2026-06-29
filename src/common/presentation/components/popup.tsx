@@ -35,13 +35,13 @@ export const Popup: React.FC<PopupProps> = ({
     return createPortal(
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             {/* Backdrop with subtle blur */}
-            <div 
+            <div
                 className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-300 animate-in fade-in"
                 onClick={onClose}
             />
-            
+
             {/* Modal Container */}
-            <div 
+            <div
                 className={cn(
                     "relative z-10 w-full max-w-2xl overflow-hidden rounded-xl border border-border bg-background shadow-xl transition-all duration-300 animate-in zoom-in-95",
                     className
@@ -52,7 +52,7 @@ export const Popup: React.FC<PopupProps> = ({
                     <h3 className="text-lg font-semibold text-foreground truncate">
                         {title || 'Visualizar'}
                     </h3>
-                    <button 
+                    <button
                         onClick={onClose}
                         className="rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer"
                         aria-label="Cerrar"
@@ -62,7 +62,7 @@ export const Popup: React.FC<PopupProps> = ({
                 </div>
 
                 {/* Content */}
-                <div className="p-6 max-h-[85vh] overflow-y-auto bg-card">
+                <div className="p-6 h-full overflow-y-auto bg-card">
                     {children}
                 </div>
             </div>
