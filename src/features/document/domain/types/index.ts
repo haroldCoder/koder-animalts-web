@@ -1,0 +1,1 @@
+export * from './category-document.type';

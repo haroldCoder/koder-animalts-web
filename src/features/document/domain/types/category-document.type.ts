@@ -1,0 +1,1 @@
+export type CategoryDocument = "PDF" | "Imagen" | "Receta" | "Resultado";

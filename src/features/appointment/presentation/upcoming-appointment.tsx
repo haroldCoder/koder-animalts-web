@@ -15,8 +15,6 @@ export const UpcomingAppointment = () => {
         return data.filter((appointment) => getDateUpcoming(appointment.date));
     }, [data]);
 
-    console.log(appointments);
-
 
     if (isLoading) return <Loading />;
     if (error) return <Error message={error.message || "Error al cargar proximas citas"} />
