@@ -20,7 +20,7 @@ export const OwnerPets = () => {
     }, [data]);
 
     const goToCreatePet = () => {
-        navigation(`/${routes.home.path}/${routes.createPet.path}`);
+        navigation(`${routes.createPet.link}`);
     }
 
     return (

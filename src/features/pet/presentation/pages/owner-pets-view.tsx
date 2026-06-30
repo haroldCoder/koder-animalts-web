@@ -23,7 +23,7 @@ export const OwnerPetsView = () => {
     return (
         <div className="flex flex-col gap-4 h-screen">
             <div className="flex justify-end">
-                <Link to={`/home${routes.createPet.path}`}>
+                <Link to={`${routes.createPet.link}`}>
                     <Button className="cursor-pointer flex gap-3 px-8 py-6">
                         Agregar Mascota
                         <PawPrint className="text-main" />

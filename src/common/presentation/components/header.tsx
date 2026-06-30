@@ -17,7 +17,8 @@ export const Header = () => {
         navigation('/auth');
     }
 
-    const currentRoute = Object.values(routes).find(r => r.path === location.pathname) as { label: string };
+
+    const currentRoute = Object.values(routes).find(r => r.link === location.pathname) as { label: string };
 
     const pageTitle = currentRoute?.label || "Dashboard";
 

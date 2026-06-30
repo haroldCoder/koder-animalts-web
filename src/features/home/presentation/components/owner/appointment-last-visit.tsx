@@ -22,7 +22,7 @@ export const AppointmentLastVisit = () => {
         <section className="px-4 mx-14 mt-10 mb-10">
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold text-text-2">Últimas Visitas</h2>
-                <Button disabled={appointmentData?.length === 0} onClick={() => navigation(`${routes.home.path}/${routes.history.path}`)} className="bg-transparent text-main hover:bg-main-light shadow-none cursor-pointer">
+                <Button disabled={appointmentData?.length === 0} onClick={() => navigation(`${routes.history.link}`)} className="bg-transparent text-main hover:bg-main-light shadow-none cursor-pointer">
                     Ver más visitas
                 </Button>
             </div>

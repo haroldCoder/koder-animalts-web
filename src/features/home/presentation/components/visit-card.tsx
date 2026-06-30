@@ -48,7 +48,7 @@ export const VisitCard = ({ visit }: VisitCardProps) => {
             </div>
             {
                 visit.documentIds && visit.documentIds.length > 0 && (
-                    <Button onClick={() => navigate(`/home/${routes.documents.path}/${visit.id}`)} className="w-full sm:w-auto flex items-center gap-2 bg-main text-white hover:bg-main-hover transition-colors rounded-xl px-4 py-2 cursor-pointer shadow-sm">
+                    <Button onClick={() => navigate(`${routes.documents.link}/${visit.id}`)} className="w-full sm:w-auto flex items-center gap-2 bg-main text-white hover:bg-main-hover transition-colors rounded-xl px-4 py-2 cursor-pointer shadow-sm">
                         Ver documentos
                     </Button>
                 )
