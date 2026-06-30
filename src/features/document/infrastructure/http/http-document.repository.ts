@@ -13,6 +13,7 @@ export class HttpDocumentRepository implements DocumentRepository {
         endDate: queries.endDate?.toISOString() ?? "",
         documentName: queries.documentName ?? "",
         veterinarianName: queries.veterinarianName ?? "",
+        medicalRecordId: queries.medicalRecordId ?? "",
       }
     });
     return response.data.map((document) => {

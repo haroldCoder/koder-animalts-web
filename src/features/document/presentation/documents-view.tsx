@@ -13,6 +13,7 @@ import { AppliedFilter, CardDocument, DatePicker, EmptyFilters } from './compone
 import { useGetDocumentsByUserId } from '../application/queries'
 import { useAuth } from '@/common/hooks'
 import { Loading } from '@/common/presentation/components'
+import { useParams } from 'react-router-dom'
 
 
 export const DocumentsView = () => {
@@ -21,13 +22,15 @@ export const DocumentsView = () => {
     const [appliedVeterinarianName, setAppliedVeterinarianName] = useState("")
     const [startDate, setStartDate] = useState<Date | undefined>()
     const [endDate, setEndDate] = useState<Date | undefined>()
+    const { medicalRecordId } = useParams();
 
     const { user } = useAuth();
     const { data: documents, isLoading } = useGetDocumentsByUserId(user!, {
         startDate,
         endDate,
         documentName: appliedDocumentName,
-        veterinarianName: appliedVeterinarianName
+        veterinarianName: appliedVeterinarianName,
+        medicalRecordId
     });
 
     const filteredDocuments = useMemo(() => {

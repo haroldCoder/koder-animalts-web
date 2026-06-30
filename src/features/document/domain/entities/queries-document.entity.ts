@@ -3,4 +3,5 @@ export interface QueriesDocumentEntity {
     endDate?: Date;
     documentName?: string;
     veterinarianName?: string;
+    medicalRecordId?: string;
 }

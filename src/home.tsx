@@ -20,6 +20,7 @@ function HomeLayout() {
                     <Route path={routes.history.path} element={<AppointmentHistory />} />
                     <Route path={routes.appointments.path} element={<UpcomingAppointment />} />
                     <Route path={routes.documents.path} element={<DocumentsView />} />
+                    <Route path={`${routes.documents.path}/:medicalRecordId`} element={<DocumentsView />} />
                     {/* Ejemplo para otra ruta:
                         <Route path="/dashboard" element={<Dashboard />} /> 
                         Esto respondería a "/home/dashboard"

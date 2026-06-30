@@ -15,7 +15,7 @@ export const EmptyFilters = ({ handleClearFilters, hasActiveFilters }: EmptyFilt
                 Intenta cambiar los filtros o el término de búsqueda para encontrar lo que necesitas.
             </p>
             {hasActiveFilters && (
-                <Button variant="outline" size="sm" onClick={handleClearFilters} className="mt-4">
+                <Button variant="outline" size="sm" onClick={handleClearFilters} className="mt-4 cursor-pointer">
                     Restablecer filtros
                 </Button>
             )}

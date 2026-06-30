@@ -1,12 +1,16 @@
 import { AppointmentEntity } from "@/features/appointment/domain/entities";
-import { Building2, Download, FileText, Stethoscope } from "lucide-react";
+import { Building2, FileText, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate, useNavigation } from "react-router-dom";
+import { routes } from "@/common/presentation/constants";
 
 interface VisitCardProps {
     visit: AppointmentEntity;
 }
 
 export const VisitCard = ({ visit }: VisitCardProps) => {
+    const navigate = useNavigate();
+
     return (
         <article
             key={visit.id}
@@ -42,11 +46,13 @@ export const VisitCard = ({ visit }: VisitCardProps) => {
                     </div>
                 </div>
             </div>
-
-            <Button className="w-full sm:w-auto flex items-center gap-2 bg-main text-white hover:bg-main-hover transition-colors rounded-xl px-4 py-2 cursor-pointer shadow-sm">
-                <Download className="w-4 h-4" />
-                Documentos
-            </Button>
+            {
+                visit.documentIds && visit.documentIds.length > 0 && (
+                    <Button onClick={() => navigate(`/home/${routes.documents.path}/${visit.id}`)} className="w-full sm:w-auto flex items-center gap-2 bg-main text-white hover:bg-main-hover transition-colors rounded-xl px-4 py-2 cursor-pointer shadow-sm">
+                        Ver documentos
+                    </Button>
+                )
+            }
         </article>
     )
 }
