@@ -52,9 +52,10 @@ export const SearchPet = () => {
             <div className="mt-6 mx-14">
                 {
                     search && shouldFetch ?
-                        (petsData.length == 0) ?
-                            <SearchPetNotFound />
-                            : isLoading ? <Loading /> :
+                        isLoading ? <Loading /> :
+                            (petsData.length == 0) ?
+                                <SearchPetNotFound />
+                                :
                                 <div className="relative group">
                                     <div
                                         ref={scrollContainerRef}
