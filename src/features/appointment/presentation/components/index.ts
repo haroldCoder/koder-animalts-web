@@ -5,3 +5,5 @@ export * from './appointment-sucess';
 export * from './pet-selector';
 export * from './appointment-type-selector';
 export * from './date-picker-visit';
+export * from './expanded-content-area-toggle';
+export * from './upload-documents';
