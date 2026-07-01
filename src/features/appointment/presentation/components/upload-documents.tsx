@@ -2,7 +2,9 @@ import React, { useCallback, useState } from 'react';
 import { FileText, UploadIcon, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-
+import { useUploadMedicalRecordDocumentsMutation } from '../../application/queries';
+import { toast } from 'sonner';
+import { Spinner } from '@/components/ui/spinner';
 
 interface UploadDocumentsProps {
     medicalRecordId: string;
@@ -10,6 +12,7 @@ interface UploadDocumentsProps {
 
 export const UploadDocuments: React.FC<UploadDocumentsProps> = ({ medicalRecordId }) => {
     const [documents, setDocuments] = useState<File[]>([]);
+    const { mutate: uploadDocuments, isPending } = useUploadMedicalRecordDocumentsMutation();
 
     const handleRemoveDocument = useCallback((index: number) => {
         setDocuments(prev => prev.filter((_, i) => i !== index));
@@ -21,6 +24,24 @@ export const UploadDocuments: React.FC<UploadDocumentsProps> = ({ medicalRecordI
         const sizes = ['B', 'KB', 'MB', 'GB'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    };
+
+    const handleUpload = () => {
+        if (documents.length === 0) return;
+
+        uploadDocuments(
+            { medicalRecordId, files: documents },
+            {
+                onSuccess: () => {
+                    toast.success("Documentos subidos con éxito");
+                    setDocuments([]);
+                },
+                onError: (error: any) => {
+                    console.error("Upload error:", error);
+                    toast.error("Error al subir los documentos: " + (error.message || "error desconocido"));
+                }
+            }
+        );
     };
 
     return (
@@ -53,7 +74,6 @@ export const UploadDocuments: React.FC<UploadDocumentsProps> = ({ medicalRecordI
                                 {/* Preview / Icon Area */}
                                 <div className="w-full h-24 bg-bg-2 dark:bg-bg-dark-3/40 flex items-center justify-center border-b border-border-1 dark:border-border/10">
                                     <FileText className="w-8 h-8 text-text-3 dark:text-muted-foreground/60" />
-
                                 </div>
 
                                 {/* Document Details */}
@@ -72,6 +92,7 @@ export const UploadDocuments: React.FC<UploadDocumentsProps> = ({ medicalRecordI
                                 {/* Remove Action Button */}
                                 <button
                                     type="button"
+                                    disabled={isPending}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         handleRemoveDocument(index);
@@ -82,11 +103,20 @@ export const UploadDocuments: React.FC<UploadDocumentsProps> = ({ medicalRecordI
                                 </button>
                             </div>
                         ))}
-
-                    </div>{
+                    </div>
+                    {
                         documents.length > 0 &&
-                        <Button className={"rounded-full cursor-pointer hover:bg-main-hover"} size={"icon"}>
-                            <UploadIcon />
+                        <Button
+                            className={"rounded-full cursor-pointer hover:bg-main-hover"}
+                            size={"icon"}
+                            onClick={handleUpload}
+                            disabled={isPending}
+                        >
+                            {isPending ? (
+                                <Spinner className="text-main" />
+                            ) : (
+                                <UploadIcon />
+                            )}
                         </Button>
                     }
                 </div>

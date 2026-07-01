@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/common/utils/format-date";
+import { useNavigate } from "react-router-dom";
+import { routes } from "@/common/presentation/constants";
 
 interface AppointmentCardToggleProps {
     appointment: AppointmentEntity;
@@ -17,6 +19,7 @@ interface AppointmentCardToggleProps {
 
 export const ExpandedContentAreaToggle: React.FC<AppointmentCardToggleProps> = ({ appointment, isExpanded }) => {
     const dateObj = new Date(appointment.date);
+    const navigate = useNavigate();
 
     return (
         <div
@@ -110,7 +113,7 @@ export const ExpandedContentAreaToggle: React.FC<AppointmentCardToggleProps> = (
                                     </div>
                                 </div>
                                 <div className="flex justify-end">
-                                    <Button className="bg-black text-white hover:bg-main hover:text-white cursor-pointer">Ver Documentos</Button>
+                                    <Button onClick={() => navigate(`${routes.documents.link}/${appointment.id}`)} className="bg-black text-white hover:bg-main hover:text-white cursor-pointer">Ver Documentos</Button>
                                 </div>
                             </div>
                         )
