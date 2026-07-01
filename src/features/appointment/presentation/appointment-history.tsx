@@ -1,5 +1,4 @@
 import { useMemo } from "react"
-import { appointmentMockData } from "./data"
 import { AppointmentCardToggle, AppointmentHistoryEmpty } from "./components";
 import { useGetAppointmentsByUserId } from "../application/queries";
 import { useAuth } from "@/common/hooks";

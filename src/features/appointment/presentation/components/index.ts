@@ -1,2 +1,7 @@
 export * from './appointment-card-toggle';
 export * from './appointment-history-empty';
+export * from './hover-pet-avatar';
+export * from './appointment-sucess';
+export * from './pet-selector';
+export * from './appointment-type-selector';
+export * from './date-picker-visit';
