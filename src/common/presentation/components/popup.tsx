@@ -5,10 +5,11 @@ import { cn } from '@/lib/utils';
 
 interface PopupProps {
     isOpen: boolean;
-    onClose: () => void;
+    onClose?: () => void;
     children: React.ReactNode;
     title?: string;
     className?: string;
+    isClosable?: boolean
 }
 
 export const Popup: React.FC<PopupProps> = ({
@@ -16,7 +17,8 @@ export const Popup: React.FC<PopupProps> = ({
     onClose,
     children,
     title,
-    className
+    className,
+    isClosable = true
 }) => {
     // Prevent scrolling on body when popup is open
     useEffect(() => {
@@ -52,13 +54,15 @@ export const Popup: React.FC<PopupProps> = ({
                     <h3 className="text-lg font-semibold text-foreground truncate">
                         {title || 'Visualizar'}
                     </h3>
-                    <button
-                        onClick={onClose}
-                        className="rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer"
-                        aria-label="Cerrar"
-                    >
-                        <X className="h-4 w-4" />
-                    </button>
+                    {isClosable && (
+                        <button
+                            onClick={onClose}
+                            className="rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer"
+                            aria-label="Cerrar"
+                        >
+                            <X className="h-4 w-4" />
+                        </button>
+                    )}
                 </div>
 
                 {/* Content */}
