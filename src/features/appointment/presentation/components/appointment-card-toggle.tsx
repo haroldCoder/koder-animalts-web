@@ -165,6 +165,38 @@ export const AppointmentCardToggle: React.FC<AppointmentCardToggleProps> = ({
                             </div>
                         </div>
 
+                        {/* Diagnosis */}
+
+                        <div className="space-y-2">
+                            <div className="flex items-center gap-2 text-xs font-semibold text-text-3 dark:text-muted-foreground uppercase tracking-wider">
+                                <FileCheck className="w-3.5 h-3.5 text-main" />
+                                <span>Diagnóstico</span>
+                            </div>
+                            <div className="p-4 bg-white dark:bg-bg-dark-2 rounded-xl border border-border-1 dark:border-border/10 min-h-[60px] text-sm text-text-2 dark:text-muted-foreground leading-relaxed">
+                                {appointment.diagnosis ? (
+                                    appointment.diagnosis
+                                ) : (
+                                    <span className="italic text-text-3 dark:text-muted-foreground/60">No se registró un diagnóstico para esta consulta.</span>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Treatment */}
+
+                        <div className="space-y-2">
+                            <div className="flex items-center gap-2 text-xs font-semibold text-text-3 dark:text-muted-foreground uppercase tracking-wider">
+                                <FileCheck className="w-3.5 h-3.5 text-main" />
+                                <span>Tratamiento</span>
+                            </div>
+                            <div className="p-4 bg-white dark:bg-bg-dark-2 rounded-xl border border-border-1 dark:border-border/10 min-h-[60px] text-sm text-text-2 dark:text-muted-foreground leading-relaxed">
+                                {appointment.treatment ? (
+                                    appointment.treatment
+                                ) : (
+                                    <span className="italic text-text-3 dark:text-muted-foreground/60">No se registró un tratamiento para esta consulta.</span>
+                                )}
+                            </div>
+                        </div>
+
                         {
                             appointment.documentIds && appointment.documentIds.length > 0 && (
                                 <div className="space-y-3 pt-2">

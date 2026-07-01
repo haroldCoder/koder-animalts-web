@@ -9,6 +9,8 @@ export class ApiResponseToDomain {
             id: appointment.id,
             reasonForVisit: appointment.reasonForVisit,
             date: new Date(appointment.visitDate),
+            diagnosis: appointment.diagnosis,
+            treatment: appointment.treatment,
             notes: appointment.notes,
             type: appointment.type as ConsultationType,
             clinicName: appointment.veterinarian.clinic.name,
