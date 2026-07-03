@@ -21,6 +21,7 @@ function HomeLayout() {
                     <Route path={routes.createPet.path} element={<CreatePet />} />
                     <Route path={routes.history.path} element={<AppointmentHistory />} />
                     <Route path={routes.appointments.path} element={<UpcomingAppointment />} />
+                    <Route path={`${routes.appointments.path}/:medicalRecordId`} element={<UpcomingAppointment />} />
                     <Route path={routes.documents.path} element={<DocumentsView />} />
                     <Route path={`${routes.documents.path}/:medicalRecordId`} element={<DocumentsView />} />
                     <Route path={routes.schedule.path} element={<ScheduleAppointment />} />

@@ -6,10 +6,10 @@ import { ApiResponseToDomain } from "../mappers";
 import { CreateAppointmentDto } from "../../domain/dtos";
 
 export class HttpAppointmentRepository implements IAppointmentRepository {
-    async findByUserId(userId: string): Promise<AppointmentEntity[]> {
+    async findByUserId(userId: string, medicalRecordId?: string): Promise<AppointmentEntity[]> {
         try {
             const response = await apiClient.get<AppointmentResponseDto>(
-                `/medical-record/pet/userId/${userId}`
+                `/medical-record/pet/userId/${userId}?medicalRecordId=${medicalRecordId}`
             );
 
             return ApiResponseToDomain.toAppointmentEntityData(response);

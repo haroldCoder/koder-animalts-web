@@ -5,10 +5,12 @@ import { getDateUpcoming } from "@/common/utils";
 import { Error, Loading } from "@/common/presentation/components";
 import { AppointmentCardToggle } from "./components";
 import { CalendarDays } from "lucide-react";
+import { useParams } from "react-router-dom";
 
 export const UpcomingAppointment = () => {
     const { user } = useAuth();
-    const { data, isLoading, error } = useGetAppointmentsByUserId(user!)
+    const { medicalRecordId } = useParams();
+    const { data, isLoading, error } = useGetAppointmentsByUserId(user!, medicalRecordId ? medicalRecordId : "");
 
     const appointments = useMemo(() => {
         if (!data) return [];

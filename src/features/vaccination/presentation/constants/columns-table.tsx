@@ -1,5 +1,7 @@
+import { Button } from "@/components/ui/button";
 import { VaccinationEntity } from "../../domain/entities";
 import { ColumnDef } from "@tanstack/react-table";
+import { ButtonRedirectMedicalRecord } from "../components";
 
 export const columnsTable: ColumnDef<VaccinationEntity>[] = [
     {
@@ -21,12 +23,16 @@ export const columnsTable: ColumnDef<VaccinationEntity>[] = [
         header: "Próxima Fecha",
     },
     {
-        accessorKey: "iotNumber",
-        header: "Número IOT",
+        accessorKey: "lotNumber",
+        header: "Número LOT",
     },
     {
-        accessorKey: "medicalRecordName",
-        header: "Expediente",
+        accessorKey: "medicalRecordId",
+        header: "Cita",
+        cell: ({ row }) => {
+            const vaccination = row.original
+            if (vaccination.medicalRecordId) return <ButtonRedirectMedicalRecord medicalRecordId={vaccination.medicalRecordId} />
+        }
     },
     {
         accessorKey: "petName",

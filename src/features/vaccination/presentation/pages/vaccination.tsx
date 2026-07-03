@@ -1,25 +1,32 @@
-import { DataTable } from "@/common/presentation/components";
-import { vaccinationMockData } from "../data";
+import { DataTable, Loading } from "@/common/presentation/components";
 import { columnsTable } from "../constants";
 import { Button } from "@/components/ui/button";
 import { PipetteIcon, ChevronDown } from "lucide-react";
 import styles from "./vaccination.module.css";
 import { useMemo, useState, useEffect, useRef } from "react";
 import { format } from "date-fns";
+import { useGetAllVaccinationsQuery } from "../../application/queries";
+import { useAuth } from "@/common/hooks";
 
 export const Vaccination = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [showScrollIndicator, setShowScrollIndicator] = useState(false);
+    const { user } = useAuth();
+    const { data: vaccinationsData, isLoading } = useGetAllVaccinationsQuery(user!, {});
 
-    const vaccinationsData = useMemo(() => {
-        const data = vaccinationMockData.map(vaccination => ({
+    const vaccinationsMappedData = useMemo(() => {
+        if (!vaccinationsData) return [];
+        const data = vaccinationsData.map(vaccination => ({
             ...vaccination,
             date: format(vaccination.date, "dd/MM/yyyy"),
-            nextDate: format(vaccination.nextDate, "dd/MM/yyyy")
+            nextDate: vaccination.nextDate ? format(vaccination.nextDate, "dd/MM/yyyy") : "-",
+            lotNumber: vaccination.lotNumber ?? "-"
         }))
 
         return data
-    }, [])
+    }, [vaccinationsData])
+
+
 
     const checkOverflow = () => {
         const element = containerRef.current;
@@ -39,6 +46,8 @@ export const Vaccination = () => {
         };
     }, [vaccinationsData]);
 
+    if (isLoading) return <Loading />
+
     return (
         <div className="h-[calc(100vh-70px)] flex flex-col p-5 gap-8">
             <div className="flex justify-between items-center">
@@ -54,7 +63,7 @@ export const Vaccination = () => {
                     onScroll={checkOverflow}
                     className="flex-1 max-h-[calc(100vh-250px)] overflow-y-auto p-5"
                 >
-                    <DataTable columns={columnsTable} data={vaccinationsData} styles={styles.table} />
+                    <DataTable columns={columnsTable} data={vaccinationsMappedData} styles={styles.table} />
                 </div>
                 {showScrollIndicator && (
                     <Button onClick={() => containerRef.current?.scrollTo({ top: containerRef.current?.scrollHeight, behavior: "smooth" })} size="icon-lg" className="absolute cursor-pointer z-10 bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 bg-bg-dark-1 backdrop-blur-sm text-white px-4 py-2 rounded-full shadow-lg transition-all duration-300 animate-bounce">
