@@ -31,7 +31,7 @@ export const OwnerPetsView = () => {
                 </Link>
             </div>
             <ScrollArea className="border rounded-xl">
-                <div className="flex flex-wrap gap-8 p-4">
+                <div className="grid grid-cols-1 max-lg:pb-24 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
                     {data?.map((pet) => (
                         <CardMainPet key={pet.id} pet={pet} />
                     ))}

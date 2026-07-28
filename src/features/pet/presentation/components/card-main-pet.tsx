@@ -52,7 +52,7 @@ export const CardMainPet = ({ pet }: Props) => {
             </div>
 
             {/* Content / Attributes */}
-            <div className="p-6 grid grid-cols-2 gap-y-4 gap-x-2 text-sm flex-shrink-0">
+            <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-y-4 gap-x-2 text-sm flex-shrink-0">
                 {pet.gender && (
                     <div className="flex items-center gap-2">
                         <Heart className="w-4 h-4 text-muted-foreground shrink-0" />
