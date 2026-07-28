@@ -24,7 +24,7 @@ export const Login = () => {
     }
 
     return (
-        <div className='flex flex-col gap-4 w-full animate-in fade-in slide-in-from-bottom-4 duration-500'>
+        <div className='flex flex-col bg-transparent gap-4 w-full animate-in fade-in slide-in-from-bottom-4 duration-500'>
             <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 w-full'>
                 <div className="space-y-1">
                     <Input

@@ -9,7 +9,7 @@ export const AuthScreen = () => {
     const [view, setView] = useState<"login" | "register">("login");
 
     return (
-        <div className="flex min-h-screen w-full items-center justify-center p-4 bg-gradient-to-br from-orange-50 via-white to-amber-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+        <div className="flex min-h-[100dvh] bg-amber-500 w-full items-center justify-center p-4 bg-gradient-to-br from-orange-50 via-white to-amber-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
             <div className="w-full max-w-[480px] bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border border-white/50 dark:border-white/10 shadow-2xl rounded-[2rem] p-6 sm:p-8 transition-all duration-500 hover:shadow-orange-500/10">
 
                 <div className="flex flex-col items-center mb-8">
@@ -21,7 +21,7 @@ export const AuthScreen = () => {
                 </div>
 
                 <Tabs defaultValue="login" className="w-full">
-                    <TabsList className="grid w-full grid-cols-2 p-1 bg-slate-100/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl mb-8">
+                    <TabsList className="grid w-full !h-auto grid-cols-2 p-1 bg-slate-100/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl mb-8">
                         <TabsTrigger
                             onClick={() => setView("login")}
                             value="login"
@@ -40,7 +40,7 @@ export const AuthScreen = () => {
                 </Tabs>
 
                 <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 to-amber-500/5 rounded-2xl animate-pulse pointer-events-none" />
+                    <div className="absolute inset-0  rounded-2xl animate-pulse pointer-events-none" />
                     <div className="relative z-10">
                         {view === "login" ? <Login /> : <SignUp />}
                     </div>
