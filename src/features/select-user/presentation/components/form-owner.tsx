@@ -22,7 +22,7 @@ export const FormOwner = React.memo(({ setSelect }: FormOwnerProps) => {
         }
     });
 
-    const { mutateAsync: selectOwner, isPending, isError } = useSelectOwner();
+    const { mutateAsync: selectOwner, isPending } = useSelectOwner();
 
     const onSubmit = (data: { phone: string, address: string }) => {
         if (!user) return;

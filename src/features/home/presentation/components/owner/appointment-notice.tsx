@@ -1,7 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { BellRing } from "lucide-react";
-import { useMemo } from "react";
-import { dateIsToday, dateIsTomorrow } from "../../utils";
 import { useGetAppointmentsByUserId } from "@/features/appointment/application/queries";
 import { useAuth } from "@/common/hooks";
 import { Loading } from "@/common/presentation/components";

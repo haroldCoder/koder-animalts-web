@@ -7,6 +7,7 @@ export const petsMockData: PetEntity[] = [
         birthdate: "2022-01-01",
         image: "https://res.cloudinary.com/koderx/image/upload/v1781802192/koder-animalts/users/iwpgb34jvcbkezvb68yi.jpg",
         breed: "Golden Retriever",
+        species: "Perro",
         isActive: true
     },
     {
@@ -15,6 +16,7 @@ export const petsMockData: PetEntity[] = [
         birthdate: "2022-01-01",
         image: "https://res.cloudinary.com/koderx/image/upload/v1781802192/koder-animalts/users/iwpgb34jvcbkezvb68yi.jpg",
         breed: "Golden Retriever",
+        species: "Perro",
         isActive: true
     },
     {
@@ -23,6 +25,7 @@ export const petsMockData: PetEntity[] = [
         birthdate: "2022-01-01",
         image: "https://res.cloudinary.com/koderx/image/upload/v1781802192/koder-animalts/users/iwpgb34jvcbkezvb68yi.jpg",
         breed: "Golden Retriever",
+        species: "Perro",
         isActive: true
     },
     {
@@ -31,6 +34,7 @@ export const petsMockData: PetEntity[] = [
         birthdate: "2022-01-01",
         image: "https://res.cloudinary.com/koderx/image/upload/v1781802192/koder-animalts/users/iwpgb34jvcbkezvb68yi.jpg",
         breed: "Golden Retriever",
+        species: "Perro",
         isActive: false
     },
     {
@@ -39,6 +43,7 @@ export const petsMockData: PetEntity[] = [
         birthdate: "2022-01-01",
         image: "https://res.cloudinary.com/koderx/image/upload/v1781802192/koder-animalts/users/iwpgb34jvcbkezvb68yi.jpg",
         breed: "Golden Retriever",
+        species: "Perro",
         isActive: false
     },
     {
@@ -47,6 +52,7 @@ export const petsMockData: PetEntity[] = [
         birthdate: "2022-01-01",
         image: "https://res.cloudinary.com/koderx/image/upload/v1781802192/koder-animalts/users/iwpgb34jvcbkezvb68yi.jpg",
         breed: "Golden Retriever",
+        species: "Perro",
         isActive: false
     },
 ]

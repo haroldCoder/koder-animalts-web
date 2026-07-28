@@ -9,8 +9,11 @@ export const appointmentLastVisitMockData: AppointmentEntity[] = [
         notes: "Todo bien",
         type: ConsultationType.CONSULTATION,
         clinicName: "VetCare Center",
+        clinicId: "clinic-1",
         petName: "Bimbo",
+        petId: "pet-1",
         veterinaryName: "Dr. Carlos Ruiz",
+        veterinaryId: "vet-1",
         petPhoto: "",
     },
     {
@@ -20,8 +23,11 @@ export const appointmentLastVisitMockData: AppointmentEntity[] = [
         notes: "Todo bien",
         type: ConsultationType.CONSULTATION,
         clinicName: "Animal Health",
+        clinicId: "clinic-2",
         petName: "Luna",
+        petId: "pet-2",
         veterinaryName: "Dra. Ana Silva",
+        veterinaryId: "vet-2",
         petPhoto: "",
     },
     {
@@ -31,8 +37,11 @@ export const appointmentLastVisitMockData: AppointmentEntity[] = [
         notes: "Todo bien",
         type: ConsultationType.CONSULTATION,
         clinicName: "PetLife Clinic",
+        clinicId: "clinic-3",
         petName: "Max",
+        petId: "pet-3",
         veterinaryName: "Dr. Jorge Paz",
+        veterinaryId: "vet-3",
         petPhoto: "",
     },
     {
@@ -42,8 +51,11 @@ export const appointmentLastVisitMockData: AppointmentEntity[] = [
         notes: "Todo bien",
         type: ConsultationType.CONSULTATION,
         clinicName: "VetCare Center",
+        clinicId: "clinic-1",
         petName: "Bella",
+        petId: "pet-4",
         veterinaryName: "Dra. Sofía Castro",
+        veterinaryId: "vet-4",
         petPhoto: "",
     },
     {
@@ -53,8 +65,12 @@ export const appointmentLastVisitMockData: AppointmentEntity[] = [
         notes: "Todo bien",
         type: ConsultationType.CONSULTATION,
         clinicName: "Mascotas Felices",
+        clinicId: "clinic-4",
         petName: "Toby",
+        petId: "pet-5",
         veterinaryName: "Dr. Juan Pérez",
+        veterinaryId: "vet-5",
         petPhoto: "",
     }
 ];
+

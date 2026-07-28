@@ -1,5 +1,5 @@
 import { AppointmentEntity } from "@/features/appointment/domain/entities";
-import { Calendar, Syringe, User } from "lucide-react";
+import { Calendar, User } from "lucide-react";
 
 interface AppointmentCardProps {
     appointment: AppointmentEntity;

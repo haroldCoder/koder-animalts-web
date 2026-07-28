@@ -9,7 +9,7 @@ export const mockDocuments: DocumentEntity[] = [
         petName: 'Max',
         fileUrl: 'https://example.com/radiografia.jpg',
         type: 'Imagen',
-        size: '2.4 MB'
+        size: 2516582
     },
     {
         id: '2',
@@ -19,7 +19,7 @@ export const mockDocuments: DocumentEntity[] = [
         petName: 'Luna',
         fileUrl: 'https://example.com/receta.pdf',
         type: 'Receta',
-        size: '450 KB'
+        size: 460800
     },
     {
         id: '3',
@@ -29,7 +29,7 @@ export const mockDocuments: DocumentEntity[] = [
         petName: 'Max',
         fileUrl: 'https://example.com/resultado.pdf',
         type: 'Resultado',
-        size: '1.2 MB'
+        size: 1258291
     },
     {
         id: '4',
@@ -39,7 +39,7 @@ export const mockDocuments: DocumentEntity[] = [
         petName: 'Rocky',
         fileUrl: 'https://example.com/certificado.pdf',
         type: 'PDF',
-        size: '850 KB'
+        size: 870400
     },
     {
         id: '5',
@@ -49,6 +49,6 @@ export const mockDocuments: DocumentEntity[] = [
         petName: 'Luna',
         fileUrl: 'https://example.com/ecografia.jpg',
         type: 'Imagen',
-        size: '3.1 MB'
+        size: 3250585
     }
 ]

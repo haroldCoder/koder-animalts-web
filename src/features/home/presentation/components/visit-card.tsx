@@ -1,7 +1,7 @@
 import { AppointmentEntity } from "@/features/appointment/domain/entities";
 import { Building2, FileText, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useNavigate, useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { routes } from "@/common/presentation/constants";
 
 interface VisitCardProps {

@@ -25,7 +25,7 @@ export const FormVeterinarian = ({ setSelect }: FormVeterinarianProps) => {
 
     const { user } = useAuth();
 
-    const { mutateAsync: selectVeterinary, isPending, isError } = useSelectVeterinary();
+    const { mutateAsync: selectVeterinary, isPending } = useSelectVeterinary();
 
     const { data: clinics = [], isLoading: isLoadingClinics } = useGetAllClinics();
 
