@@ -23,14 +23,14 @@ export const Header = () => {
     const pageTitle = currentRoute?.label || "Dashboard";
 
     return (
-        <header className="flex items-center justify-between py-4 px-6 bg-background border-b">
-            <div className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center">
-                    <span className="text-white font-bold">A</span>
+        <header className="flex items-center justify-between py-3 lg:py-4 px-4 lg:px-6 bg-background border-b relative z-40">
+            <div className="flex items-center gap-2 lg:gap-3">
+                <div className="w-8 h-8 lg:w-10 lg:h-10 bg-amber-500 rounded-lg flex items-center justify-center shrink-0">
+                    <span className="text-white font-bold text-sm lg:text-base">A</span>
                 </div>
-                <div>
-                    <h1 className="text-xl font-bold text-amber-500">{pageTitle}</h1>
-                    <p className="text-sm text-muted-foreground">
+                <div className="min-w-0">
+                    <h1 className="text-lg lg:text-xl font-bold text-amber-500 truncate">{pageTitle}</h1>
+                    <p className="text-xs lg:text-sm text-muted-foreground truncate hidden sm:block">
                         Bienvenido, {user.role == UserRole.veterinary && 'Dr.'} {user.name}
                     </p>
                 </div>
@@ -38,12 +38,12 @@ export const Header = () => {
 
             <NavMenu />
 
-            <div className="flex items-center gap-10">
-                <Avatar className={"w-10 h-10 "}>
+            <div className="flex items-center gap-3 lg:gap-6">
+                <Avatar className="w-8 h-8 lg:w-10 lg:h-10">
                     <AvatarImage src={user.image ?? ""} />
-                    <AvatarFallback className={"bg-amber-500 text-white"}>{user.name.charAt(0)}</AvatarFallback>
+                    <AvatarFallback className="bg-amber-500 text-white text-xs lg:text-sm">{user.name.charAt(0)}</AvatarFallback>
                 </Avatar>
-                <Button className={"cursor-pointer px-8"} onClick={() => logout()}>Logout</Button>
+                <Button size="sm" className="cursor-pointer px-4 lg:px-8 text-xs lg:text-sm" onClick={() => logout()}>Logout</Button>
             </div>
         </header>
     );
