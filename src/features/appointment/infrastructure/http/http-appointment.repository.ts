@@ -37,9 +37,21 @@ export class HttpAppointmentRepository implements IAppointmentRepository {
     async uploadDocuments(medicalRecordId: string, files: File[]): Promise<void> {
         try {
             const formData = new FormData();
-            files.forEach((file) => {
-                formData.append("files", file);
-            });
+
+            for (const file of files) {
+                const buffer = await file.arrayBuffer();
+
+                const copiedFile = new File(
+                    [buffer],
+                    file.name,
+                    {
+                        type: file.type,
+                        lastModified: Date.now(),
+                    },
+                );
+
+                formData.append('files', copiedFile);
+            }
 
             await apiClient.put<void>(
                 `/medical-record/upload-documents/${medicalRecordId}`,
