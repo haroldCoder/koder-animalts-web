@@ -12,14 +12,12 @@ const STATUS_STYLES: Record<string, string> = {
     SCHEDULED: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
     COMPLETED: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
     CANCELLED: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
-    PENDING: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
 };
 
 const STATUS_LABELS: Record<string, string> = {
     SCHEDULED: "Agendada",
     COMPLETED: "Completada",
     CANCELLED: "Cancelada",
-    PENDING: "Pendiente",
 };
 
 export const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {

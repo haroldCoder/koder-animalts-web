@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAuth } from "@/common/hooks";
 import { useGetMedicalRecordsByUserId } from "../application/queries";
 import { MedicalRecordEntity } from "../domain/entities";
@@ -7,11 +7,14 @@ import { ScheduleMedicalRecord } from "./schedule-medical-record";
 import { Error, Loading } from "@/common/presentation/components";
 import { Plus, ClipboardList } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { MainLayoutContext } from "@/common/presentation/layout";
+import { UserRole } from "@/features/user";
 
 export const MedicalRecordView = () => {
     const [showForm, setShowForm] = useState(false);
     const { user } = useAuth();
     const { data: records, isLoading, error } = useGetMedicalRecordsByUserId(user!);
+    const context = useContext(MainLayoutContext);
 
     if (isLoading) return <Loading />;
     if (error) return <Error message={error?.message || "Error al cargar el historial médico"} />;
@@ -38,13 +41,18 @@ export const MedicalRecordView = () => {
                         Consulta y gestiona el registro clínico completo de tus mascotas
                     </p>
                 </div>
-                <Button
-                    onClick={() => setShowForm(true)}
-                    className="cursor-pointer gap-2"
-                >
-                    <Plus className="size-4" />
-                    Nuevo Registro
-                </Button>
+                {
+                    context?.user.role === UserRole.veterinary && (
+                        <Button
+                            onClick={() => setShowForm(true)}
+                            className="cursor-pointer gap-2"
+                        >
+                            <Plus className="size-4" />
+                            Nuevo Registro
+                        </Button>
+                    )
+                }
+
             </div>
 
             {/* Content */}

@@ -9,4 +9,5 @@ export * from "./card-notice"
 export * from "./veterinarian/search-pet"
 export * from "./veterinarian/appointment-last-visit-vet"
 export * from "./veterinarian/summary-clinic"
+export * from "./appointment-last-visit-empty"
 

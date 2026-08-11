@@ -8,6 +8,7 @@ import { DocumentsView } from "./features/document/presentation/documents-view"
 import { AppointmentsAndHistoryView } from "./features/appointment/presentation/appointments-and-history-view"
 import { MedicalRecordView } from "./features/medical-record/presentation/medical-record-view"
 import { ScheduleAppointmentForm } from "./features/appointment/presentation/schedule-appointment-form"
+import { AppointmentHistory } from "./features/appointment/presentation/appointment-history"
 
 function HomeLayout() {
     return (
@@ -18,7 +19,7 @@ function HomeLayout() {
                     <Route path="/" element={<HomeFeature />} />
                     <Route path={routes.pets.path} element={<OwnerPetsView />} />
                     <Route path={routes.createPet.path} element={<CreatePet />} />
-                    <Route path={routes.history.path} element={<AppointmentsAndHistoryView />} />
+                    <Route path={routes.history.path} element={<AppointmentHistory />} />
                     <Route path={routes.medicalRecord.path} element={<MedicalRecordView />} />
                     <Route path={routes.appointments.path} element={<AppointmentsAndHistoryView />} />
                     <Route path={routes.documents.path} element={<DocumentsView />} />
