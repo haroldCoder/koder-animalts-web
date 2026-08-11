@@ -18,6 +18,7 @@ export const AppointmentLastVisitVet = () => {
         }).slice(0, 4);
     }, [data]);
 
+
     return (
         <section className="px-4 mx-14 mt-10 mb-10">
             <div className="flex justify-between items-center mb-6">

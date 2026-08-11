@@ -15,12 +15,13 @@ import {
     Sparkles,
     CheckCircle,
 } from "lucide-react";
-import { AppointmentSucess, AppointmentTypeSelector, DatePickerVisit, PetSelector } from "./components";
+import { MedicalRecordSucess, MedicalRecordTypeSelector, DatePickerVisit } from "./components";
 import { ScheduleAppointmentFormValues } from "./interfaces";
 import { useScheduleAppointmentForm } from "./hooks";
+import { PetSelector } from "@/common/presentation/components";
 
 
-export const ScheduleAppointment = () => {
+export const ScheduleMedicalRecord = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
 
@@ -73,18 +74,18 @@ export const ScheduleAppointment = () => {
         <div className="relative max-w-4xl mx-auto p-6 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <ScrollArea className="h-[calc(100dvh-10rem)] w-full px-5">
                 {isPending && (
-                    <AppointmentSucess isOpen={isPending} />
+                    <MedicalRecordSucess isOpen={isPending} />
                 )}
 
                 <div className="flex flex-col gap-2 mb-8">
                     <div className="flex items-center gap-2">
                         <Activity className="size-8 text-primary animate-pulse" />
                         <h1 className="text-3xl font-extrabold tracking-tight text-foreground bg-gradient-to-r from-foreground to-foreground/75 bg-clip-text">
-                            Programar Nueva Cita Médica
+                            Agregar historial medico
                         </h1>
                     </div>
                     <p className="text-muted-foreground text-sm max-w-2xl">
-                        Registra una nueva cita médica o consulta. Se añadirá automáticamente al historial de la mascota seleccionada.
+                        Agrega el historial medico de tu mascota. Se añadirá automáticamente al historial de la mascota seleccionada.
                     </p>
                 </div>
 
@@ -93,14 +94,14 @@ export const ScheduleAppointment = () => {
                     <div className="bg-card rounded-xl p-6 shadow-sm border border-border/50 space-y-6">
                         <div className="flex items-center gap-2 border-b border-border/50 pb-4">
                             <Stethoscope className="size-5 text-primary" />
-                            <h2 className="text-xl font-semibold">Información de la Cita</h2>
+                            <h2 className="text-xl font-semibold">Información del Historial</h2>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <PetSelector control={control} errors={errors} petsOptions={petsOptions} isLoadingPets={isLoadingPets} />
 
                             {/* Appointment Type Selector */}
-                            <AppointmentTypeSelector control={control} errors={errors} />
+                            <MedicalRecordTypeSelector control={control} errors={errors} />
 
                             {/* Date Picker */}
                             <DatePickerVisit control={control} errors={errors} />
@@ -188,7 +189,7 @@ export const ScheduleAppointment = () => {
                             disabled={isPending}
                         >
                             {isPending ? <Spinner className="size-4" /> : <Sparkles className="size-4" />}
-                            {isPending ? 'Programando...' : 'Programar Cita'}
+                            {isPending ? 'Guardando...' : 'Guardar'}
                         </Button>
                     </div>
                 </form>

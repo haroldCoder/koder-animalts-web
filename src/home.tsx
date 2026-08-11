@@ -4,10 +4,10 @@ import { MainLayout } from "./common/presentation/layout"
 import { OwnerPetsView } from "./features/pet/presentation/pages/owner-pets-view"
 import { routes } from "./common/presentation/constants"
 import { CreatePet } from "./features/pet/presentation/pages/create-pet"
-import { AppointmentHistory } from "./features/appointment/presentation/appointment-history"
-import { UpcomingAppointment } from "./features/appointment/presentation/upcoming-appointment"
 import { DocumentsView } from "./features/document/presentation/documents-view"
-import { ScheduleAppointment } from "./features/appointment/presentation/schedule-appointment"
+import { AppointmentsAndHistoryView } from "./features/appointment/presentation/appointments-and-history-view"
+import { MedicalRecordView } from "./features/medical-record/presentation/medical-record-view"
+import { ScheduleAppointmentForm } from "./features/appointment/presentation/schedule-appointment-form"
 
 function HomeLayout() {
     return (
@@ -18,11 +18,12 @@ function HomeLayout() {
                     <Route path="/" element={<HomeFeature />} />
                     <Route path={routes.pets.path} element={<OwnerPetsView />} />
                     <Route path={routes.createPet.path} element={<CreatePet />} />
-                    <Route path={routes.history.path} element={<AppointmentHistory />} />
-                    <Route path={routes.appointments.path} element={<UpcomingAppointment />} />
+                    <Route path={routes.history.path} element={<AppointmentsAndHistoryView />} />
+                    <Route path={routes.medicalRecord.path} element={<MedicalRecordView />} />
+                    <Route path={routes.appointments.path} element={<AppointmentsAndHistoryView />} />
                     <Route path={routes.documents.path} element={<DocumentsView />} />
                     <Route path={`${routes.documents.path}/:medicalRecordId`} element={<DocumentsView />} />
-                    <Route path={routes.schedule.path} element={<ScheduleAppointment />} />
+                    <Route path={routes.schedule.path} element={<ScheduleAppointmentForm />} />
                     {/* Ejemplo para otra ruta:
                         <Route path="/dashboard" element={<Dashboard />} /> 
                         Esto respondería a "/home/dashboard"

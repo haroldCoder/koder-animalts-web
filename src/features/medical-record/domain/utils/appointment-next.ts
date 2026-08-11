@@ -1,4 +1,4 @@
-import { AppointmentEntity } from "../entities/appointment.entity";
+import { AppointmentEntity } from "../entities/medical-record.entity";
 import { format } from "date-fns";
 
 export const appointmentNext = (appointments: AppointmentEntity[]): AppointmentEntity[] => {

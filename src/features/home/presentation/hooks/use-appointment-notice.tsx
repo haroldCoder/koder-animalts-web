@@ -1,4 +1,4 @@
-import { AppointmentEntity } from "@/features/appointment/domain/entities";
+import { AppointmentEntity } from "@/features/medical-record/domain/entities";
 import { useMemo } from "react";
 import { dateIsToday, dateIsTomorrow } from "../utils";
 

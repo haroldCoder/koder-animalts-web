@@ -1,5 +1,5 @@
-import { AppointmentEntity } from "@/features/appointment/domain/entities";
-import { ConsultationType } from "@/features/appointment/domain/enums";
+import { AppointmentEntity } from "@/features/medical-record/domain/entities";
+import { ConsultationType } from "@/features/medical-record/domain/enums";
 
 export const appointmentLastVisitMockData: AppointmentEntity[] = [
     {

@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { HttpAppointmentRepository } from "../../infrastructure/http";
+import { HttpMedicalRecordRepository } from "../../infrastructure/http";
 import { UploadMedicalRecordDocumentsUseCase } from "../use-cases";
 
-const httpAppointmentRepository = new HttpAppointmentRepository();
-const uploadMedicalRecordDocumentsUseCase = new UploadMedicalRecordDocumentsUseCase(httpAppointmentRepository);
+const httpMedicalRecordRepository = new HttpMedicalRecordRepository();
+const uploadMedicalRecordDocumentsUseCase = new UploadMedicalRecordDocumentsUseCase(httpMedicalRecordRepository);
 
 export const useUploadMedicalRecordDocumentsMutation = () => {
     const queryClient = useQueryClient();

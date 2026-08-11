@@ -1,7 +1,7 @@
 import { Popup } from "@/common/presentation/components";
 import { Spinner } from "@/components/ui/spinner";
 
-export const AppointmentSucess = ({ isOpen }: { isOpen: boolean }) => {
+export const MedicalRecordSucess = ({ isOpen }: { isOpen: boolean }) => {
     return (
         <Popup isOpen={isOpen} isClosable={false}>
             <div className="flex flex-col items-center gap-4 p-8 bg-card rounded-2xl border border-border shadow-2xl animate-in scale-in duration-300">

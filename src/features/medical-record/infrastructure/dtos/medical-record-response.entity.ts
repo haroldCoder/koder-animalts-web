@@ -1,4 +1,4 @@
-export interface AppointmentResponseDto {
+export interface MedicalRecordResponseDto {
     statusCode: number;
     data: Array<{
         id: string,

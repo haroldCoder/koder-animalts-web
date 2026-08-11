@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { useMemo } from "react";
 import { useAuth } from "@/common/hooks";
 import { useGetAppointmentsByUserId } from "@/features/appointment/application/queries";
-import { appointmentNext } from "@/features/appointment/domain/utils";
+import { appointmentNext } from "@/features/medical-record/domain/utils";
 import { Error, Loading } from "@/common/presentation/components";
 import { useNavigate } from "react-router-dom";
 import { routes } from "@/common/presentation/constants";

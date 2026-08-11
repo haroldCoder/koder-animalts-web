@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { AppointmentEntity } from "@/features/appointment/domain/entities";
+import { AppointmentEntity } from "@/features/medical-record/domain/entities";
 import { dayLabel } from "../utils";
 import { extractHourFromDate } from "@/common/utils";
 

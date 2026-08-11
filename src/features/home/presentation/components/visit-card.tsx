@@ -1,4 +1,4 @@
-import { AppointmentEntity } from "@/features/appointment/domain/entities";
+import { AppointmentEntity } from "@/features/medical-record/domain/entities";
 import { Building2, FileText, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
