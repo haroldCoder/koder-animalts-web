@@ -8,6 +8,7 @@ import { VisitCard } from "../visit-card";
 import { getDateLast } from "@/common/utils";
 import { useNavigate } from "react-router-dom";
 import { routes } from "@/common/presentation/constants";
+import { AppointmentLastVisitEmpty } from "../appointment-last-visit-empty";
 
 export const AppointmentLastVisit = () => {
     const { user } = useAuth();
@@ -27,11 +28,17 @@ export const AppointmentLastVisit = () => {
                 </Button>
             </div>
 
-            <div className="flex flex-col gap-4">
-                {isLoading ? <Loading /> : appointmentData?.map((visit: AppointmentEntity) => (
-                    <VisitCard key={visit.id} visit={visit} />
-                ))}
-            </div>
-        </section>
+            {
+                appointmentData?.length === 0 ? (
+                    <AppointmentLastVisitEmpty />
+                ) : (
+                    <div className="flex flex-col gap-4">
+                        {isLoading ? <Loading /> : appointmentData?.map((visit: AppointmentEntity) => (
+                            <VisitCard key={visit.id} visit={visit} />
+                        ))}
+                    </div>
+                )
+            }
+        </section >
     );
 };

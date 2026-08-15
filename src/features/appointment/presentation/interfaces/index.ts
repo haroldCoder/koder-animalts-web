@@ -1,1 +1,1 @@
-export * from './schedule-appointment-form-values.interface';
+export * from './new-appointment-form-values';

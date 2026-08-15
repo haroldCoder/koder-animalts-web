@@ -5,6 +5,7 @@ import { useGetAppointmentsByUserId } from "@/features/appointment/application/q
 import { AppointmentEntity } from "@/features/appointment/domain/entities";
 import { useMemo } from "react";
 import { VisitCard } from "../visit-card";
+import { AppointmentLastVisitEmpty } from "../appointment-last-visit-empty";
 
 export const AppointmentLastVisitVet = () => {
     const { user: vetId } = useAuth();
@@ -18,6 +19,7 @@ export const AppointmentLastVisitVet = () => {
         }).slice(0, 4);
     }, [data]);
 
+
     return (
         <section className="px-4 mx-14 mt-10 mb-10">
             <div className="flex justify-between items-center mb-6">
@@ -27,11 +29,17 @@ export const AppointmentLastVisitVet = () => {
                 </Button>
             </div>
 
-            <div className="flex flex-col gap-4">
-                {isLoading ? <Loading /> : appointmentData?.map((visit: AppointmentEntity) => (
-                    <VisitCard key={visit.id} visit={visit} />
-                ))}
-            </div>
+            {
+                appointmentData?.length === 0 ? (
+                    <AppointmentLastVisitEmpty />
+                ) : (
+                    <div className="flex flex-col gap-4">
+                        {isLoading ? <Loading /> : appointmentData?.map((visit: AppointmentEntity) => (
+                            <VisitCard key={visit.id} visit={visit} />
+                        ))}
+                    </div>
+                )
+            }
         </section>
     )
 }

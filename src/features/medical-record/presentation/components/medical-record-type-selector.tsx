@@ -3,13 +3,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { appointmentTypeOptions } from '../constants/appoinment-type-options';
 import { ScheduleAppointmentFormValues } from '../interfaces';
 
-interface AppointmentTypeSelectorProps {
+interface MedicalRecordTypeSelectorProps {
     control: Control<ScheduleAppointmentFormValues>;
     errors: FieldErrors<ScheduleAppointmentFormValues>;
 }
 
 
-export const AppointmentTypeSelector = ({ control, errors }: AppointmentTypeSelectorProps) => {
+export const MedicalRecordTypeSelector = ({ control, errors }: MedicalRecordTypeSelectorProps) => {
     return (
         <div className="space-y-2">
             <label className="text-sm font-medium flex items-center gap-1.5">

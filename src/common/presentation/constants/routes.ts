@@ -45,4 +45,9 @@ export const routes = {
         link: `${mainRoute}/vaccinations`,
         label: "Vacunas"
     },
+    medicalRecord: {
+        path: "/medical-record",
+        link: `${mainRoute}/medical-record`,
+        label: "Historial Médico"
+    },
 };

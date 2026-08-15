@@ -1,12 +1,7 @@
-import { ConsultationType } from "../enums";
-
 export interface CreateAppointmentDto {
+    date: string;
+    reason: string;
+    notes?: string;
     petId: string;
     userId: string;
-    type: ConsultationType | string;
-    reasonForVisit: string;
-    visitDate: Date | string;
-    notes?: string;
-    diagnosis?: string;
-    treatment?: string;
 }

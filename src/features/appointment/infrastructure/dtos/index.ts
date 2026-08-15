@@ -1,1 +1,1 @@
-export * from './appointment-response.entity';
+export * from './appointment-response.dto';

@@ -1,28 +1,37 @@
-import { AppointmentEntity } from "../../domain/entities";
-import { ConsultationType } from "../../domain/enums";
-import { AppointmentResponseDto } from "../dtos";
+import { AppointmentDataDto } from '../../domain/dtos';
+import { AppointmentEntity } from '../../domain/entities';
+import { AppointmentResponseDto } from '../dtos';
 
 export class ApiResponseToDomain {
+    static toAppointmentEntityData(response: AppointmentResponseDto): AppointmentEntity[] {
+        return response.data.map((item) => ({
+            id: item.id,
+            date: new Date(item.date),
+            reason: item.reason,
+            notes: item.notes,
+            petId: item.petId,
+            veterinarianId: item.veterinarianId,
+            status: item.status,
+            petName: item.pet?.name,
+            veterinarianName: item.veterinarian?.user.name,
+            clinicName: item.veterinarian?.clinic?.name,
+        }));
+    }
 
-    static toAppointmentEntityData(appointments: AppointmentResponseDto): AppointmentEntity[] {
-        return appointments.data.map((appointment) => ({
-            id: appointment.id,
-            reasonForVisit: appointment.reasonForVisit,
-            date: new Date(appointment.visitDate),
-            diagnosis: appointment.diagnosis,
-            treatment: appointment.treatment,
-            notes: appointment.notes,
-            type: appointment.type as ConsultationType,
-            clinicName: appointment.veterinarian.clinic.name,
-            petName: appointment.pet.name,
-            petPhoto: appointment.pet.mainImage,
-            veterinaryName: appointment.veterinarian.user.name,
-            ownerName: appointment.pet.owner?.user.name,
-            documentIds: appointment.documentIds,
-            veterinaryId: appointment.veterinarian.id,
-            petId: appointment.pet.id,
-            clinicId: appointment.veterinarian.clinic.id,
-            ownerId: appointment.pet.owner?.id,
+    static toAppointmentDataDto(response: AppointmentResponseDto): AppointmentDataDto[] {
+        return response.data.map((item) => ({
+            id: item.id,
+            date: new Date(item.date),
+            reason: item.reason,
+            notes: item.notes,
+            petId: item.petId,
+            veterinarianId: item.veterinarianId,
+            status: item.status,
+            petName: item.pet?.name ?? "",
+            veterinarianName: item.veterinarian?.user.name ?? "",
+            clinicName: item.veterinarian?.clinic?.name ?? "",
+            ownerName: item.pet?.owner.user.name ?? "",
+            petPhoto: item.pet?.mainImage ?? "",
         }));
     }
 }

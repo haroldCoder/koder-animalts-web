@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { AppointmentEntity } from "@/features/appointment/domain/entities";
+import { MedicalRecordEntity } from "@/features/medical-record/domain/entities";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     Calendar,
@@ -14,24 +14,24 @@ import { formatDate } from "@/common/utils/format-date";
 import { ExpandedContentAreaToggle } from "./expanded-content-area-toggle";
 import { UploadDocuments } from "./upload-documents";
 
-interface AppointmentCardToggleProps {
-    appointment: AppointmentEntity;
+interface MedicalRecordCardToggleProps {
+    medicalRecord: MedicalRecordEntity;
     isExpandedInitially?: boolean;
 }
 
-export const AppointmentCardToggle: React.FC<AppointmentCardToggleProps> = ({
-    appointment,
+export const MedicalRecordCardToggle: React.FC<MedicalRecordCardToggleProps> = ({
+    medicalRecord,
     isExpandedInitially = false
 }) => {
     const [isExpanded, setIsExpanded] = useState(isExpandedInitially);
     const context = useContext(MainLayoutContext)
 
-    const dateObj = new Date(appointment.date);
+    const dateObj = new Date(medicalRecord.date);
     const formattedDay = formatDate.formattedDay(dateObj);
     const formattedMonth = formatDate.formattedMonth(dateObj);
 
 
-    const config = getTypeConfig(appointment.type);
+    const config = getTypeConfig(medicalRecord.type);
     const TypeIcon = config.icon;
 
     return (
@@ -71,29 +71,29 @@ export const AppointmentCardToggle: React.FC<AppointmentCardToggleProps> = ({
                             </span>
                             <span className="inline-flex items-center gap-1 text-xs text-text-3 dark:text-muted-foreground bg-bg-1 dark:bg-bg-dark-3/50 px-2 py-0.5 rounded-md font-medium">
                                 <Clock className="w-3.5 h-3.5 text-main" />
-                                {extractHourFromDate(appointment.date)}
+                                {extractHourFromDate(medicalRecord.date)}
                             </span>
                         </div>
 
                         <h3 className="text-base md:text-lg font-bold text-text-1 dark:text-white leading-tight">
-                            {appointment.reasonForVisit}
+                            {medicalRecord.reasonForVisit}
                         </h3>
 
                         {/* Pet Info */}
                         <div className="flex items-center gap-2 pt-0.5">
                             <Avatar size="sm" className="border border-border-1 dark:border-border/20">
-                                <AvatarImage src={appointment.petPhoto} alt={appointment.petName} />
+                                <AvatarImage src={medicalRecord.petPhoto} alt={medicalRecord.petName} />
                                 <AvatarFallback className="bg-main/10 text-main font-bold">
-                                    {appointment.petName.slice(0, 2).toUpperCase()}
+                                    {medicalRecord.petName.slice(0, 2).toUpperCase()}
                                 </AvatarFallback>
                             </Avatar>
                             <span className="text-sm font-medium text-text-2 dark:text-muted-foreground">
-                                Paciente: <span className="text-text-1 dark:text-white font-semibold">{appointment.petName}</span>
+                                Paciente: <span className="text-text-1 dark:text-white font-semibold">{medicalRecord.petName}</span>
                             </span>
 
                         </div>
-                        {context?.user.role == UserRole.veterinary && appointment.documentIds?.length == 0 && (
-                            <UploadDocuments medicalRecordId={appointment.id} />
+                        {context?.user.role == UserRole.veterinary && medicalRecord.documentIds?.length == 0 && (
+                            <UploadDocuments medicalRecordId={medicalRecord.id} />
                         )}
                     </div>
                 </div>
@@ -102,7 +102,7 @@ export const AppointmentCardToggle: React.FC<AppointmentCardToggleProps> = ({
                 <div className="flex items-center justify-between md:justify-end gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-border-1 dark:border-border/10">
                     <div className="hidden sm:flex flex-col text-right text-xs">
                         <span className="text-text-3 dark:text-muted-foreground">Clínica</span>
-                        <span className="font-semibold text-text-2 dark:text-white max-w-[150px] truncate">{appointment.clinicName}</span>
+                        <span className="font-semibold text-text-2 dark:text-white max-w-[150px] truncate">{medicalRecord.clinicName}</span>
                     </div>
 
                     <div
@@ -118,7 +118,7 @@ export const AppointmentCardToggle: React.FC<AppointmentCardToggleProps> = ({
                 </div>
             </div>
             {/* EXPANDED CONTENT AREA */}
-            <ExpandedContentAreaToggle appointment={appointment} isExpanded={isExpanded} />
+            <ExpandedContentAreaToggle medicalRecord={medicalRecord} isExpanded={isExpanded} />
         </article>
     );
 };

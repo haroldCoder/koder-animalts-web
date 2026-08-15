@@ -28,6 +28,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@common": [
+        "./src/common/*"
       ]
     }
   },
