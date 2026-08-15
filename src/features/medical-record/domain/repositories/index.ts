@@ -1,1 +1,1 @@
-export * from './appointment.respository';
+export * from './medical-record.respository';

@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { UpcomingAppointment } from "./upcoming-appointment";
 import { CalendarDays, Plus, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MedicalRecordView } from "@/features/medical-record/presentation/medical-record-view";
 import { ScheduleAppointmentForm } from "./schedule-appointment-form";
+import { MainLayoutContext } from "@/common/presentation/layout";
+import { UserRole } from "@/features/user";
 
 type Tab = 'upcoming' | 'history' | 'schedule';
 
 export const AppointmentsAndHistoryView = () => {
     const [activeTab, setActiveTab] = useState<Tab>('upcoming');
+    const { user } = useContext(MainLayoutContext)!;
 
     return (
         <div className="flex flex-col gap-6 w-full max-w-4xl mx-auto p-4 md:p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -17,15 +20,15 @@ export const AppointmentsAndHistoryView = () => {
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight">
-                        {activeTab === 'history' ? 'Historial de Citas' : 'Mis Citas'}
+                        {activeTab === 'history' ? 'Historial Medico' : 'Mis Citas'}
                     </h1>
                     <p className="text-sm text-muted-foreground mt-0.5">
                         {activeTab === 'upcoming' && 'Consulta y gestiona tus próximas citas veterinarias'}
-                        {activeTab === 'history' && 'Revisa todas las citas que ya han ocurrido'}
+                        {activeTab === 'history' && 'Revisa toda la información medica de tu mascota'}
                         {activeTab === 'schedule' && 'Agenda una nueva consulta veterinaria'}
                     </p>
                 </div>
-                {activeTab !== 'schedule' && (
+                {activeTab !== 'schedule' && user.role == UserRole.veterinary && (
                     <Button
                         onClick={() => setActiveTab('schedule')}
                         className="cursor-pointer gap-2"

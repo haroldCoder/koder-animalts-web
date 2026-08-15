@@ -11,6 +11,12 @@ export interface AppointmentResponseDto {
         pet?: {
             id: string;
             name: string;
+            mainImage: string;
+            owner: {
+                user: {
+                    name: string;
+                }
+            }
         };
         veterinarian?: {
             id: string;

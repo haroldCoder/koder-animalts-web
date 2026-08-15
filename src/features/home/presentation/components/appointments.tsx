@@ -1,8 +1,8 @@
-import { AppointmentEntity } from "@/features/appointment/domain/entities";
+import { AppointmentDataDto } from "@/features/appointment/domain/dtos";
 import { AppointmentCard } from "@/features/appointment/presentation/components";
 
 interface AppointmentsProps {
-    appointment: AppointmentEntity;
+    appointment: AppointmentDataDto;
 }
 
 export const Appointments: React.FC<AppointmentsProps> = ({ appointment }) => {

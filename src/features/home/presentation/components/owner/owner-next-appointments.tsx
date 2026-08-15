@@ -8,6 +8,7 @@ import { appointmentNext } from "@/features/appointment/domain/utils";
 import { Error, Loading } from "@/common/presentation/components";
 import { useNavigate } from "react-router-dom";
 import { routes } from "@/common/presentation/constants";
+import { AppointmentDataDto } from "@/features/appointment/domain/dtos";
 
 export const OwnerNextAppointments = () => {
     const { user } = useAuth();
@@ -21,7 +22,7 @@ export const OwnerNextAppointments = () => {
 
     const appointmentsData = useMemo(() => {
         if (!data) return [];
-        return appointmentNext(data?.slice(0, 3));
+        return appointmentNext(data?.slice(0, 3)) as AppointmentDataDto[];
     }, [data])
 
     return (

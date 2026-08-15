@@ -7,7 +7,6 @@ import {
     Bookmark
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { formatDate } from "@/common/utils/format-date";
 import { useNavigate } from "react-router-dom";
 import { routes } from "@/common/presentation/constants";
 
@@ -18,7 +17,6 @@ interface MedicalRecordCardToggleProps {
 
 
 export const ExpandedContentAreaToggle: React.FC<MedicalRecordCardToggleProps> = ({ medicalRecord, isExpanded }) => {
-    const dateObj = new Date(medicalRecord.date);
     const navigate = useNavigate();
 
     return (

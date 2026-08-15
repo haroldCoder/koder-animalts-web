@@ -1,10 +1,10 @@
-import { CreateAppointmentDto } from "../../domain/dtos";
-import { IAppointmentRepository } from "../../domain/repositories";
+import { CreateMedicalRecordDto } from "../../domain/dtos";
+import { IMedicalRecordRepository } from "../../domain/repositories";
 
 export class ScheduleAppointmentUseCase {
-    constructor(private readonly appointmentRepository: IAppointmentRepository) { }
+    constructor(private readonly medicalRecordRepository: IMedicalRecordRepository) { }
 
-    async execute(appointment: CreateAppointmentDto): Promise<void> {
+    async execute(appointment: CreateMedicalRecordDto): Promise<void> {
         try {
             const { petId, userId, type, reasonForVisit, visitDate } = appointment;
 
@@ -14,7 +14,7 @@ export class ScheduleAppointmentUseCase {
             if (!reasonForVisit) throw new Error("El motivo de la visita es requerido");
             if (!visitDate) throw new Error("La fecha de la visita es requerida");
 
-            return await this.appointmentRepository.createAppointment(appointment);
+            return await this.medicalRecordRepository.createAppointment(appointment);
         } catch (error) {
             console.error('Error in ScheduleAppointmentUseCase:', error);
             throw error;

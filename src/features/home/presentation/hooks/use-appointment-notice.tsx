@@ -1,8 +1,8 @@
-import { AppointmentEntity } from "@/features/medical-record/domain/entities";
+import { AppointmentDataDto } from "@/features/appointment/domain/dtos";
 import { useMemo } from "react";
 import { dateIsToday, dateIsTomorrow } from "../utils";
 
-export const useAppointmentNotice = (appointments?: AppointmentEntity[]) => {
+export const useAppointmentNotice = (appointments?: AppointmentDataDto[]) => {
     const appointmentsData = useMemo(() => {
         if (!appointments) return [];
         return appointments.filter(app => {

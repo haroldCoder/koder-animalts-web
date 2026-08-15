@@ -1,10 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { AppointmentEntity } from "@/features/medical-record/domain/entities";
 import { dayLabel } from "../utils";
 import { extractHourFromDate } from "@/common/utils";
+import { AppointmentDataDto } from "@/features/appointment/domain/dtos";
 
 interface CardNoticeProps {
-    data: AppointmentEntity;
+    data: AppointmentDataDto;
     children?: React.ReactNode;
 }
 
@@ -21,7 +21,7 @@ export const CardNotice = ({ data, children }: CardNoticeProps) => {
                     className="object-cover"
                 />
                 <AvatarFallback className="bg-main text-white font-bold text-xl">
-                    {data.petName.charAt(0)}
+                    {data.petName?.charAt(0)}
                 </AvatarFallback>
             </Avatar>
 
@@ -30,7 +30,7 @@ export const CardNotice = ({ data, children }: CardNoticeProps) => {
             </p>
 
             <span className="mt-3 text-[11px] font-bold uppercase tracking-wider text-main bg-main/10 px-2 py-1 rounded-md">
-                {data.reasonForVisit}
+                {data.reason}
             </span>
 
             {children}

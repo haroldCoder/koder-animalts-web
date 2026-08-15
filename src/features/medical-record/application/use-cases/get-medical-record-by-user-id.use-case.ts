@@ -1,5 +1,5 @@
 import { MedicalRecordEntity } from "../../domain/entities";
-import { IMedicalRecordRepository } from "../../domain/repositories";
+import { IMedicalRecordRepository } from "../../domain/repositories/medical-record.respository";
 
 export class GetMedicalRecordsByUserIdUseCase {
     constructor(private readonly medicalRecordRepository: IMedicalRecordRepository) { }

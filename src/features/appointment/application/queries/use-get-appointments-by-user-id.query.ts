@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { HttpAppointmentRepository } from '../../infrastructure/http';
 import { GetAppointmentsByUserIdUseCase } from '../use-cases';
-import { AppointmentEntity } from '../../domain/entities';
+import { AppointmentDataDto } from '../../domain/dtos';
 
 const appointmentRepository = new HttpAppointmentRepository();
 const getAppointmentsByUserIdUseCase = new GetAppointmentsByUserIdUseCase(appointmentRepository);
 
 export const useGetAppointmentsByUserId = (userId: string) => {
-    return useQuery<AppointmentEntity[], Error>({
+    return useQuery<AppointmentDataDto[], Error>({
         queryKey: ['appointments', 'user', userId],
         queryFn: () => getAppointmentsByUserIdUseCase.execute(userId),
         enabled: !!userId,
