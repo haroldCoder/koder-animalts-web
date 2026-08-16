@@ -6,7 +6,7 @@ export const MedicalRecordHistoryEmpty: React.FC = () => {
         <div className="flex flex-col justify-center items-center gap-2">
             <Activity className="text-muted-foreground/40" size={40} />
             <h2 className="text-text-2 font-semibold">No hay Historial medico</h2>
-            <p className="text-text-3">Tu historial medico aparecerá aquí</p>
+            <p className="text-text-3">Tu historial medico aparecerá aquí, prueba cambiando los filtros</p>
         </div>
     );
 };

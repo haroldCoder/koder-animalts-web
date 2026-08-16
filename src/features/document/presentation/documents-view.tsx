@@ -9,11 +9,12 @@ import {
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { AppliedFilter, CardDocument, DatePicker, EmptyFilters } from './components'
+import { AppliedFilter, CardDocument, EmptyFilters } from './components'
 import { useGetDocumentsByUserId } from '../application/queries'
 import { useAuth } from '@/common/hooks'
 import { Loading } from '@/common/presentation/components'
 import { useParams } from 'react-router-dom'
+import { DatePicker } from '@/common/presentation/components'
 
 
 export const DocumentsView = () => {

@@ -4,8 +4,8 @@ import { IMedicalRecordRepository } from "../../domain/repositories/medical-reco
 export class GetMedicalRecordsByUserIdUseCase {
     constructor(private readonly medicalRecordRepository: IMedicalRecordRepository) { }
 
-    async execute(userId: string): Promise<MedicalRecordEntity[]> {
-        const medicalRecords = await this.medicalRecordRepository.findByUserId(userId);
+    async execute(userId: string, petId?: string, startDate?: string, endDate?: string): Promise<MedicalRecordEntity[]> {
+        const medicalRecords = await this.medicalRecordRepository.findByUserId(userId, petId, startDate, endDate);
 
         return medicalRecords
     }

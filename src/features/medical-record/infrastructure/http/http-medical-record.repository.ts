@@ -6,11 +6,17 @@ import { ApiResponseToDomain } from "../mappers";
 import { CreateMedicalRecordDto } from "../../domain/dtos";
 
 export class HttpMedicalRecordRepository implements IMedicalRecordRepository {
-    async findByUserId(userId: string): Promise<MedicalRecordEntity[]> {
+    async findByUserId(userId: string, petId?: string, startDate?: string, endDate?: string): Promise<MedicalRecordEntity[]> {
         try {
-            const response = await apiClient.get<MedicalRecordResponseDto>(
-                `/medical-record/pet/userId/${userId}`
-            );
+            const queryParams = new URLSearchParams();
+            if (petId) queryParams.append('petId', petId);
+            if (startDate) queryParams.append('startDate', startDate);
+            if (endDate) queryParams.append('endDate', endDate);
+
+            const queryString = queryParams.toString();
+            const url = `/medical-record/pet/userId/${userId}${queryString ? `?${queryString}` : ''}`;
+
+            const response = await apiClient.get<MedicalRecordResponseDto>(url);
 
             return ApiResponseToDomain.toMedicalRecordEntityData(response);
 
