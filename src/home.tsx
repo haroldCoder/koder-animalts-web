@@ -9,6 +9,7 @@ import { AppointmentsAndHistoryView } from "./features/appointment/presentation/
 import { MedicalRecordView } from "./features/medical-record/presentation/medical-record-view"
 import { ScheduleAppointmentForm } from "./features/appointment/presentation/schedule-appointment-form"
 import { AppointmentHistory } from "./features/appointment/presentation/appointment-history"
+import { Vaccination } from "./features/vaccination/presentation/pages/vaccination"
 
 function HomeLayout() {
     return (
@@ -25,6 +26,7 @@ function HomeLayout() {
                     <Route path={routes.documents.path} element={<DocumentsView />} />
                     <Route path={`${routes.documents.path}/:medicalRecordId`} element={<DocumentsView />} />
                     <Route path={routes.schedule.path} element={<ScheduleAppointmentForm />} />
+                    <Route path={routes.vaccinations.path} element={<Vaccination />} />
                     {/* Ejemplo para otra ruta:
                         <Route path="/dashboard" element={<Dashboard />} /> 
                         Esto respondería a "/home/dashboard"

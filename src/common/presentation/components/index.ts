@@ -5,3 +5,4 @@ export * from './nav-menu';
 export * from './popup';
 export * from './pet-selector';
 export * from './date-picker'
+export * from './data-table';
