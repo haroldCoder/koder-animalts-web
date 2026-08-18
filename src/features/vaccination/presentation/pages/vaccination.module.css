@@ -1,37 +1,60 @@
 .table {
-    height: 100%;
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
 }
 
 .table thead th:first-child {
-    border-top-left-radius: 16px;
+    border-top-left-radius: 12px;
 }
 
 .table thead th:last-child {
-    border-top-right-radius: 16px;
+    border-top-right-radius: 12px;
 }
 
 .table tbody tr:last-child td:first-child {
-    border-bottom-left-radius: 16px;
+    border-bottom-left-radius: 12px;
 }
 
 .table tbody tr:last-child td:last-child {
-    border-bottom-right-radius: 16px;
+    border-bottom-right-radius: 12px;
 }
 
 .table thead tr th {
-    background: var(--color-bg-dark-2);
+    background: var(--color-bg-dark-1);
+    color: var(--color-text-withe-2) !important;
     text-align: center;
+    padding: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover td {
+    background-color: var(--color-bg-white-4);
 }
 
 .table tbody tr td {
     background-color: var(--color-bg-white-3);
-    padding: 15px 20px;
+    padding: 16px 20px;
     text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    color: var(--color-text-dark);
 }
 
-.table thead tr th {
-    color: var(--color-text-withe-2) !important;
+/* Dark mode adjustments if the global CSS uses these classes */
+:global(.dark) .table tbody tr:hover td {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+:global(.dark) .table tbody tr td {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--color-text-withe);
 }

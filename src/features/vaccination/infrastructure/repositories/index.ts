@@ -1,1 +1,1 @@
-export * from "./http-vacination.repository";
+export * from "./http-vaccination.repository";
