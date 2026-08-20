@@ -7,7 +7,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         date: new Date("2024-01-01"),
         nextDate: new Date("2025-01-01"),
         lotNumber: "123456789",
-        medicalRecordName: "Medical Record 1",
+        medicalRecordId: "Medical Record 1",
         petName: "Pet 1",
     },
     {
@@ -16,7 +16,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         date: new Date("2024-01-01"),
         nextDate: new Date("2025-01-01"),
         lotNumber: "123456789",
-        medicalRecordName: "Medical Record 2",
+        medicalRecordId: "Medical Record 2",
         petName: "Pet 2",
     },
     {
@@ -25,7 +25,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         date: new Date("2024-01-01"),
         nextDate: new Date("2025-01-01"),
         lotNumber: "123456789",
-        medicalRecordName: "Medical Record 3",
+        medicalRecordId: "Medical Record 3",
         petName: "Pet 3",
     },
     {
@@ -34,7 +34,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         date: new Date("2024-01-01"),
         nextDate: new Date("2025-01-01"),
         lotNumber: "123456789",
-        medicalRecordName: "Medical Record 1",
+        medicalRecordId: "Medical Record 1",
         petName: "Pet 1",
     },
     {
@@ -43,7 +43,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         date: new Date("2024-01-01"),
         nextDate: new Date("2025-01-01"),
         lotNumber: "123456789",
-        medicalRecordName: "Medical Record 2",
+        medicalRecordId: "Medical Record 2",
         petName: "Pet 2",
     },
     {
@@ -52,7 +52,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         date: new Date("2024-01-01"),
         nextDate: new Date("2025-01-01"),
         lotNumber: "123456789",
-        medicalRecordName: "Medical Record 3",
+        medicalRecordId: "Medical Record 3",
         petName: "Pet 3",
     },
     {
@@ -61,7 +61,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         date: new Date("2024-01-01"),
         nextDate: new Date("2025-01-01"),
         lotNumber: "123456789",
-        medicalRecordName: "Medical Record 1",
+        medicalRecordId: "Medical Record 1",
         petName: "Pet 1",
     },
     {
@@ -70,7 +70,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         date: new Date("2024-01-01"),
         nextDate: new Date("2025-01-01"),
         lotNumber: "123456789",
-        medicalRecordName: "Medical Record 2",
+        medicalRecordId: "Medical Record 2",
         petName: "Pet 2",
     },
     {
@@ -79,7 +79,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         date: new Date("2024-01-01"),
         nextDate: new Date("2025-01-01"),
         lotNumber: "123456789",
-        medicalRecordName: "Medical Record 3",
+        medicalRecordId: "Medical Record 3",
         petName: "Pet 3",
     },
     {
@@ -88,7 +88,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         date: new Date("2024-01-01"),
         nextDate: new Date("2025-01-01"),
         lotNumber: "123456789",
-        medicalRecordName: "Medical Record 1",
+        medicalRecordId: "Medical Record 1",
         petName: "Pet 1",
     },
     {
@@ -97,7 +97,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         date: new Date("2024-01-01"),
         nextDate: new Date("2025-01-01"),
         lotNumber: "123456789",
-        medicalRecordName: "Medical Record 2",
+        medicalRecordId: "Medical Record 2",
         petName: "Pet 2",
     },
     {
@@ -106,7 +106,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         date: new Date("2024-01-01"),
         nextDate: new Date("2025-01-01"),
         lotNumber: "123456789",
-        medicalRecordName: "Medical Record 3",
+        medicalRecordId: "Medical Record 3",
         petName: "Pet 3",
     },
 ];
