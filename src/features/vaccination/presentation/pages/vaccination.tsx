@@ -2,7 +2,7 @@ import { DataTable } from "@/common/presentation/components";
 import { CreateVaccinationDialog } from "../components";
 import { columnsTable } from "../constants";
 import { Button } from "@/components/ui/button";
-import { Syringe, ChevronDown, Activity } from "lucide-react";
+import { ChevronDown, Activity } from "lucide-react";
 import styles from "./vaccination.module.css";
 import { useMemo, useState, useEffect, useRef } from "react";
 import { format } from "date-fns";
@@ -52,7 +52,7 @@ export const Vaccination = () => {
                 </div>
                 <CreateVaccinationDialog />
             </div>
-            
+
             <div className="relative flex-1 min-h-0 flex flex-col bg-bg-dark-1/5 dark:bg-bg-dark-2/50 backdrop-blur-xl rounded-2xl shadow-sm border border-gray-200/50 dark:border-gray-800/50 overflow-hidden">
                 <div
                     ref={containerRef}
@@ -80,12 +80,12 @@ export const Vaccination = () => {
                         </div>
                     )}
                 </div>
-                
+
                 {showScrollIndicator && (
                     <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
-                        <Button 
-                            onClick={() => containerRef.current?.scrollTo({ top: containerRef.current?.scrollHeight, behavior: "smooth" })} 
-                            size="icon" 
+                        <Button
+                            onClick={() => containerRef.current?.scrollTo({ top: containerRef.current?.scrollHeight, behavior: "smooth" })}
+                            size="icon"
                             className="pointer-events-auto bg-white/80 dark:bg-bg-dark-2/80 backdrop-blur-md text-main hover:text-main-hover hover:bg-white dark:hover:bg-bg-dark-1 shadow-lg border border-gray-200 dark:border-gray-700 h-10 w-10 rounded-full transition-all duration-300 animate-bounce cursor-pointer"
                         >
                             <ChevronDown className="w-5 h-5" />
