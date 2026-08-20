@@ -1,4 +1,4 @@
-import { QueriesVaccinationEntity, VaccinationEntity } from "../../domain/entities";
+import { CreateVaccinationEntity, QueriesVaccinationEntity, VaccinationEntity } from "../../domain/entities";
 import { VaccinationsRepository } from "../../domain/repositories";
 import { apiClient } from "@/common/infrastructure/http/api-client";
 import { ResponseVaccinationDto } from "../dtos";
@@ -21,5 +21,11 @@ export class HttpVaccinationRepository implements VaccinationsRepository {
         const response = await apiClient.get<ResponseVaccinationDto>(`/vaccination/user/${userId}`, { params: Object.fromEntries(params) });
 
         return response.data.map(VaccinationMapper.toDomain);
+    }
+
+    async register(vaccination: CreateVaccinationEntity): Promise<void> {
+        await apiClient.post("/vaccination/register", {
+            body: vaccination
+        });
     }
 }
