@@ -12,6 +12,10 @@ export interface ResponseVaccinationDto {
             pet: {
                 name: string;
             }
+        },
+        veterinarian: {
+            id: string;
+            name: string;
         }
     }>
 }

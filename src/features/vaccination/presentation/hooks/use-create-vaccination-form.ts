@@ -8,6 +8,7 @@ interface CreateVaccinationFormValues {
     dateAdministered: string;
     nextDueDate: string;
     lotNumber: string;
+    userId: string;
 }
 
 export const useCreateVaccinationForm = () => {
@@ -19,6 +20,7 @@ export const useCreateVaccinationForm = () => {
             dateAdministered: "",
             nextDueDate: "",
             lotNumber: "",
+            userId: ""
         },
     });
 
@@ -32,6 +34,7 @@ export const useCreateVaccinationForm = () => {
                 dateAdministered: data.dateAdministered,
                 nextDueDate: data.nextDueDate,
                 lotNumber: data.lotNumber,
+                userId: data.userId
             };
             onSubmit(vaccination);
         });

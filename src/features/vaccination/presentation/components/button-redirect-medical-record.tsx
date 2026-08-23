@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom"
 export const ButtonRedirectMedicalRecord = ({ medicalRecordId }: { medicalRecordId: string }) => {
     const navigate = useNavigate();
     const goToMedicalRecord = (medicalRecordId: string) => {
-        navigate(`${routes.appointments.link}/${medicalRecordId}`);
+        navigate(`${routes.medicalRecord.link}/${medicalRecordId}`);
     }
 
     return (
-        <Button onClick={() => goToMedicalRecord(medicalRecordId)} className={"bg-bg-dark-1 text-text-3 px-4 py-3 cursor-pointer"}>Ver cita</Button>
+        <Button onClick={() => goToMedicalRecord(medicalRecordId)} className={"bg-bg-dark-1 text-text-3 px-4 py-3 cursor-pointer"}>Ver historial</Button>
     )
 }

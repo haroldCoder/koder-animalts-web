@@ -50,7 +50,7 @@ export const columnsTable: ColumnDef<VaccinationEntity>[] = [
     },
     {
         accessorKey: "medicalRecordId",
-        header: "Cita",
+        header: "Historial Médico",
         cell: ({ row }) => {
             const vaccination = row.original
             if (vaccination.medicalRecordId) return <ButtonRedirectMedicalRecord medicalRecordId={vaccination.medicalRecordId} />

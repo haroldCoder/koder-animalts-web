@@ -4,4 +4,5 @@ export interface CreateVaccinationEntity {
     dateAdministered: string;
     nextDueDate?: string;
     lotNumber?: string;
+    userId: string;
 }

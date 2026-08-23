@@ -12,8 +12,10 @@ import { UserRole } from "@/features/user";
 import { useGetPetsByOwnerUserId, useGetPetsByVeterinaryUserId } from "@/features/pet/application/queries";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useParams } from "react-router-dom";
 
 export const MedicalRecordView = () => {
+    const { medicalRecordId } = useParams();
     const [showForm, setShowForm] = useState(false);
     const { user } = useAuth();
     const { user: userContext } = useContext(MainLayoutContext)!;
@@ -22,10 +24,12 @@ export const MedicalRecordView = () => {
     const context = useContext(MainLayoutContext);
 
     const [filters, setFilters] = useState<{
+        medicalRecordId?: string;
         petId: string | undefined;
         startDate: Date | undefined;
         endDate: Date | undefined;
     }>({
+        medicalRecordId: medicalRecordId,
         petId: undefined,
         startDate: undefined,
         endDate: undefined
@@ -140,6 +144,7 @@ export const MedicalRecordView = () => {
                     }}
                 />
                 <Button
+                    disabled={!!medicalRecordId}
                     className="cursor-pointer bg-main px-8 py-4"
                     onClick={() => setFilters({ petId: undefined, startDate: undefined, endDate: undefined })}
                 >

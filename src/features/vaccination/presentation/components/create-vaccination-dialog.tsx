@@ -43,12 +43,15 @@ export function CreateVaccinationDialog() {
   const [openDialog, setOpenDialog] = useState(false);
 
   const onSubmit = (data: CreateVaccinationEntity) => {
-    mutate(data, {
-      onSuccess: () => {
-        form.reset();
-        setOpenDialog(false);
+    mutate(
+      { ...data, userId: user! },
+      {
+        onSuccess: () => {
+          form.reset();
+          setOpenDialog(false);
+        },
       }
-    });
+    );
   };
 
   const { data: medicalRecords, isLoading: isLoadingMedicalRecords } = useGetMedicalRecordsByUserId(user!, { petId: selectedPet });
