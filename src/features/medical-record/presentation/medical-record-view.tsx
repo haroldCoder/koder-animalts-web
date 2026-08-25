@@ -82,11 +82,12 @@ export const MedicalRecordView = () => {
             {/* filters */}
             <div className="flex items-center gap-4">
                 <Select
-                    value={filters.petId}
+                    key={filters.petId || ""}
+                    value={filters.petId ?? ""}
                     onValueChange={(value) => {
                         setFilters(prev => ({
                             ...prev,
-                            petId: value ?? ""
+                            petId: value || undefined
                         }));
                     }}
                 >

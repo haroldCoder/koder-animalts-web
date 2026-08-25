@@ -13,6 +13,9 @@ import { UserRole } from "@/features/user";
 import { formatDate } from "@/common/utils/format-date";
 import { ExpandedContentAreaToggle } from "./expanded-content-area-toggle";
 import { UploadDocuments } from "./upload-documents";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { routes } from "@/common/presentation/constants";
 
 interface MedicalRecordCardToggleProps {
     medicalRecord: MedicalRecordEntity;
@@ -29,10 +32,16 @@ export const MedicalRecordCardToggle: React.FC<MedicalRecordCardToggleProps> = (
     const dateObj = new Date(medicalRecord.date);
     const formattedDay = formatDate.formattedDay(dateObj);
     const formattedMonth = formatDate.formattedMonth(dateObj);
+    const navigator = useNavigate()
 
 
     const config = getTypeConfig(medicalRecord.type);
     const TypeIcon = config.icon;
+
+    const goToVaccinations = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
+        navigator(`${routes.vaccinations.link}/?medicalRecord=${medicalRecord.id}`)
+    }
 
     return (
         <article
@@ -80,18 +89,28 @@ export const MedicalRecordCardToggle: React.FC<MedicalRecordCardToggleProps> = (
                         </h3>
 
                         {/* Pet Info */}
-                        <div className="flex items-center gap-2 pt-0.5">
-                            <Avatar size="sm" className="border border-border-1 dark:border-border/20">
-                                <AvatarImage src={medicalRecord.petPhoto} alt={medicalRecord.petName} />
-                                <AvatarFallback className="bg-main/10 text-main font-bold">
-                                    {medicalRecord.petName.slice(0, 2).toUpperCase()}
-                                </AvatarFallback>
-                            </Avatar>
-                            <span className="text-sm font-medium text-text-2 dark:text-muted-foreground">
-                                Paciente: <span className="text-text-1 dark:text-white font-semibold">{medicalRecord.petName}</span>
-                            </span>
+                        <div className="flex flex-col gap-4">
+                            <div className="flex items-center gap-2 pt-0.5">
+                                <Avatar size="sm" className="border border-border-1 dark:border-border/20">
+                                    <AvatarImage src={medicalRecord.petPhoto} alt={medicalRecord.petName} />
+                                    <AvatarFallback className="bg-main/10 text-main font-bold">
+                                        {medicalRecord.petName.slice(0, 2).toUpperCase()}
+                                    </AvatarFallback>
+                                </Avatar>
+                                <span className="text-sm font-medium text-text-2 dark:text-muted-foreground">
+                                    Paciente: <span className="text-text-1 dark:text-white font-semibold">{medicalRecord.petName}</span>
+                                </span>
 
+                            </div>
+                            {
+                                medicalRecord.vaccinationsIds && medicalRecord.vaccinationsIds?.length > 0 && (
+                                    <Button onClick={goToVaccinations} size="sm" className="h-8 px-3 w-42 cursor-pointer">
+                                        Ver vacunas
+                                    </Button>
+                                )
+                            }
                         </div>
+
                         {context?.user.role == UserRole.veterinary && medicalRecord.documentIds?.length == 0 && (
                             <UploadDocuments medicalRecordId={medicalRecord.id} />
                         )}

@@ -8,12 +8,19 @@ import { useMemo, useState, useEffect, useRef } from "react";
 import { format } from "date-fns";
 import { useGetAllVaccinationsQuery } from "../../application/queries";
 import { useAuth } from "@/common/hooks";
+import { useSearchParams } from "react-router-dom";
 
 export const Vaccination = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [showScrollIndicator, setShowScrollIndicator] = useState(false);
     const { user } = useAuth();
-    const { data: vaccinationsData, isLoading } = useGetAllVaccinationsQuery(user!, {});
+
+    const [searchParams] = useSearchParams();
+    const medicalRecordId = searchParams.get("medicalRecord");
+
+    const { data: vaccinationsData, isLoading } = useGetAllVaccinationsQuery(user!, {
+        medicalRecordId: medicalRecordId ?? undefined
+    });
 
     const vaccinationsMappedData = useMemo(() => {
         if (!vaccinationsData) return [];

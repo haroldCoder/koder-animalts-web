@@ -23,6 +23,7 @@ export class ApiResponseToDomain {
             petId: appointment.pet.id,
             clinicId: appointment.veterinarian.clinic.id,
             ownerId: appointment.pet.owner?.id,
+            vaccinationsIds: appointment.vaccinations?.map((vaccination) => vaccination.id) || []
         }));
     }
 }

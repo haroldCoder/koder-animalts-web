@@ -17,5 +17,6 @@ export interface MedicalRecordEntity {
     petId: string,
     veterinaryId: string,
     ownerId?: string
-    documentIds?: string[]
+    documentIds?: string[],
+    vaccinationsIds?: string[]
 }
