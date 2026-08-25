@@ -27,6 +27,12 @@ export const SelectUser = () => {
         setHasUser(userExistLocalData());
     }, []);
 
+    useEffect(() => {
+        if (!loading && !userAvailable && !select) {
+            navigate("/home");
+        }
+    }, [loading, userAvailable, select, navigate]);
+
     if (!hasUser) {
         return <UserNotFound />;
     }
@@ -35,10 +41,6 @@ export const SelectUser = () => {
         return <div className="w-full h-screen flex justify-center items-center">
             <Spinner className="w-10" />
         </div>;
-    }
-
-    if (!userAvailable) {
-        navigate("/home")
     }
 
     return (
