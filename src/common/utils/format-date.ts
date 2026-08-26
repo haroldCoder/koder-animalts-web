@@ -13,4 +13,8 @@ export class formatDate {
         const year = new Intl.DateTimeFormat("es-ES", { year: "numeric" }).format(date);
         return year;
     }
+
+    static formattedDate(date: Date): string {
+        return this.formattedDay(date) + " " + this.formattedMonth(date) + ", " + this.formattedYear(date);
+    }
 }

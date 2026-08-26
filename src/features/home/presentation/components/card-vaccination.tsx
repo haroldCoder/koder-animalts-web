@@ -1,0 +1,81 @@
+import { VaccinationEntity } from "@/features/vaccination/domain/entities"
+import { formatDate } from "@/common/utils/format-date"
+import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
+import { Calendar, Clock, PawPrint, Syringe, Tag } from "lucide-react"
+
+interface CardVaccinationProps {
+    vaccination: VaccinationEntity
+    className?: string
+}
+
+export const CardVaccination = ({ vaccination, className = "" }: CardVaccinationProps) => {
+    const applicationDate = vaccination.date ? formatDate.formattedDate(new Date(vaccination.date)) : "No especificada";
+    const nextDueDate = vaccination.nextDate ? formatDate.formattedDate(new Date(vaccination.nextDate)) : null;
+
+    return (
+        <article className={`relative flex flex-col justify-between p-5 bg-card border border-border/60 rounded-2xl shadow-sm hover:shadow-md hover:border-main/30 transition-all duration-300 group overflow-hidden ${className}`}>
+            {/* Top Gradient Accent */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-main to-emerald-500 rounded-t-2xl" />
+
+            <div className="flex flex-col gap-4">
+                {/* Header: Title & Lot */}
+                <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2.5 rounded-xl bg-main/10 text-main shrink-0 group-hover:bg-main group-hover:text-white transition-colors duration-300">
+                            <Syringe className="w-5 h-5" />
+                        </div>
+                        <div className="min-w-0">
+                            <h3 className="text-lg font-bold text-foreground leading-tight group-hover:text-main transition-colors truncate">
+                                {vaccination.name}
+                            </h3>
+                            {vaccination.petName && (
+                                <div className="flex items-center gap-1.5 mt-1 text-xs text-muted-foreground font-medium">
+                                    <PawPrint className="w-3.5 h-3.5 text-main/80" />
+                                    <span className="truncate">{vaccination.petName}</span>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {vaccination.lotNumber && (
+                        <Badge variant="outline" className="text-[11px] font-mono border-main/20 text-muted-foreground shrink-0 bg-muted/30">
+                            <Tag className="w-3 h-3 mr-1 text-main/70" />
+                            {vaccination.lotNumber}
+                        </Badge>
+                    )}
+                </div>
+
+                <Separator className="bg-border/40" />
+
+                {/* Dates Info */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    {/* Application Date */}
+                    <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-muted/40 border border-border/30">
+                        <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shrink-0">
+                            <Calendar className="w-4 h-4" />
+                        </div>
+                        <div className="flex flex-col min-w-0">
+                            <span className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Fecha de aplicación</span>
+                            <span className="font-medium text-foreground truncate">{applicationDate}</span>
+                        </div>
+                    </div>
+
+                    {/* Next Due Date */}
+                    <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-main/5 border border-main/15">
+                        <div className="p-1.5 rounded-lg bg-main/10 text-main shrink-0">
+                            <Clock className="w-4 h-4" />
+                        </div>
+                        <div className="flex flex-col min-w-0">
+                            <span className="text-[10px] uppercase tracking-wider font-semibold text-main">Próximo Refuerzo</span>
+                            <span className="font-semibold text-foreground truncate">
+                                {nextDueDate ?? "No programado"}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    );
+};
+

@@ -1,26 +1,34 @@
-import { DataTable } from "@/common/presentation/components";
+import { CarouselSelectPet, DataTable } from "@/common/presentation/components";
 import { CreateVaccinationDialog } from "../components";
 import { columnsTable } from "../constants";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Activity } from "lucide-react";
 import styles from "./vaccination.module.css";
-import { useMemo, useState, useEffect, useRef } from "react";
+import { useMemo, useState, useEffect, useRef, useContext } from "react";
 import { format } from "date-fns";
 import { useGetAllVaccinationsQuery } from "../../application/queries";
 import { useAuth } from "@/common/hooks";
 import { useSearchParams } from "react-router-dom";
+import { MainLayoutContext } from "@/common/presentation/layout";
+import { UserRole } from "@/features/user";
+import { useGetPetsByOwnerUserId } from "@/features/pet/application/queries";
 
 export const Vaccination = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [showScrollIndicator, setShowScrollIndicator] = useState(false);
     const { user } = useAuth();
+    const { user: userSession } = useContext(MainLayoutContext)!;
 
     const [searchParams] = useSearchParams();
     const medicalRecordId = searchParams.get("medicalRecord");
+    const [petIdSelected, setPetIdSelected] = useState<string>("");
 
     const { data: vaccinationsData, isLoading } = useGetAllVaccinationsQuery(user!, {
-        medicalRecordId: medicalRecordId ?? undefined
+        medicalRecordId: medicalRecordId ?? undefined,
+        petId: petIdSelected == "" ? undefined : petIdSelected,
     });
+
+    const { data: pets, isLoading: isLoadingPets } = useGetPetsByOwnerUserId(user!);
 
     const vaccinationsMappedData = useMemo(() => {
         if (!vaccinationsData) return [];
@@ -41,6 +49,10 @@ export const Vaccination = () => {
         }
     };
 
+    const selectedPet = (petId: string) => {
+        setPetIdSelected(petId);
+    }
+
     useEffect(() => {
         const timer = setTimeout(checkOverflow, 100);
         window.addEventListener("resize", checkOverflow);
@@ -50,6 +62,11 @@ export const Vaccination = () => {
         };
     }, [vaccinationsData]);
 
+    const petsData = useMemo(() => {
+        if (!pets) return [];
+        return pets;
+    }, [pets]);
+
     return (
         <div className="h-[calc(100vh-70px)] flex flex-col p-6 md:p-8 gap-8">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -57,10 +74,20 @@ export const Vaccination = () => {
                     <h1 className="text-3xl font-extrabold tracking-tight">Vacunas</h1>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Gestiona el historial de vacunación y próximos recordatorios de tus mascotas.</p>
                 </div>
-                <CreateVaccinationDialog />
+                {
+                    userSession.role == UserRole.veterinary && (
+                        <CreateVaccinationDialog />
+                    )
+                }
+
             </div>
 
             <div className="relative flex-1 min-h-0 flex flex-col bg-bg-dark-1/5 dark:bg-bg-dark-2/50 backdrop-blur-xl rounded-2xl shadow-sm border border-gray-200/50 dark:border-gray-800/50 overflow-hidden">
+                {
+                    userSession.role == UserRole.owner && (
+                        <CarouselSelectPet pets={petsData} selectedPet={petIdSelected} onSelectPet={selectedPet} isLoading={isLoadingPets} />
+                    )
+                }
                 <div
                     ref={containerRef}
                     onScroll={checkOverflow}
