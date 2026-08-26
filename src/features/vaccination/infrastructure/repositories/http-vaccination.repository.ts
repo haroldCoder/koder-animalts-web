@@ -18,6 +18,16 @@ export class HttpVaccinationRepository implements VaccinationsRepository {
         if (rest.medicalRecordId) {
             params.append("medicalRecordId", rest.medicalRecordId);
         }
+        if (rest.startDate) {
+            params.append("startDate", rest.startDate.toString());
+        }
+        if (rest.endDate) {
+            params.append("endDate", rest.endDate.toString());
+        }
+        if (rest.petId) {
+            params.append("petId", rest.petId);
+        }
+
         const response = await apiClient.get<ResponseVaccinationDto>(`/vaccination/user/${userId}`, { params: Object.fromEntries(params) });
 
         return response.data.map(VaccinationMapper.toDomain);

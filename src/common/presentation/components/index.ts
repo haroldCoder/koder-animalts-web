@@ -6,3 +6,5 @@ export * from './popup';
 export * from './pet-selector';
 export * from './date-picker'
 export * from './data-table';
+export * from './carousel-select-pet';
+
