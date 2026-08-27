@@ -15,7 +15,6 @@ export const OwnerNextVaccinations = () => {
         const d = new Date();
         d.setHours(0, 0, 0, 0);
         d.setDate(d.getDate() + 1);
-        console.log(d);
 
         return d
     }, []);

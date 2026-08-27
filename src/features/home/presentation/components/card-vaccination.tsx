@@ -3,6 +3,7 @@ import { formatDate } from "@/common/utils/format-date"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Calendar, Clock, PawPrint, Syringe, Tag } from "lucide-react"
+import { extractHourFromDate } from "@/common/utils"
 
 interface CardVaccinationProps {
     vaccination: VaccinationEntity
@@ -12,6 +13,9 @@ interface CardVaccinationProps {
 export const CardVaccination = ({ vaccination, className = "" }: CardVaccinationProps) => {
     const applicationDate = vaccination.date ? formatDate.formattedDate(new Date(vaccination.date)) : "No especificada";
     const nextDueDate = vaccination.nextDate ? formatDate.formattedDate(new Date(vaccination.nextDate)) : null;
+    const hourApplicationDate = extractHourFromDate(new Date(applicationDate));
+    const hourNextDueDate = extractHourFromDate(new Date(nextDueDate ?? ""));
+
 
     return (
         <article className={`relative flex flex-col justify-between p-5 bg-card border border-border/60 rounded-2xl shadow-sm hover:shadow-md hover:border-main/30 transition-all duration-300 group overflow-hidden ${className}`}>
@@ -58,6 +62,8 @@ export const CardVaccination = ({ vaccination, className = "" }: CardVaccination
                         <div className="flex flex-col min-w-0">
                             <span className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Fecha de aplicación</span>
                             <span className="font-medium text-foreground truncate">{applicationDate}</span>
+                            <span className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground mt-3">Hora</span>
+                            <span className="font-medium text-foreground truncate">{hourApplicationDate}</span>
                         </div>
                     </div>
 
@@ -71,6 +77,8 @@ export const CardVaccination = ({ vaccination, className = "" }: CardVaccination
                             <span className="font-semibold text-foreground truncate">
                                 {nextDueDate ?? "No programado"}
                             </span>
+                            <span className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground mt-3">Hora</span>
+                            <span className="font-medium text-foreground truncate">{hourNextDueDate}</span>
                         </div>
                     </div>
                 </div>

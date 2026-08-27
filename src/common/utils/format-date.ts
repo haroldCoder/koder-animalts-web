@@ -1,17 +1,12 @@
 export class formatDate {
     static formattedDay(date: Date): string {
-        const day = new Intl.DateTimeFormat("es-ES", { day: "2-digit" }).format(date);
-        return day;
+        return new Intl.DateTimeFormat("es-ES", { day: "2-digit", timeZone: "UTC" }).format(date);
     }
-
     static formattedMonth(date: Date): string {
-        const month = new Intl.DateTimeFormat("es-ES", { month: "short" }).format(date).replace(".", "");
-        return month;
+        return new Intl.DateTimeFormat("es-ES", { month: "short", timeZone: "UTC" }).format(date).replace(".", "");
     }
-
     static formattedYear(date: Date): string {
-        const year = new Intl.DateTimeFormat("es-ES", { year: "numeric" }).format(date);
-        return year;
+        return new Intl.DateTimeFormat("es-ES", { year: "numeric", timeZone: "UTC" }).format(date);
     }
 
     static formattedDate(date: Date): string {

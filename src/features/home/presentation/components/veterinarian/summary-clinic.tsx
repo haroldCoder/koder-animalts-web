@@ -8,8 +8,6 @@ export const SummaryClinic = () => {
     const { user } = useAuth()
     const { data, isLoading } = useGetSummaryClinic(user!);
 
-    console.log(data);
-
 
     const summaryData: ClinicSummaryEntity | null = useMemo(() => {
         if (!data) return null;
