@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown, Activity } from "lucide-react";
 import styles from "./vaccination.module.css";
 import { useMemo, useState, useEffect, useRef, useContext } from "react";
-import { format } from "date-fns";
 import { useGetAllVaccinationsQuery } from "../../application/queries";
 import { useAuth } from "@/common/hooks";
 import { useSearchParams } from "react-router-dom";
 import { MainLayoutContext } from "@/common/presentation/layout";
 import { UserRole } from "@/features/user";
 import { useGetPetsByOwnerUserId } from "@/features/pet/application/queries";
+import { FormatDate } from "@/common/utils/format-date";
 
 export const Vaccination = () => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -21,11 +21,15 @@ export const Vaccination = () => {
 
     const [searchParams] = useSearchParams();
     const medicalRecordId = searchParams.get("medicalRecord");
+    const startDateString = searchParams.get("startDate");
+    const endDateString = searchParams.get("endDate");
     const [petIdSelected, setPetIdSelected] = useState<string>("");
 
     const { data: vaccinationsData, isLoading } = useGetAllVaccinationsQuery(user!, {
         medicalRecordId: medicalRecordId ?? undefined,
         petId: petIdSelected == "" ? undefined : petIdSelected,
+        startDate: startDateString ? new Date(startDateString) : undefined,
+        endDate: endDateString ? new Date(endDateString) : undefined
     });
 
     const { data: pets, isLoading: isLoadingPets } = useGetPetsByOwnerUserId(user!);
@@ -34,11 +38,14 @@ export const Vaccination = () => {
         if (!vaccinationsData) return [];
         return vaccinationsData.map(vaccination => ({
             ...vaccination,
-            date: format(vaccination.date, "dd/MM/yyyy"),
-            nextDate: vaccination.nextDate ? format(vaccination.nextDate, "dd/MM/yyyy") : "-",
+            date: FormatDate.format(vaccination.date),
+            nextDate: vaccination.nextDate ? FormatDate.format(vaccination.nextDate) : "-",
             lotNumber: vaccination.lotNumber ?? "-"
         }))
     }, [vaccinationsData])
+
+    console.log(vaccinationsMappedData);
+
 
     const checkOverflow = () => {
         const element = containerRef.current;

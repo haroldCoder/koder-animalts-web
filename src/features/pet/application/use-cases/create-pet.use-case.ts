@@ -15,8 +15,6 @@ export class CreatePetUseCase {
             if (!clinicId) throw new Error("Clinica es requerida");
             if (!mainImage) throw new Error("Imagen principal es requerida");
 
-            console.log(pet);
-
             return await this.petRepository.createPet(pet);
         } catch (error) {
             console.error('Error creating pet:', error);

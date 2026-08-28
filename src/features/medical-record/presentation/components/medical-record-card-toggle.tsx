@@ -10,7 +10,7 @@ import { extractHourFromDate } from "@/common/utils";
 import { getTypeConfig } from "../constants";
 import { MainLayoutContext } from "@/common/presentation/layout";
 import { UserRole } from "@/features/user";
-import { formatDate } from "@/common/utils/format-date";
+import { FormatDate } from "@/common/utils/format-date";
 import { ExpandedContentAreaToggle } from "./expanded-content-area-toggle";
 import { UploadDocuments } from "./upload-documents";
 import { Button } from "@/components/ui/button";
@@ -30,8 +30,8 @@ export const MedicalRecordCardToggle: React.FC<MedicalRecordCardToggleProps> = (
     const context = useContext(MainLayoutContext)
 
     const dateObj = new Date(medicalRecord.date);
-    const formattedDay = formatDate.formattedDay(dateObj);
-    const formattedMonth = formatDate.formattedMonth(dateObj);
+    const formattedDay = FormatDate.formattedDay(dateObj);
+    const formattedMonth = FormatDate.formattedMonth(dateObj);
     const navigator = useNavigate()
 
 
