@@ -7,4 +7,5 @@ export * from './pet-selector';
 export * from './date-picker'
 export * from './data-table';
 export * from './carousel-select-pet';
+export * from './date-time-picker'
 

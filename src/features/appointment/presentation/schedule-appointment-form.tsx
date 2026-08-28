@@ -1,20 +1,16 @@
 import { useMemo } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useAuth } from "@/common/hooks";
 import { useScheduleAppointmentMutation } from "../application/queries";
 import { useGetPetsByVeterinarianClinic } from "@/features/pet/application/queries";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { CalendarIcon, Stethoscope, Sparkles } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
-import { cn } from "@/lib/utils";
+import { Stethoscope, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { NewAppointmentFormValues } from "./interfaces";
 import { PetSelector } from "@/common/presentation/components";
+import { DateTimePicker } from "@/common/presentation/components";
 
 export const ScheduleAppointmentForm = ({ onSuccess }: { onSuccess?: () => void }) => {
     const { user } = useAuth();
@@ -83,63 +79,7 @@ export const ScheduleAppointmentForm = ({ onSuccess }: { onSuccess?: () => void 
                         <label className="text-sm font-medium">
                             Fecha y Hora <span className="text-destructive">*</span>
                         </label>
-                        <Controller
-                            control={control}
-                            name="visitDate"
-                            rules={{ required: true }}
-                            render={({ field: { value, onChange } }) => {
-                                const currentDate = value ? new Date(value) : new Date();
-                                const updateTime = (time: string) => {
-                                    const [hours, minutes] = time.split(":").map(Number);
-                                    const date = value ? new Date(value) : new Date();
-                                    date.setHours(hours);
-                                    date.setMinutes(minutes);
-                                    date.setSeconds(0);
-                                    onChange(date);
-                                };
-                                return (
-                                    <Popover>
-                                        <PopoverTrigger
-                                            className={cn(
-                                                "flex h-10 w-full items-center gap-2 rounded-lg border px-3 text-sm",
-                                                value && "font-medium"
-                                            )}
-                                        >
-                                            <CalendarIcon className="h-4 w-4 shrink-0" />
-                                            {value
-                                                ? format(currentDate, "PPP 'a las' hh:mm a", { locale: es })
-                                                : "Selecciona fecha y hora"}
-                                        </PopoverTrigger>
-                                        <PopoverContent className="p-4 w-auto">
-                                            <Calendar
-                                                mode="single"
-                                                selected={currentDate}
-                                                onSelect={(date) => {
-                                                    if (!date) return;
-                                                    date.setHours(currentDate.getHours());
-                                                    date.setMinutes(currentDate.getMinutes());
-                                                    onChange(date);
-                                                }}
-                                                locale={es}
-                                                disabled={(d) => d < new Date()}
-                                            />
-                                            <div className="mt-3 border-t pt-3">
-                                                <label className="text-xs text-muted-foreground">Hora</label>
-                                                <input
-                                                    type="time"
-                                                    value={format(currentDate, "HH:mm")}
-                                                    onChange={(e) => updateTime(e.target.value)}
-                                                    className="mt-1 h-9 w-full rounded-md border px-3 bg-background text-sm text-center"
-                                                />
-                                            </div>
-                                        </PopoverContent>
-                                    </Popover>
-                                );
-                            }}
-                        />
-                        {errors.visitDate && (
-                            <span className="text-xs text-destructive">La fecha es requerida</span>
-                        )}
+                        <DateTimePicker control={control} name="visitDate" required />
                     </div>
                 </div>
 

@@ -1,6 +1,8 @@
 import { VaccinationEntity } from "../../domain/entities";
 import { ColumnDef } from "@tanstack/react-table";
 import { ButtonRedirectMedicalRecord } from "../components";
+import { extractHourFromDate } from "@/common/utils";
+import { FormatDate } from "@/common/utils/format-date";
 
 export const columnsTable: ColumnDef<VaccinationEntity>[] = [
     {
@@ -17,9 +19,12 @@ export const columnsTable: ColumnDef<VaccinationEntity>[] = [
         accessorKey: "date",
         header: "Fecha",
         cell: ({ row }) => {
+            const vaccination = row.original;
+            const isMissing = vaccination.date === "-";
+
             return (
                 <span className="text-gray-600 dark:text-gray-300 font-medium">
-                    {row.original.date.toString()}
+                    {FormatDate.format(new Date(vaccination.date))} {isMissing ? "" : "- " + extractHourFromDate(new Date(vaccination.date))}
                 </span>
             )
         }
@@ -32,7 +37,7 @@ export const columnsTable: ColumnDef<VaccinationEntity>[] = [
             const isMissing = nextDate === "-";
             return (
                 <span className={`px-3 py-1 rounded-full text-xs font-bold ${isMissing ? 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400' : 'bg-main/10 text-main border border-main/20'}`}>
-                    {nextDate?.toString()}
+                    {isMissing ? "-" : FormatDate.format(new Date(nextDate!))} {isMissing ? "" : "- " + extractHourFromDate(new Date(nextDate as string))}
                 </span>
             )
         }

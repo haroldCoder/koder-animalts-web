@@ -20,7 +20,7 @@ import { Syringe } from "lucide-react"
 import { useGetMedicalRecordsByUserId } from "@/features/medical-record/application/queries"
 import { useAuth } from "@/common/hooks"
 import { useGetPetsByVeterinaryUserId } from "@/features/pet/application/queries"
-import { Loading, PetSelector } from "@/common/presentation/components"
+import { DateTimePicker, Loading, PetSelector } from "@/common/presentation/components"
 import { useMemo } from "react"
 import { useCreateVaccinationForm } from "../hooks"
 import { returnNameConsultationType } from "@/common/presentation/utils"
@@ -157,16 +157,16 @@ export function CreateVaccinationDialog() {
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-2">
                 <label htmlFor="dateAdministered" className="text-sm font-medium">
-                  Fecha de Aplicación
+                  Fecha de Aplicación <span className="text-red-500">*</span>
                 </label>
-                <Input id="dateAdministered" type="date" {...register("dateAdministered", { required: true })} />
+                <DateTimePicker control={control} name="dateAdministered" required />
               </div>
 
               <div className="flex flex-col gap-2">
                 <label htmlFor="nextDueDate" className="text-sm font-medium">
-                  Próxima Dosis
+                  Próxima Dosis <span className="text-red-500">*</span>
                 </label>
-                <Input id="nextDueDate" type="date" {...register("nextDueDate")} />
+                <DateTimePicker control={control} name="nextDueDate" />
               </div>
             </div>
 

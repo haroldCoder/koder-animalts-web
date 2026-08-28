@@ -11,7 +11,6 @@ import { useSearchParams } from "react-router-dom";
 import { MainLayoutContext } from "@/common/presentation/layout";
 import { UserRole } from "@/features/user";
 import { useGetPetsByOwnerUserId } from "@/features/pet/application/queries";
-import { FormatDate } from "@/common/utils/format-date";
 
 export const Vaccination = () => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -38,13 +37,11 @@ export const Vaccination = () => {
         if (!vaccinationsData) return [];
         return vaccinationsData.map(vaccination => ({
             ...vaccination,
-            date: FormatDate.format(vaccination.date),
-            nextDate: vaccination.nextDate ? FormatDate.format(vaccination.nextDate) : "-",
+            date: vaccination.date ?? "-",
+            nextDate: vaccination.nextDate ?? "-",
             lotNumber: vaccination.lotNumber ?? "-"
         }))
     }, [vaccinationsData])
-
-    console.log(vaccinationsMappedData);
 
 
     const checkOverflow = () => {
