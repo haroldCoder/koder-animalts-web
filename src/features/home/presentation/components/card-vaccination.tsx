@@ -1,5 +1,5 @@
 import { VaccinationEntity } from "@/features/vaccination/domain/entities"
-import { formatDate } from "@/common/utils/format-date"
+import { FormatDate } from "@/common/utils/format-date"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Calendar, Clock, PawPrint, Syringe, Tag } from "lucide-react"
@@ -11,8 +11,8 @@ interface CardVaccinationProps {
 }
 
 export const CardVaccination = ({ vaccination, className = "" }: CardVaccinationProps) => {
-    const applicationDate = vaccination.date ? formatDate.formattedDate(new Date(vaccination.date)) : "No especificada";
-    const nextDueDate = vaccination.nextDate ? formatDate.formattedDate(new Date(vaccination.nextDate)) : null;
+    const applicationDate = vaccination.date ? FormatDate.formattedDate(new Date(vaccination.date)) : "No especificada";
+    const nextDueDate = vaccination.nextDate ? FormatDate.formattedDate(new Date(vaccination.nextDate)) : null;
     const hourApplicationDate = extractHourFromDate(new Date(applicationDate));
     const hourNextDueDate = extractHourFromDate(new Date(nextDueDate ?? ""));
 
