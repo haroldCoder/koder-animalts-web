@@ -3,7 +3,6 @@ import { FormatDate } from "@/common/utils/format-date"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Calendar, Clock, PawPrint, Syringe, Tag } from "lucide-react"
-import { extractHourFromDate } from "@/common/utils"
 
 interface CardVaccinationProps {
     vaccination: VaccinationEntity
@@ -11,10 +10,11 @@ interface CardVaccinationProps {
 }
 
 export const CardVaccination = ({ vaccination, className = "" }: CardVaccinationProps) => {
-    const applicationDate = vaccination.date ? FormatDate.formattedDate(new Date(vaccination.date)) : "No especificada";
-    const nextDueDate = vaccination.nextDate ? FormatDate.formattedDate(new Date(vaccination.nextDate)) : null;
-    const hourApplicationDate = extractHourFromDate(new Date(applicationDate));
-    const hourNextDueDate = extractHourFromDate(new Date(nextDueDate ?? ""));
+    const applicationDate = FormatDate.onlyDate(vaccination.date) ?? "No especificada";
+    const hourApplicationDate = FormatDate.onlyTime(vaccination.date, "No especificada");
+
+    const nextDueDate = FormatDate.onlyDate(vaccination.nextDate);
+    const hourNextDueDate = FormatDate.onlyTime(vaccination.nextDate, "No programado");
 
 
     return (

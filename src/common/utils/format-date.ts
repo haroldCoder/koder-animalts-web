@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { extractHourFromDate } from "./extract-hour-from-date";
 
 export class FormatDate {
     static formattedDay(date: Date): string {
@@ -23,7 +24,7 @@ export class FormatDate {
      * @param formatStr Cadena de formato de date-fns (ej. "dd/MM/yyyy", "yyyy-MM-dd")
      * @returns Fecha formateada en UTC
      */
-    static format(date: Date | string, formatStr: string = "dd/MM/yyyy"): string {
+    static format(date: Date | string, formatStr: string = "dd/MM/yyyy HH:mm:ss"): string {
         const d = typeof date === "string" ? new Date(date) : date;
         // Construimos una fecha desplazada al offset UTC para que date-fns
         // la interprete sin conversión local
@@ -35,6 +36,28 @@ export class FormatDate {
             d.getUTCMinutes(),
             d.getUTCSeconds(),
         );
+
         return format(utcDate, formatStr);
+    }
+
+    /**
+     * Formatea y retorna únicamente la fecha limpia (por defecto dd/MM/yyyy).
+     */
+    static onlyDate(date?: Date | string | null, formatStr: string = "dd/MM/yyyy"): string | null {
+        if (!date) return null;
+        try {
+            return this.format(date, formatStr);
+        } catch {
+            return null;
+        }
+    }
+
+    /**
+     * Extrae y retorna únicamente la hora limpia (ej. "04:30 PM" o "16:30").
+     */
+    static onlyTime(date?: Date | string | null, fallback: string = "--:--"): string {
+        if (!date) return fallback;
+        const result = extractHourFromDate(date);
+        return result || fallback;
     }
 }

@@ -11,6 +11,7 @@ import { useSearchParams } from "react-router-dom";
 import { MainLayoutContext } from "@/common/presentation/layout";
 import { UserRole } from "@/features/user";
 import { useGetPetsByOwnerUserId } from "@/features/pet/application/queries";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const Vaccination = () => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -72,7 +73,7 @@ export const Vaccination = () => {
     }, [pets]);
 
     return (
-        <div className="h-[calc(100vh-70px)] flex flex-col p-6 md:p-8 gap-8">
+        <div className="flex flex-col p-6 md:p-8 gap-8">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                     <h1 className="text-3xl font-extrabold tracking-tight">Vacunas</h1>
@@ -113,10 +114,13 @@ export const Vaccination = () => {
                             <CreateVaccinationDialog />
                         </div>
                     ) : (
-                        <div className="rounded-xl overflow-hidden border border-gray-200/50 dark:border-gray-800/50 shadow-sm">
-                            <DataTable columns={columnsTable} data={vaccinationsMappedData} styles={styles.table} />
+                        <div className="rounded-xl max-h-[55dvh] border border-gray-200/50 dark:border-gray-800/50 shadow-sm">
+                            <ScrollArea className="h-full">
+                                <DataTable columns={columnsTable} data={vaccinationsMappedData} styles={styles.table} />
+                            </ScrollArea>
                         </div>
                     )}
+
                 </div>
 
                 {showScrollIndicator && (
