@@ -3,11 +3,11 @@ import { useUpdateStatusVaccination } from '../../application/mutations'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getStatusLabel } from '../utils';
 import { VaccinationStatus } from '../../domain/enums';
-import { UserRole } from '@/features/user';
 import { toast } from 'sonner';
 import { MainLayoutContext } from '@/common/presentation/layout';
-import { HttpException } from '@/common';
 import { getMessageError } from '@/common/errors';
+import { VaccinationStatusPolicy } from '../../domain/policies';
+import { Loading, Overlay, Popup } from '@/common/presentation/components';
 
 interface UpdateStatusProps {
     id: string
@@ -47,23 +47,28 @@ export const UpdateStatus = ({ id, currentStatus }: UpdateStatusProps) => {
     }
 
     return (
-        <Select
-            value={currentStatus}
-            items={statusesOptions}
-            disabled={isPending || currentStatus === VaccinationStatus.DONE}
-            onValueChange={onChange}
-        >
-            <SelectTrigger>
-                <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-                {statusesOptions.map((status) => (
-                    <SelectItem key={status.value} value={status.value}>
-                        <span className={`${status.color} px-3 py-1 rounded-full text-xs font-bold`}>{status.label}</span>
-                    </SelectItem>
-                ))}
-            </SelectContent>
+        <>
+            <Overlay isOpen={isPending}>
+                <Loading />
+            </Overlay>
+            <Select
+                value={currentStatus}
+                items={statusesOptions}
+                disabled={isPending || !VaccinationStatusPolicy.canChangeStatus(userSession.role, currentStatus)}
+                onValueChange={onChange}
+            >
+                <SelectTrigger className={`${isPending ? "cursor-not-allowed" : "cursor-pointer"} w-full`}>
+                    <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                    {statusesOptions.map((status) => (
+                        <SelectItem key={status.value} value={status.value}>
+                            <span className={`${status.color} px-3 py-1 rounded-full text-xs font-bold`}>{status.label}</span>
+                        </SelectItem>
+                    ))}
+                </SelectContent>
 
-        </Select>
+            </Select>
+        </>
     )
 }
