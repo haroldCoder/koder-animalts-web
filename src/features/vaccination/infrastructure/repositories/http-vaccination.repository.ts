@@ -1,8 +1,9 @@
 import { CreateVaccinationEntity, QueriesVaccinationEntity, VaccinationEntity } from "../../domain/entities";
 import { VaccinationsRepository } from "../../domain/repositories";
 import { apiClient } from "@/common/infrastructure/http/api-client";
-import { ResponseVaccinationDto } from "../dtos";
+import { ResponseVaccinationDto, ResponseVaccinationsDto } from "../dtos";
 import { VaccinationMapper } from "../mappers";
+import { VaccinationStatus } from "../../domain/enums";
 
 export class HttpVaccinationRepository implements VaccinationsRepository {
     async findAllByUserId(userId: string, queries: QueriesVaccinationEntity): Promise<VaccinationEntity[]> {
@@ -28,7 +29,7 @@ export class HttpVaccinationRepository implements VaccinationsRepository {
             params.append("petId", rest.petId);
         }
 
-        const response = await apiClient.get<ResponseVaccinationDto>(`/vaccination/user/${userId}`, { params: Object.fromEntries(params) });
+        const response = await apiClient.get<ResponseVaccinationsDto>(`/vaccination/user/${userId}`, { params: Object.fromEntries(params) });
 
         return response.data.map(VaccinationMapper.toDomain);
     }
@@ -37,5 +38,16 @@ export class HttpVaccinationRepository implements VaccinationsRepository {
         await apiClient.post("/vaccination/register", {
             body: vaccination
         });
+    }
+
+    async updateStatus(id: string, status: VaccinationStatus): Promise<void> {
+        await apiClient.put(`/vaccination/status/${id}`, {
+            body: { status }
+        })
+    }
+
+    async findById(id: string): Promise<VaccinationEntity | null> {
+        const response = await apiClient.get<ResponseVaccinationDto>(`/vaccination/${id}`);
+        return VaccinationMapper.toDomainOne(response.data);
     }
 }

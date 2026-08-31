@@ -77,7 +77,7 @@ export function CreateVaccinationDialog() {
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger>
-        <Button className="bg-main hover:bg-main-hover text-white transition-all hover:scale-105 shadow-md hover:shadow-lg py-5 px-6 font-semibold flex items-center gap-2 rounded-xl">
+        <Button className="bg-main cursor-pointer hover:bg-main-hover text-white transition-all hover:scale-105 shadow-md hover:shadow-lg py-5 px-6 font-semibold flex items-center gap-2 rounded-xl">
           <Syringe className="w-5 h-5" />
           Agregar Vacuna
         </Button>

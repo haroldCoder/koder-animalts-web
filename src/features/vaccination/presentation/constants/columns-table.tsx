@@ -1,8 +1,9 @@
 import { VaccinationEntity } from "../../domain/entities";
 import { ColumnDef } from "@tanstack/react-table";
-import { ButtonRedirectMedicalRecord } from "../components";
+import { ButtonRedirectMedicalRecord, UpdateStatus } from "../components";
 import { extractHourFromDate } from "@/common/utils";
 import { FormatDate } from "@/common/utils/format-date";
+import { getStatusLabel } from "../utils";
 
 export const columnsTable: ColumnDef<VaccinationEntity>[] = [
     {
@@ -54,6 +55,19 @@ export const columnsTable: ColumnDef<VaccinationEntity>[] = [
         }
     },
     {
+        accessorKey: "status",
+        header: "Estado",
+        cell: ({ row }) => {
+            const vaccination = row.original;
+            const { label, color } = getStatusLabel(vaccination.status)
+            return (
+                <span className={`px-3 py-1 rounded-full text-xs font-bold ${color}`}>
+                    {label}
+                </span>
+            )
+        }
+    },
+    {
         accessorKey: "medicalRecordId",
         header: "Historial Médico",
         cell: ({ row }) => {
@@ -69,4 +83,16 @@ export const columnsTable: ColumnDef<VaccinationEntity>[] = [
             <span className="font-semibold">{row.original.petName}</span>
         )
     },
+    {
+        id: "actions",
+        header: "Acciones",
+        cell: ({ row }) => {
+            const vaccination = row.original
+            return (
+                <div className="flex gap-2">
+                    <UpdateStatus id={vaccination.id} currentStatus={vaccination.status} />
+                </div>
+            )
+        }
+    }
 ];
