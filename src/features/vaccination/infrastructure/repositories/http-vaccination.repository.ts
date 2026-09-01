@@ -28,6 +28,9 @@ export class HttpVaccinationRepository implements VaccinationsRepository {
         if (rest.petId) {
             params.append("petId", rest.petId);
         }
+        if (rest.status && rest.status.length > 0) {
+            params.append("status", rest.status.join(","));
+        }
 
         const response = await apiClient.get<ResponseVaccinationsDto>(`/vaccination/user/${userId}`, { params: Object.fromEntries(params) });
 
