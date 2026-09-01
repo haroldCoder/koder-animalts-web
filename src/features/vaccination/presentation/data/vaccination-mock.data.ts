@@ -1,4 +1,5 @@
 import { VaccinationEntity } from "../../domain/entities";
+import { VaccinationStatus } from "../../domain/enums";
 
 export const vaccinationMockData: VaccinationEntity[] = [
     {
@@ -9,6 +10,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         lotNumber: "123456789",
         medicalRecordId: "Medical Record 1",
         petName: "Pet 1",
+        status: VaccinationStatus.PENDING
     },
     {
         id: "2",
@@ -18,6 +20,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         lotNumber: "123456789",
         medicalRecordId: "Medical Record 2",
         petName: "Pet 2",
+        status: VaccinationStatus.PENDING
     },
     {
         id: "3",
@@ -27,6 +30,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         lotNumber: "123456789",
         medicalRecordId: "Medical Record 3",
         petName: "Pet 3",
+        status: VaccinationStatus.PENDING
     },
     {
         id: "4",
@@ -36,6 +40,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         lotNumber: "123456789",
         medicalRecordId: "Medical Record 1",
         petName: "Pet 1",
+        status: VaccinationStatus.PENDING
     },
     {
         id: "5",
@@ -45,6 +50,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         lotNumber: "123456789",
         medicalRecordId: "Medical Record 2",
         petName: "Pet 2",
+        status: VaccinationStatus.PENDING
     },
     {
         id: "6",
@@ -54,6 +60,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         lotNumber: "123456789",
         medicalRecordId: "Medical Record 3",
         petName: "Pet 3",
+        status: VaccinationStatus.PENDING
     },
     {
         id: "7",
@@ -63,6 +70,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         lotNumber: "123456789",
         medicalRecordId: "Medical Record 1",
         petName: "Pet 1",
+        status: VaccinationStatus.PENDING
     },
     {
         id: "8",
@@ -72,6 +80,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         lotNumber: "123456789",
         medicalRecordId: "Medical Record 2",
         petName: "Pet 2",
+        status: VaccinationStatus.PENDING
     },
     {
         id: "9",
@@ -81,6 +90,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         lotNumber: "123456789",
         medicalRecordId: "Medical Record 3",
         petName: "Pet 3",
+        status: VaccinationStatus.PENDING
     },
     {
         id: "10",
@@ -90,6 +100,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         lotNumber: "123456789",
         medicalRecordId: "Medical Record 1",
         petName: "Pet 1",
+        status: VaccinationStatus.PENDING
     },
     {
         id: "11",
@@ -99,6 +110,7 @@ export const vaccinationMockData: VaccinationEntity[] = [
         lotNumber: "123456789",
         medicalRecordId: "Medical Record 2",
         petName: "Pet 2",
+        status: VaccinationStatus.PENDING
     },
     {
         id: "12",
@@ -108,5 +120,6 @@ export const vaccinationMockData: VaccinationEntity[] = [
         lotNumber: "123456789",
         medicalRecordId: "Medical Record 3",
         petName: "Pet 3",
+        status: VaccinationStatus.PENDING
     },
 ];

@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import { MainLayoutContext } from '@/common/presentation/layout';
 import { getMessageError } from '@/common/errors';
 import { VaccinationStatusPolicy } from '../../domain/policies';
-import { Loading, Overlay, Popup } from '@/common/presentation/components';
+import { Loading, Overlay } from '@/common/presentation/components';
 
 interface UpdateStatusProps {
     id: string

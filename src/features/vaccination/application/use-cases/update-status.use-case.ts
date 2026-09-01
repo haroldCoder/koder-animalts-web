@@ -18,7 +18,7 @@ export class UpdateStatusVaccinationUseCase {
         }
 
         if (vaccination?.status === VaccinationStatus.CANCELLED) {
-            if (!VaccinationStatusPolicy.updateByStatusCancelled(userRole)) {
+            if (!VaccinationStatusPolicy.updateByStatusCancelled(userRole, vaccination.status)) {
                 throw new CannotUpdateCancelledStatusException();
             }
         }
