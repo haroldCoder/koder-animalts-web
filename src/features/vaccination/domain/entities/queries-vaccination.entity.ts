@@ -1,3 +1,5 @@
+import { VaccinationStatus } from "../enums";
+
 export interface QueriesVaccinationEntity {
     page?: number;
     limit?: number;
@@ -5,4 +7,5 @@ export interface QueriesVaccinationEntity {
     startDate?: Date;
     endDate?: Date;
     petId?: string;
+    status?: VaccinationStatus[];
 }

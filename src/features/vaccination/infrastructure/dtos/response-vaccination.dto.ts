@@ -1,21 +1,17 @@
+import { VaccinationStatus } from "../../domain/enums";
+
 export interface ResponseVaccinationDto {
     statusCode: number;
-    data: Array<{
+    data: {
         id: string;
         vaccineName: string;
         dateAdministered: string;
         nextDueDate: string;
         lotNumber: string;
-        createdAt: string;
         medicalRecordId: string;
-        medicalRecord: {
-            pet: {
-                name: string;
-            }
-        },
-        veterinarian: {
-            id: string;
-            name: string;
-        }
-    }>
+        status: VaccinationStatus;
+        createdAt: string;
+        petName: string;
+        veterinarianId: string;
+    }
 }

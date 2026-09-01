@@ -1,5 +1,5 @@
-import { CarouselSelectPet, DataTable } from "@/common/presentation/components";
-import { CreateVaccinationDialog } from "../components";
+import { CarouselSelectPet, DataTable, Loading } from "@/common/presentation/components";
+import { CreateVaccinationDialog, FilterStatus } from "../components";
 import { columnsTable } from "../constants";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Activity } from "lucide-react";
@@ -12,6 +12,7 @@ import { MainLayoutContext } from "@/common/presentation/layout";
 import { UserRole } from "@/features/user";
 import { useGetPetsByOwnerUserId } from "@/features/pet/application/queries";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { VaccinationStatus } from "../../domain/enums";
 
 export const Vaccination = () => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -24,12 +25,14 @@ export const Vaccination = () => {
     const startDateString = searchParams.get("startDate");
     const endDateString = searchParams.get("endDate");
     const [petIdSelected, setPetIdSelected] = useState<string>("");
+    const [statusFilter, setStatusFilter] = useState<VaccinationStatus[] | null>(null);
 
     const { data: vaccinationsData, isLoading } = useGetAllVaccinationsQuery(user!, {
         medicalRecordId: medicalRecordId ?? undefined,
         petId: petIdSelected == "" ? undefined : petIdSelected,
         startDate: startDateString ? new Date(startDateString) : undefined,
-        endDate: endDateString ? new Date(endDateString) : undefined
+        endDate: endDateString ? new Date(endDateString) : undefined,
+        status: statusFilter ?? undefined
     });
 
     const { data: pets, isLoading: isLoadingPets } = useGetPetsByOwnerUserId(user!);
@@ -72,6 +75,10 @@ export const Vaccination = () => {
         return pets;
     }, [pets]);
 
+    const changeStatusFiler = (status: VaccinationStatus[]) => {
+        setStatusFilter(status);
+    }
+
     return (
         <div className="flex flex-col p-6 md:p-8 gap-8">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -87,22 +94,24 @@ export const Vaccination = () => {
 
             </div>
 
-            <div className="relative flex-1 min-h-0 flex flex-col bg-bg-dark-1/5 dark:bg-bg-dark-2/50 backdrop-blur-xl rounded-2xl shadow-sm border border-gray-200/50 dark:border-gray-800/50 overflow-hidden">
+            <div className="relative flex-1 min-h-0 flex py-2 flex-col bg-bg-dark-1/5 dark:bg-bg-dark-2/50 backdrop-blur-xl rounded-2xl shadow-sm border border-gray-200/50 dark:border-gray-800/50 overflow-hidden">
                 {
                     userSession.role == UserRole.owner && (
                         <CarouselSelectPet pets={petsData} selectedPet={petIdSelected} onSelectPet={selectedPet} isLoading={isLoadingPets} />
                     )
                 }
+                <div className="flex justify-end px-3 ">
+                    <FilterStatus onChange={changeStatusFiler} value={statusFilter ?? []} />
+                </div>
+
                 <div
                     ref={containerRef}
                     onScroll={checkOverflow}
                     className="flex-1 overflow-y-auto p-4 md:p-6"
                 >
                     {isLoading ? (
-                        <div className="space-y-4">
-                            {[1, 2, 3, 4, 5].map(i => (
-                                <div key={i} className="h-16 w-full bg-gray-200/50 dark:bg-bg-dark-1 animate-pulse rounded-xl"></div>
-                            ))}
+                        <div className="flex items-center justify-center h-full">
+                            <Loading />
                         </div>
                     ) : vaccinationsMappedData.length === 0 ? (
                         <div className="h-full flex flex-col items-center justify-center text-center p-8">

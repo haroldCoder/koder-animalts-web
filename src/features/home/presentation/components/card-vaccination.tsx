@@ -3,6 +3,17 @@ import { FormatDate } from "@/common/utils/format-date"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Calendar, Clock, PawPrint, Syringe, Tag } from "lucide-react"
+import { useContext, useMemo } from "react"
+import { getStatusLabel } from "@/features/vaccination/presentation/utils"
+import { Button } from "@/components/ui/button"
+import { useUpdateStatusVaccination } from "@/features/vaccination/application/mutations"
+import { MainLayoutContext } from "@/common/presentation/layout"
+import { VaccinationStatus } from "@/features/vaccination/domain/enums"
+import { toast } from "sonner"
+import { getMessageError } from "@/common/errors"
+import { Loading } from "@/common/presentation/components"
+import { VaccinationStatusPolicy } from "@/features/vaccination/domain/policies"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
 interface CardVaccinationProps {
     vaccination: VaccinationEntity
@@ -16,6 +27,28 @@ export const CardVaccination = ({ vaccination, className = "" }: CardVaccination
     const nextDueDate = FormatDate.onlyDate(vaccination.nextDate);
     const hourNextDueDate = FormatDate.onlyTime(vaccination.nextDate, "No programado");
 
+    const vaccinationBadge = useMemo(() => {
+        return getStatusLabel(vaccination.status);
+    }, [vaccination.status]);
+
+    const { user: userSession } = useContext(MainLayoutContext)!;
+
+    const { mutateAsync: updateStatus, isPending: isUpdating } = useUpdateStatusVaccination();
+
+    const onCancel = async () => {
+        try {
+            await updateStatus({
+                id: vaccination.id,
+                status: VaccinationStatus.CANCELLED,
+                userRole: userSession.role
+            });
+
+            toast.success("Vacunación cancelada correctamente");
+
+        } catch (error) {
+            toast.error(getMessageError(error));
+        }
+    };
 
     return (
         <article className={`relative flex flex-col justify-between p-5 bg-card border border-border/60 rounded-2xl shadow-sm hover:shadow-md hover:border-main/30 transition-all duration-300 group overflow-hidden ${className}`}>
@@ -42,12 +75,21 @@ export const CardVaccination = ({ vaccination, className = "" }: CardVaccination
                         </div>
                     </div>
 
-                    {vaccination.lotNumber && (
-                        <Badge variant="outline" className="text-[11px] font-mono border-main/20 text-muted-foreground shrink-0 bg-muted/30">
-                            <Tag className="w-3 h-3 mr-1 text-main/70" />
-                            {vaccination.lotNumber}
+
+                    <div className="flex flex-col gap-4">
+                        {vaccination.lotNumber && (
+                            <Badge variant="outline" className="text-[11px] font-mono border-main/20 text-muted-foreground shrink-0 bg-muted/30">
+                                <Tag className="w-3 h-3 mr-1 text-main/70" />
+                                {vaccination.lotNumber}
+                            </Badge>
+                        )}
+
+                        <Badge className={`text-[11px] font-mono border-main/20 text-muted-foreground shrink-0 bg-muted/30 ${vaccinationBadge.color}`}>
+                            {vaccinationBadge.label}
                         </Badge>
-                    )}
+                    </div>
+
+
                 </div>
 
                 <Separator className="bg-border/40" />
@@ -83,7 +125,29 @@ export const CardVaccination = ({ vaccination, className = "" }: CardVaccination
                     </div>
                 </div>
             </div>
-        </article>
+            <div className="flex w-full mt-10">
+                <Tooltip>
+                    <TooltipTrigger className="w-full">
+                        <Button
+                            className="w-full cursor-pointer py-5"
+                            onClick={onCancel}
+                            disabled={isUpdating || !VaccinationStatusPolicy.canCancelVaccination(vaccination.status)}
+                            variant="destructive"
+                            size="sm">{isUpdating ? <Loading /> : "Cancelar"}
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+
+                        {VaccinationStatusPolicy.canCancelVaccination(vaccination.status) ? (
+                            <p>Cancelar vacunación</p>
+                        ) : (
+                            <p>No se puede cancelar la vacunación</p>
+                        )}
+                    </TooltipContent>
+                </Tooltip>
+
+            </div>
+        </article >
     );
 };
 
