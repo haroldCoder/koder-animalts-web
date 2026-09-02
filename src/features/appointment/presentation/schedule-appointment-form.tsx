@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { NewAppointmentFormValues } from "./interfaces";
 import { PetSelector } from "@/common/presentation/components";
 import { DateTimePicker } from "@/common/presentation/components";
+import { getMessageError } from "@/common/errors";
 
 export const ScheduleAppointmentForm = ({ onSuccess }: { onSuccess?: () => void }) => {
     const { user } = useAuth();
@@ -47,7 +48,7 @@ export const ScheduleAppointmentForm = ({ onSuccess }: { onSuccess?: () => void 
         } catch (err) {
             console.log(err);
 
-            toast.error("Error al agendar la cita. Intenta de nuevo.");
+            toast.error("Error al agendar la cita. Intenta de nuevo. " + getMessageError(err));
         }
     };
 

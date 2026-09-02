@@ -30,6 +30,8 @@ import { MedicalRecordDetail } from "./medical-record-detail"
 import { useState } from "react"
 import { Controller } from "react-hook-form"
 import { CreateVaccinationEntity } from "../../domain/entities"
+import { toast } from "sonner"
+import { getMessageError } from "@/common/errors"
 
 export function CreateVaccinationDialog() {
   const { user } = useAuth();
@@ -50,6 +52,9 @@ export function CreateVaccinationDialog() {
           form.reset();
           setOpenDialog(false);
         },
+        onError: (err) => {
+          toast.error("Error al registrar la vacuna. Intenta de nuevo." + getMessageError(err));
+        }
       }
     );
   };
