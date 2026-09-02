@@ -25,7 +25,7 @@ export const columnsTable: ColumnDef<VaccinationEntity>[] = [
 
             return (
                 <span className="text-gray-600 dark:text-gray-300 font-medium">
-                    {FormatDate.format(new Date(vaccination.date))} {isMissing ? "" : "- " + extractHourFromDate(new Date(vaccination.date))}
+                    {FormatDate.format(new Date(vaccination.date), "dd/MM/yyyy")} {isMissing ? "" : "- " + extractHourFromDate(new Date(vaccination.date))}
                 </span>
             )
         }
@@ -38,7 +38,7 @@ export const columnsTable: ColumnDef<VaccinationEntity>[] = [
             const isMissing = nextDate === "-";
             return (
                 <span className={`px-3 py-1 rounded-full text-xs font-bold ${isMissing ? 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400' : 'bg-main/10 text-main border border-main/20'}`}>
-                    {isMissing ? "-" : FormatDate.format(new Date(nextDate!))} {isMissing ? "" : "- " + extractHourFromDate(new Date(nextDate as string))}
+                    {isMissing ? "-" : FormatDate.format(new Date(nextDate!), "dd/MM/yyyy")} {isMissing ? "" : "- " + extractHourFromDate(new Date(nextDate as string))}
                 </span>
             )
         }
@@ -47,9 +47,10 @@ export const columnsTable: ColumnDef<VaccinationEntity>[] = [
         accessorKey: "lotNumber",
         header: "Número LOT",
         cell: ({ row }) => {
+            const lotNumber = row.original.lotNumber;
             return (
                 <span className="font-mono text-xs text-gray-500">
-                    {row.original.lotNumber}
+                    {lotNumber || "-"}
                 </span>
             )
         }
