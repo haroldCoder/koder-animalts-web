@@ -1,10 +1,10 @@
 import { AppointmentDataDto } from '../../domain/dtos';
-import { IAppointmentRepository } from '../../domain/repositories';
+import { FindAppointmentsCriteria, IAppointmentRepository } from '../../domain/repositories';
 
 export class GetAppointmentsByUserIdUseCase {
     constructor(private readonly appointmentRepository: IAppointmentRepository) { }
 
-    async execute(userId: string): Promise<AppointmentDataDto[]> {
-        return await this.appointmentRepository.findByUserId(userId);
+    async execute(userId: string, criteria?: FindAppointmentsCriteria): Promise<AppointmentDataDto[]> {
+        return await this.appointmentRepository.findByUserId(userId, criteria);
     }
 }

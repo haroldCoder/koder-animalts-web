@@ -1,14 +1,25 @@
 import { apiClient } from '@/common';
-import { IAppointmentRepository } from '../../domain/repositories';
+import { FindAppointmentsCriteria, IAppointmentRepository } from '../../domain/repositories';
 import { AppointmentDataDto, CreateAppointmentDto } from '../../domain/dtos';
 import { AppointmentResponseDto } from '../dtos';
 import { ApiResponseToDomain } from '../mappers';
 
 export class HttpAppointmentRepository implements IAppointmentRepository {
-    async findByUserId(userId: string): Promise<AppointmentDataDto[]> {
+    async findByUserId(userId: string, criteria?: FindAppointmentsCriteria): Promise<AppointmentDataDto[]> {
         try {
+            const queryParams = new URLSearchParams();
+
+            if (criteria?.startDate) {
+                queryParams.append('startDate', criteria.startDate.toISOString());
+            }
+
+            if (criteria?.endDate) {
+                queryParams.append('endDate', criteria.endDate.toISOString());
+            }
+
+
             const response = await apiClient.get<AppointmentResponseDto>(
-                `/appointment/user/${userId}`
+                `/appointment/user/${userId}?${queryParams.toString()}`
             );
             return ApiResponseToDomain.toAppointmentDataDto(response);
         } catch (error) {

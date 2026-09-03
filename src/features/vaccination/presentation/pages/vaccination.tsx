@@ -1,4 +1,4 @@
-import { CarouselSelectPet, DataTable, Loading } from "@/common/presentation/components";
+import { CarouselSelectPet, DataTable } from "@/common/presentation/components";
 import { CreateVaccinationDialog, FilterStatus } from "../components";
 import { columnsTable } from "../constants";
 import { Button } from "@/components/ui/button";
@@ -26,8 +26,12 @@ export const Vaccination = () => {
     const endDateString = searchParams.get("endDate");
     const [petIdSelected, setPetIdSelected] = useState<string>("");
     const [statusFilter, setStatusFilter] = useState<VaccinationStatus[] | null>(null);
+    const [page, setPage] = useState<number>(1);
+    const limit = 6;
 
     const { data: vaccinationsData, isLoading } = useGetAllVaccinationsQuery(user!, {
+        page,
+        limit,
         medicalRecordId: medicalRecordId ?? undefined,
         petId: petIdSelected == "" ? undefined : petIdSelected,
         startDate: startDateString ? new Date(startDateString) : undefined,
@@ -35,11 +39,16 @@ export const Vaccination = () => {
         status: statusFilter ?? undefined
     });
 
+    useEffect(() => {
+        setPage(1);
+    }, [petIdSelected, statusFilter, medicalRecordId, startDateString, endDateString]);
+
     const { data: pets, isLoading: isLoadingPets } = useGetPetsByOwnerUserId(user!);
 
+
     const vaccinationsMappedData = useMemo(() => {
-        if (!vaccinationsData) return [];
-        return vaccinationsData.map(vaccination => ({
+        if (!vaccinationsData?.vaccinations) return [];
+        return vaccinationsData.vaccinations.map(vaccination => ({
             ...vaccination,
             date: vaccination.date ?? "-",
             nextDate: vaccination.nextDate ?? "-",
@@ -109,11 +118,7 @@ export const Vaccination = () => {
                     onScroll={checkOverflow}
                     className="flex-1 overflow-y-auto p-4 md:p-6"
                 >
-                    {isLoading ? (
-                        <div className="flex items-center justify-center h-full">
-                            <Loading />
-                        </div>
-                    ) : vaccinationsMappedData.length === 0 ? (
+                    {vaccinationsMappedData.length === 0 && !isLoading ? (
                         <div className="h-full flex flex-col items-center justify-center text-center p-8">
                             <div className="w-20 h-20 bg-main/10 rounded-full flex items-center justify-center mb-6">
                                 <Activity className="w-10 h-10 text-main opacity-80" />
@@ -123,9 +128,23 @@ export const Vaccination = () => {
                             <CreateVaccinationDialog />
                         </div>
                     ) : (
-                        <div className="rounded-xl max-h-[55dvh] border border-gray-200/50 dark:border-gray-800/50 shadow-sm">
+                        <div className="rounded-xl max-h-[45dvh] border border-gray-200/50 dark:border-gray-800/50 shadow-sm">
                             <ScrollArea className="h-full">
-                                <DataTable columns={columnsTable} data={vaccinationsMappedData} styles={styles.table} />
+                                <DataTable
+                                    columns={columnsTable}
+                                    data={vaccinationsMappedData}
+                                    styles={styles.table}
+                                    pagination={{
+                                        hasPrev: vaccinationsData?.pagination.hasPrev ?? false,
+                                        hasNext: vaccinationsData?.pagination.hasNext ?? false,
+                                        total: vaccinationsData?.pagination.total ?? 0,
+                                        limit: vaccinationsData?.pagination.limit ?? 0,
+                                        page: vaccinationsData?.pagination.page ?? 0,
+                                        totalPages: vaccinationsData?.pagination.totalPages ?? 0,
+                                        onPageChange: setPage,
+                                    }}
+                                    isLoading={isLoading}
+                                />
                             </ScrollArea>
                         </div>
                     )}
@@ -137,7 +156,7 @@ export const Vaccination = () => {
                         <Button
                             onClick={() => containerRef.current?.scrollTo({ top: containerRef.current?.scrollHeight, behavior: "smooth" })}
                             size="icon"
-                            className="pointer-events-auto bg-white/80 dark:bg-bg-dark-2/80 backdrop-blur-md text-main hover:text-main-hover hover:bg-white dark:hover:bg-bg-dark-1 shadow-lg border border-gray-200 dark:border-gray-700 h-10 w-10 rounded-full transition-all duration-300 animate-bounce cursor-pointer"
+                            className="pointer-events-auto bg-gray-900/60 dark:bg-bg-dark-2/50 backdrop-blur-md text-main hover:text-main-hover hover:bg-white dark:hover:bg-bg-dark-1 shadow-lg border border-gray-200 dark:border-gray-700 h-10 w-10 rounded-full transition-all duration-300 animate-bounce cursor-pointer"
                         >
                             <ChevronDown className="w-5 h-5" />
                         </Button>

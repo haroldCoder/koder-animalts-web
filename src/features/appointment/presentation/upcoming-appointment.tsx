@@ -1,15 +1,23 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useAuth } from "@/common/hooks";
 import { useGetAppointmentsByUserId } from "../application/queries";
 import { AppointmentEntity } from "../domain/entities";
 import { AppointmentCard } from "./components";
 import { getDateUpcoming } from "@/common/utils";
-import { Error, Loading } from "@/common/presentation/components";
+import { DatePicker, Error, Loading } from "@/common/presentation/components";
 import { CalendarDays } from "lucide-react";
+import { useDateSetter } from "@/common/presentation/hooks";
 
 export const UpcomingAppointment = () => {
     const { user } = useAuth();
-    const { data, isLoading, error } = useGetAppointmentsByUserId(user!);
+
+    const { startDateString, endDateString } = useDateSetter(0, 7);
+    const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+
+    const { data, isLoading, error } = useGetAppointmentsByUserId(user!, {
+        startDate: startDateString,
+        endDate: endDate ?? endDateString
+    });
 
     const upcomingAppointments = useMemo(() => {
         if (!data) return [];
@@ -37,6 +45,9 @@ export const UpcomingAppointment = () => {
 
     return (
         <div className="flex flex-col gap-4">
+            <div className="flex justify-end">
+                <DatePicker setEndDate={setEndDate} endDate={endDate} disabledStart={true} />
+            </div>
             {upcomingAppointments.map((appointment) => (
                 <AppointmentCard key={appointment.id} appointment={appointment} />
             ))}

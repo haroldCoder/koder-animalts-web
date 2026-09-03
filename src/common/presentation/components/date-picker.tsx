@@ -15,9 +15,11 @@ interface DatePickerProps {
     endDate?: Date;
     setStartDate?: (date?: Date) => void;
     setEndDate?: (date?: Date) => void;
+    disabledStart?: boolean;
+    disabledEnd?: boolean;
 }
 
-export function DatePicker({ startDate, endDate, setStartDate, setEndDate }: DatePickerProps) {
+export function DatePicker({ startDate, endDate, setStartDate, setEndDate, disabledStart, disabledEnd }: DatePickerProps) {
 
     return (
         <div className="flex items-center gap-2">
@@ -37,6 +39,7 @@ export function DatePicker({ startDate, endDate, setStartDate, setEndDate }: Dat
                         selected={startDate}
                         onSelect={setStartDate}
                         locale={es}
+                        disabled={disabledStart}
                     />
                 </PopoverContent>
             </Popover>
@@ -57,6 +60,7 @@ export function DatePicker({ startDate, endDate, setStartDate, setEndDate }: Dat
                         selected={endDate}
                         onSelect={setEndDate}
                         locale={es}
+                        disabled={disabledEnd}
                     />
                 </PopoverContent>
             </Popover>

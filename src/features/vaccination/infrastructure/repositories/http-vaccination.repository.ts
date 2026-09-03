@@ -1,12 +1,12 @@
 import { CreateVaccinationEntity, QueriesVaccinationEntity, VaccinationEntity } from "../../domain/entities";
-import { VaccinationsRepository } from "../../domain/repositories";
+import { FindAllVaccinationDto, VaccinationsRepository } from "../../domain/repositories";
 import { apiClient } from "@/common/infrastructure/http/api-client";
 import { ResponseVaccinationDto, ResponseVaccinationsDto } from "../dtos";
 import { VaccinationMapper } from "../mappers";
 import { VaccinationStatus } from "../../domain/enums";
 
 export class HttpVaccinationRepository implements VaccinationsRepository {
-    async findAllByUserId(userId: string, queries: QueriesVaccinationEntity): Promise<VaccinationEntity[]> {
+    async findAllByUserId(userId: string, queries: QueriesVaccinationEntity): Promise<FindAllVaccinationDto> {
         const { page, limit, ...rest } = queries;
         const params = new URLSearchParams();
 
@@ -34,7 +34,7 @@ export class HttpVaccinationRepository implements VaccinationsRepository {
 
         const response = await apiClient.get<ResponseVaccinationsDto>(`/vaccination/user/${userId}`, { params: Object.fromEntries(params) });
 
-        return response.data.map(VaccinationMapper.toDomain);
+        return VaccinationMapper.toDomain(response);
     }
 
     async register(vaccination: CreateVaccinationEntity): Promise<void> {

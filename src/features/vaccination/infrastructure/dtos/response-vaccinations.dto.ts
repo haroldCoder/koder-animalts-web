@@ -1,7 +1,9 @@
+import { PaginationDto } from "@/common/interfaces";
 import { VaccinationStatus } from "../../domain/enums";
 
 export interface ResponseVaccinationsDto {
     statusCode: number;
+    pagination: PaginationDto;
     data: Array<{
         id: string;
         vaccineName: string;

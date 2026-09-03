@@ -1,8 +1,7 @@
+import { FindCriteriaQuery } from "@/common/interfaces";
 import { VaccinationStatus } from "../enums";
 
-export interface QueriesVaccinationEntity {
-    page?: number;
-    limit?: number;
+export interface QueriesVaccinationEntity extends FindCriteriaQuery {
     medicalRecordId?: string;
     startDate?: Date;
     endDate?: Date;

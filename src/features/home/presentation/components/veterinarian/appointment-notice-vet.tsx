@@ -34,7 +34,7 @@ export const AppointmentNoticeVet = () => {
                         <Loading />
                     ) : error || vaccinationsError ? (
                         <Error message="Error al cargar las citas" />
-                    ) : appointmentsData.length === 0 && vaccinationsData?.length === 0 ? (
+                    ) : appointmentsData.length === 0 && vaccinationsData?.vaccinations?.length === 0 ? (
                         <div className="text-center text-text-2 text-base">¡No hay citas ni vacunaciones próximas agendadas!</div>
                     ) : (
                         <ScrollArea className="h-[440px] pr-7" thumbClassName="bg-main">
@@ -47,7 +47,7 @@ export const AppointmentNoticeVet = () => {
                                     </CardNotice>
                                 ))}
 
-                                {vaccinationsData?.map((vaccination) => (
+                                {vaccinationsData?.vaccinations?.map((vaccination) => (
                                     <CardVaccination key={vaccination.id} vaccination={vaccination} />
                                 ))}
                             </div>
