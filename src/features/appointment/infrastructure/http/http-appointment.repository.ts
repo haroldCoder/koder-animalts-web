@@ -5,15 +5,15 @@ import { AppointmentResponseDto } from '../dtos';
 import { ApiResponseToDomain } from '../mappers';
 
 export class HttpAppointmentRepository implements IAppointmentRepository {
-    async findByUserId(userId: string, criteria: FindAppointmentsCriteria): Promise<AppointmentDataDto[]> {
+    async findByUserId(userId: string, criteria?: FindAppointmentsCriteria): Promise<AppointmentDataDto[]> {
         try {
             const queryParams = new URLSearchParams();
 
-            if (criteria.startDate) {
+            if (criteria?.startDate) {
                 queryParams.append('startDate', criteria.startDate.toISOString());
             }
 
-            if (criteria.endDate) {
+            if (criteria?.endDate) {
                 queryParams.append('endDate', criteria.endDate.toISOString());
             }
 

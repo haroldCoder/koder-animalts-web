@@ -31,6 +31,9 @@ export const OwnerNextVaccinations = () => {
         endDate: endDateString
     })
 
+    console.log(vaccinations);
+
+
     const vaccinationsList = useMemo(() => {
         if (!vaccinations?.vaccinations) return [];
 
