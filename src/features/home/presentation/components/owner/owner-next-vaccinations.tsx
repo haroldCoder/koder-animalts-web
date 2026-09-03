@@ -32,9 +32,9 @@ export const OwnerNextVaccinations = () => {
     })
 
     const vaccinationsList = useMemo(() => {
-        if (!vaccinations) return [];
+        if (!vaccinations?.vaccinations) return [];
 
-        return vaccinations.slice(0, 5);
+        return vaccinations.vaccinations.slice(0, 5);
     }, [vaccinations])
 
     return (
