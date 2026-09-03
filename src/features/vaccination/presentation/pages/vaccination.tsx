@@ -1,4 +1,4 @@
-import { CarouselSelectPet, DataTable, Loading } from "@/common/presentation/components";
+import { CarouselSelectPet, DataTable } from "@/common/presentation/components";
 import { CreateVaccinationDialog, FilterStatus } from "../components";
 import { columnsTable } from "../constants";
 import { Button } from "@/components/ui/button";
