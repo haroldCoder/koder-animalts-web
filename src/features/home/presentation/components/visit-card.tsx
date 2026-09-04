@@ -7,7 +7,6 @@ interface VisitCardProps {
 }
 
 export const VisitCard = ({ visit }: VisitCardProps) => {
-
     return (
         <article
             key={visit.id}
@@ -28,7 +27,7 @@ export const VisitCard = ({ visit }: VisitCardProps) => {
                             {visit.status}
                         </p>
                         <p className="text-sm text-text-3">
-                            {FormatDate.format(visit.date, "dd/mm/yyyy")}
+                            {FormatDate.format(visit.date, "dd/MM/yyyy")}
                         </p>
                     </div>
                     <div className="flex flex-wrap items-center gap-4 text-sm text-text-2 mt-1 font-medium">

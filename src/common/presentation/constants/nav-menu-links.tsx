@@ -12,7 +12,7 @@ export const ownerLinks = [
 
 export const veterinaryLinks = [
     { name: "Dashboard", path: routes.home.link, icon: <LayoutDashboard className="w-5 h-5" /> },
-    { name: "Próximas citas", path: routes.appointments.link, icon: <CalendarClock className="w-5 h-5" /> },
+    { name: "Eventos Médicos", path: routes.appointments.link, icon: <CalendarClock className="w-5 h-5" /> },
     { name: "Programar cita", path: routes.schedule.link, icon: <CalendarPlus className="w-5 h-5" /> },
     { name: "Documentos", path: routes.documents.link, icon: <FileText className="w-5 h-5" /> },
     { name: "Historial Médico", path: routes.medicalRecord.link, icon: <ClipboardList className="w-5 h-5" /> },
