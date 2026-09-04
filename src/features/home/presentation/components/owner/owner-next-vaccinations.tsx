@@ -6,32 +6,20 @@ import { useAuth } from "@/common/hooks"
 import { useMemo } from "react"
 import { Loading, NotFoundVaccinations } from "@/common/presentation/components"
 import { CardVaccination } from "../card-vaccination"
+import { VaccinationStatus } from "@/features/vaccination/domain/enums"
+import { useDateSetter } from "@/common/presentation/hooks"
 
 
 export const OwnerNextVaccinations = () => {
     const { user } = useAuth();
 
-    const startDateString = useMemo(() => {
-        const d = new Date();
-        d.setHours(0, 0, 0, 0);
-        d.setDate(d.getDate() + 1);
-
-        return d
-    }, []);
-
-    const endDateString = useMemo(() => {
-        const d = new Date();
-        d.setDate(d.getDate() + 7);
-        d.setHours(23, 59, 59, 999);
-        return d;
-    }, []);
+    const { startDateString, endDateString } = useDateSetter(0, 7);
 
     const { data: vaccinations, isLoading } = useGetAllVaccinationsQuery(user!, {
         startDate: startDateString,
-        endDate: endDateString
+        endDate: endDateString,
+        status: [VaccinationStatus.PENDING]
     })
-
-    console.log(vaccinations);
 
 
     const vaccinationsList = useMemo(() => {
