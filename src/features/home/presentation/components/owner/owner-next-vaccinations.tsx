@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useAuth } from "@/common/hooks"
 import { useMemo } from "react"
-import { Loading } from "@/common/presentation/components"
+import { Loading, NotFoundVaccinations } from "@/common/presentation/components"
 import { CardVaccination } from "../card-vaccination"
 
 
@@ -51,11 +51,18 @@ export const OwnerNextVaccinations = () => {
                 {
                     isLoading ? (
                         <Loading />
-                    ) : (
-                        vaccinationsList.map((vacc) => (
-                            <CardVaccination key={vacc.id} vaccination={vacc} />
-                        ))
-                    )
+                    ) :
+                        vaccinationsList.length === 0 ? (
+                            <div className="col-span-2">
+                                <NotFoundVaccinations
+                                    description="No hay vacunas pendientes por aplicar en los próximos 7 días"
+                                />
+                            </div>
+                        ) : (
+                            vaccinationsList.map((vacc) => (
+                                <CardVaccination key={vacc.id} vaccination={vacc} />
+                            ))
+                        )
                 }
             </div>
         </div>

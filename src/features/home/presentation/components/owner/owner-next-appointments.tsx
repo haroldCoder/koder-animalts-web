@@ -4,25 +4,28 @@ import { ArrowRight } from "lucide-react";
 import { useMemo } from "react";
 import { useAuth } from "@/common/hooks";
 import { useGetAppointmentsByUserId } from "@/features/appointment/application/queries";
-import { appointmentNext } from "@/features/appointment/domain/utils";
 import { Error, Loading } from "@/common/presentation/components";
 import { useNavigate } from "react-router-dom";
 import { routes } from "@/common/presentation/constants";
-import { AppointmentDataDto } from "@/features/appointment/domain/dtos";
+import { useDateSetter } from "@/common/presentation/hooks";
 
 export const OwnerNextAppointments = () => {
     const { user } = useAuth();
     const navigation = useNavigate();
 
+    const { startDateString } = useDateSetter(1, 7);
+
     const {
         data,
         isLoading,
         error
-    } = useGetAppointmentsByUserId(user!);
+    } = useGetAppointmentsByUserId(user!, {
+        startDate: startDateString
+    });
 
     const appointmentsData = useMemo(() => {
         if (!data) return [];
-        return appointmentNext(data?.slice(0, 3)) as AppointmentDataDto[];
+        return data?.slice(0, 3);
     }, [data])
 
     return (

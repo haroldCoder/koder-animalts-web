@@ -1,8 +1,8 @@
-import { CarouselSelectPet, DataTable } from "@/common/presentation/components";
+import { CarouselSelectPet, DataTable, NotFoundVaccinations } from "@/common/presentation/components";
 import { CreateVaccinationDialog, FilterStatus } from "../components";
 import { columnsTable } from "../constants";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Activity } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import styles from "./vaccination.module.css";
 import { useMemo, useState, useEffect, useRef, useContext } from "react";
 import { useGetAllVaccinationsQuery } from "../../application/queries";
@@ -119,14 +119,9 @@ export const Vaccination = () => {
                     className="flex-1 overflow-y-auto p-4 md:p-6"
                 >
                     {vaccinationsMappedData.length === 0 && !isLoading ? (
-                        <div className="h-full flex flex-col items-center justify-center text-center p-8">
-                            <div className="w-20 h-20 bg-main/10 rounded-full flex items-center justify-center mb-6">
-                                <Activity className="w-10 h-10 text-main opacity-80" />
-                            </div>
-                            <h3 className="text-xl font-bold mb-2">No hay vacunas registradas</h3>
-                            <p className="text-gray-500 dark:text-gray-400 max-w-md mb-8">Aún no has registrado ninguna vacuna para tus mascotas. Mantén al día su historial médico registrando la primera ahora.</p>
-                            <CreateVaccinationDialog />
-                        </div>
+                        <NotFoundVaccinations
+                            description="Aún no has registrado ninguna vacuna para tus mascotas. Mantén al día su historial médico registrando la primera ahora."
+                            createVaccinationDialog={() => <CreateVaccinationDialog />} />
                     ) : (
                         <div className="rounded-xl max-h-[45dvh] border border-gray-200/50 dark:border-gray-800/50 shadow-sm">
                             <ScrollArea className="h-full">
