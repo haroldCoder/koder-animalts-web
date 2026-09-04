@@ -1,3 +1,4 @@
+import { FormatDate } from "@/common/utils/format-date";
 import { AppointmentEntity } from "@/features/appointment/domain/entities";
 import { Building2, FileText, Stethoscope } from "lucide-react";
 
@@ -23,12 +24,12 @@ export const VisitCard = ({ visit }: VisitCardProps) => {
                         <h3 className="text-lg font-bold text-text-1">
                             {visit.petName}
                         </h3>
-                        <span className="px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-medium">
+                        <p className="px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-medium">
                             {visit.status}
-                        </span>
-                        <span className="text-sm text-text-3">
-                            {new Date(visit.date).toLocaleDateString()}
-                        </span>
+                        </p>
+                        <p className="text-sm text-text-3">
+                            {FormatDate.format(visit.date, "dd/mm/yyyy")}
+                        </p>
                     </div>
                     <div className="flex flex-wrap items-center gap-4 text-sm text-text-2 mt-1 font-medium">
                         <span className="flex items-center gap-1.5">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
     DialogContent,
     DialogDescription,
@@ -15,6 +15,8 @@ import { AppointmentStatusEnum } from "../../domain/enums";
 import { Spinner } from "@/components/ui/spinner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AppointmentDataDto } from "../../domain/dtos";
+import { MainLayoutContext } from "@/common/presentation/layout";
+import { UpdateStatusPolicy } from "../../domain/policies";
 
 interface AppointmentPopUpProps {
     appointment: AppointmentDataDto;
@@ -26,11 +28,13 @@ export const AppointmentPopUp: React.FC<AppointmentPopUpProps> = ({ appointment 
         ? (STATUS_LABELS[appointment.status] ?? appointment.status)
         : "Sin estado";
 
+    const { user } = useContext(MainLayoutContext)!;
+
     const { mutateAsync, isPending } = useUpdateAppointmentStatusMutation()
 
     const handleCancelAppointment = async () => {
         try {
-            await mutateAsync({ id: appointment.id, status: AppointmentStatusEnum.CANCELLED })
+            await mutateAsync({ appointment, status: AppointmentStatusEnum.CANCELLED, userRole: user?.role })
         } catch (error) {
             console.log(error)
         }
@@ -110,7 +114,7 @@ export const AppointmentPopUp: React.FC<AppointmentPopUpProps> = ({ appointment 
                 )}
             </div>
 
-            {appointment.status === AppointmentStatusEnum.SCHEDULED && (
+            {UpdateStatusPolicy.canUpdateToCancel(appointment, user?.role, AppointmentStatusEnum.CANCELLED) && (
                 <Button variant="destructive" className="w-full sm:w-auto cursor-pointer" onClick={handleCancelAppointment} disabled={isPending}>
                     {isPending ? <Spinner className="text-main" /> : 'Cancelar cita'}
                 </Button>

@@ -5,18 +5,24 @@ import { useMemo } from "react";
 import { AppointmentEntity } from "@/features/appointment/domain/entities";
 import { Loading } from "@/common/presentation/components";
 import { VisitCard } from "../visit-card";
-import { getDateLast } from "@/common/utils";
 import { useNavigate } from "react-router-dom";
 import { routes } from "@/common/presentation/constants";
 import { AppointmentLastVisitEmpty } from "../appointment-last-visit-empty";
+import { useDateSetter } from "@/common/presentation/hooks";
+import { SortOrder } from "@/common/domain/enums";
 
 export const AppointmentLastVisit = () => {
     const { user } = useAuth();
-    const { data: appointments, isLoading } = useGetAppointmentsByUserId(user!);
+
+    const { endDateString } = useDateSetter(0, -1);
+    const { data: appointments, isLoading } = useGetAppointmentsByUserId(user!, {
+        endDate: endDateString,
+        sortOrder: SortOrder.DESC
+    });
     const navigation = useNavigate();
 
     const appointmentData = useMemo(() => {
-        return appointments?.filter((appointment: AppointmentEntity) => getDateLast(appointment.date)).slice(0, 4);
+        return appointments?.slice(0, 4);
     }, [appointments]);
 
     return (

@@ -1,21 +1,25 @@
 import { useMemo } from "react";
 import { useAuth } from "@/common/hooks";
 import { useGetAppointmentsByUserId } from "../application/queries";
-import { AppointmentEntity } from "../domain/entities";
 import { AppointmentCard } from "./components";
-import { getDateLast } from "@/common/utils";
 import { Error, Loading } from "@/common/presentation/components";
 import { Activity } from "lucide-react";
+import { SortOrder } from "@/common/domain/enums";
+import { useDateSetter } from "@/common/presentation/hooks";
 
 export const AppointmentHistory = () => {
     const { user } = useAuth();
-    const { data: appointments, isLoading, error } = useGetAppointmentsByUserId(user!);
+
+    const { endDateString } = useDateSetter(0, -1);
+
+    const { data: appointments, isLoading, error } = useGetAppointmentsByUserId(user!, {
+        endDate: endDateString,
+        sortOrder: SortOrder.DESC
+    });
 
     const pastAppointments = useMemo(() => {
         if (!appointments) return [];
-        return appointments.filter((appointment: AppointmentEntity) =>
-            getDateLast(appointment.date)
-        );
+        return appointments;
     }, [appointments]);
 
     if (isLoading) return <Loading />;
