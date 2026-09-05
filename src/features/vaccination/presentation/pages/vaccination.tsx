@@ -120,8 +120,8 @@ export const Vaccination = () => {
                 >
                     {vaccinationsMappedData.length === 0 && !isLoading ? (
                         <NotFoundVaccinations
-                            description="Aún no has registrado ninguna vacuna para tus mascotas. Mantén al día su historial médico registrando la primera ahora."
-                            createVaccinationDialog={() => <CreateVaccinationDialog />} />
+                            description={userSession.role == UserRole.veterinary ? "Aún no has registrado ninguna vacuna para tus mascotas. Mantén al día su historial médico registrando la primera ahora." : ""}
+                            createVaccinationDialog={() => userSession.role == UserRole.veterinary && <CreateVaccinationDialog />} />
                     ) : (
                         <div className="rounded-xl max-h-[45dvh] border border-gray-200/50 dark:border-gray-800/50 shadow-sm">
                             <ScrollArea className="h-full">

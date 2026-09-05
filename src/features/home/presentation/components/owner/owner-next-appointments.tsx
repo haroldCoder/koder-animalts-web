@@ -44,7 +44,7 @@ export const OwnerNextAppointments = () => {
             ) : appointmentsData.length === 0 ? (
                 <div className="text-center text-text-2 text-base">¡No hay próximas citas agendadas!</div>
             ) : (
-                <div className="px-7 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
+                <div className="px-7 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-5">
                     {appointmentsData.map((appointment) => (
                         <AppointmentCard key={appointment.id} appointment={appointment} />
                     ))}
