@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import {
+    DialogClose,
     DialogContent,
     DialogDescription,
     DialogHeader,
@@ -8,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { Calendar, Clock, User, Building2, Tag, FileText } from "lucide-react";
+import { Calendar, Clock, User, Building2, Tag, FileText, X } from "lucide-react";
 import { STATUS_LABELS } from "../constants";
 import { useUpdateAppointmentStatusMutation } from "../../application/queries";
 import { AppointmentStatusEnum } from "../../domain/enums";
@@ -41,7 +42,10 @@ export const AppointmentPopUp: React.FC<AppointmentPopUpProps> = ({ appointment 
     }
 
     return (
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px]" showCloseButton={false}>
+            <DialogClose className={"flex justify-end"}>
+                <X className="cursor-pointer" />
+            </DialogClose>
             <DialogHeader>
                 <DialogTitle>Detalles de la Cita</DialogTitle>
                 <DialogDescription>
