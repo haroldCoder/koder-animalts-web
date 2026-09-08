@@ -42,7 +42,7 @@ export const OwnerPets = () => {
                 ) : isLoading ? (
                     <Loading />
                 ) : (
-                    <div className="mt-6 px-4 mx-14">
+                    <div className="mt-6  px-10 mx-auto sm:mx-14 lg:px-4">
                         <Carousel opts={{
                             align: "start",
                         }}
@@ -50,7 +50,7 @@ export const OwnerPets = () => {
                             <CarouselContent>
                                 {
                                     petsData?.map(pet => (
-                                        <CarouselItem className="basis-1/2 lg:basis-1/3" key={pet.id}>
+                                        <CarouselItem className="basis-full sm:basis-1/2 lg:basis-1/3" key={pet.id}>
                                             <PetCard pet={pet} />
                                         </CarouselItem>
                                     ))
