@@ -29,13 +29,13 @@ export const OwnerNextVaccinations = () => {
     }, [vaccinations])
 
     return (
-        <div className="flex flex-col gap-5 w-[79rem]">
+        <div className="flex flex-col gap-5 w-full">
             <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold text-text-2">Vacunas Próximas</h2>
-                <Link to={`${routes.vaccinations.link}?startDate=${startDateString}&endDate=${endDateString}`} className="bg-transparent text-main hover:bg-main-light shadow-none cursor-pointer flex items-center">Ver todas <ArrowRight className="w-4 h-4" /></Link>
+                <Link to={`${routes.vaccinations.link}?startDate=${startDateString}&endDate=${endDateString}`} className="bg-transparent text-main hover:bg-main-light shadow-none cursor-pointer flex items-center gap-1">Ver todas <ArrowRight className="w-4 h-4" /></Link>
             </div>
 
-            <div className=" grid grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {
                     isLoading ? (
                         <Loading />
