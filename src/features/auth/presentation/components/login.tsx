@@ -79,7 +79,7 @@ export const Login = () => {
                 <Button
                     disabled={isPending}
                     type="submit"
-                    className="h-12 mt-2 w-full bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white rounded-xl shadow-lg shadow-orange-200 dark:shadow-none transition-all duration-300 text-base font-semibold"
+                    className="h-12 mt-2 w-full cursor-pointer bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white rounded-xl shadow-lg shadow-orange-200 dark:shadow-none transition-all duration-300 text-base font-semibold"
                 >
                     {isPending ? <Spinner className="size-4 text-white" /> : 'Iniciar Sesión'}
                 </Button>
