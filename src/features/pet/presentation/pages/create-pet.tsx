@@ -71,13 +71,13 @@ export const CreatePet = () => {
     }, [clinics])
 
     return (
-        <div className="relative max-w-4xl mx-auto p-6 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <ScrollArea className="h-[calc(100dvh-10rem)] w-full px-5">
+        <div className="relative w-full md:max-w-4xl mx-auto p-2 md:p-6 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <ScrollArea className="h-[calc(100dvh-10rem)] w-full px-1 sm:px-5">
                 {isPending && (
                     <BackdropMutationPet />
                 )}
 
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 mb-3">
                     <h1 className="text-3xl font-bold tracking-tight text-foreground">Añadir Nueva Mascota</h1>
                     <p className="text-muted-foreground">Ingresa los datos del paciente para registrar su expediente completo.</p>
                 </div>
@@ -91,11 +91,11 @@ export const CreatePet = () => {
 
                     {/* Form Actions */}
 
-                    <div className="flex justify-end gap-4 pt-4">
-                        <Button className={"cursor-pointer"} variant="outline" type="button" onClick={() => navigate(-1)} disabled={isPending}>
+                    <div className="flex flex-col sm:flex-row sm:justify-end gap-3 pt-4">
+                        <Button className="cursor-pointer w-full sm:w-auto" variant="outline" type="button" onClick={() => navigate(-1)} disabled={isPending}>
                             Cancelar
                         </Button>
-                        <Button className={"cursor-pointer gap-2"} type="submit" disabled={isPending}>
+                        <Button className="cursor-pointer gap-2 w-full sm:w-auto" type="submit" disabled={isPending}>
                             {isPending ? <Spinner className="size-4" /> : <Plus className="size-4" />}
                             {isPending ? 'Registrando...' : 'Registrar Mascota'}
                         </Button>

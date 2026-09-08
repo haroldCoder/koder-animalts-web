@@ -21,7 +21,7 @@ export const GeneralInfoForm = ({ form, clinicsOptions, isPendingClinics }: Gene
     < Fragment >
       {/* General Information */}
 
-      < div className="bg-card rounded-xl p-6 shadow-sm border border-border/50 space-y-6" >
+      < div className="bg-card rounded-xl sm:p-6 p-2 shadow-sm border border-border/50 space-y-6" >
         <div className="flex items-center gap-2 border-b border-border/50 pb-4">
           <Dog className="size-5 text-primary" />
           <h2 className="text-xl font-semibold">Información General</h2>

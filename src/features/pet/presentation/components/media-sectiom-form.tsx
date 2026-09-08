@@ -21,7 +21,7 @@ export const MediaSectionForm = ({ form, iaImageMode, setIaImageMode }: MediaSec
     return (
         <Fragment>
             {/* Media Section */}
-            <div className="bg-card rounded-xl p-6 shadow-sm border border-border/50 space-y-6">
+            <div className="bg-card rounded-xl sm:p-6 p-2 shadow-sm border border-border/50 space-y-6">
                 <div className="flex items-center gap-2 border-b border-border/50 pb-4">
                     <Upload className="size-5 text-primary" />
                     <h2 className="text-xl font-semibold">Imágenes y Archivos</h2>
@@ -84,11 +84,11 @@ export const MediaSectionForm = ({ form, iaImageMode, setIaImageMode }: MediaSec
                         </div>
 
                         <Tabs value={iaImageMode} onValueChange={(val) => setIaImageMode(val as "file" | "url")} className="w-full">
-                            <TabsList className="grid w-full grid-cols-2 max-w-md">
+                            <TabsList className="grid w-full grid-cols-2 sm:max-w-md">
                                 <TabsTrigger value="file" className="gap-2"><Upload className="size-4" /> Subir Archivo</TabsTrigger>
                                 <TabsTrigger value="url" className="gap-2"><Link2 className="size-4" /> Usar URL</TabsTrigger>
                             </TabsList>
-                            <div className="mt-4 max-w-md">
+                            <div className="mt-4 w-full sm:max-w-md">
                                 <TabsContent value="file" className="space-y-3">
                                     <label className="relative flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-border rounded-xl cursor-pointer bg-muted/30 hover:bg-muted/60 transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
                                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
