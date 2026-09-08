@@ -53,12 +53,12 @@ export const ScheduleMedicalRecord = () => {
                 diagnosis: data.diagnosis || undefined,
                 treatment: data.treatment || undefined
             });
-            toast.success("Cita programada con éxito", {
+            toast.success("Historial medico registrado con exito", {
                 icon: <CheckCircle className="text-emerald-500 size-5" />
             });
             navigate(-1);
         } catch (e) {
-            console.error("Error scheduling appointment:", e);
+            console.error("Error al registrar el historial medico:", e);
         }
     };
 
