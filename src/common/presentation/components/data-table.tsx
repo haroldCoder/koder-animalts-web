@@ -17,6 +17,7 @@ import {
 import {
     Pagination,
     PaginationContent,
+    PaginationEllipsis,
     PaginationItem,
     PaginationLink,
     PaginationNext,
@@ -24,6 +25,7 @@ import {
 } from "@/components/ui/pagination";
 import { PaginationDto } from "@/common/interfaces";
 import { Loading } from "./loading";
+import { getPageNumbers } from "../utils";
 
 interface TablePaginationProps extends PaginationDto {
     onPageChange: (page: number) => void;
@@ -53,8 +55,10 @@ export function DataTable<TData>({
     const canPreviousPage = pagination ? pagination.hasPrev : false;
     const canNextPage = pagination ? pagination.hasNext : false;
 
-    const rangeStart = pagination ? (pagination.page - 1) * pagination.limit + 1 : 0;
+    const rangeStart = pagination && pagination.total > 0 ? (pagination.page - 1) * pagination.limit + 1 : 0;
     const rangeEnd = pagination ? Math.min(pagination.page * pagination.limit, pagination.total) : 0;
+
+
 
     return (
         <div className="flex flex-col gap-4">
@@ -101,23 +105,21 @@ export function DataTable<TData>({
             </Table>
 
             {pagination && (
-                <div className="flex items-center justify-between px-4 py-2 border-t border-gray-200/50 dark:border-gray-800/50">
-                    <span className="text-xs text-gray-500 font-medium">
-                        Mostrando {rangeStart}–{rangeEnd} de{" "}
-                        <span className="text-gray-700 dark:text-gray-300 font-semibold">
-                            {pagination.total}
-                        </span>{" "}
-                        resultados &nbsp;·&nbsp; Página{" "}
-                        <span className="text-gray-700 dark:text-gray-300 font-semibold">
-                            {pagination.page}
-                        </span>{" "}
-                        de{" "}
-                        <span className="text-gray-700 dark:text-gray-300 font-semibold">
-                            {pagination.totalPages}
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 px-3 sm:px-4 py-3 border-t border-gray-200/50 dark:border-gray-800/50">
+                    <div className="text-xs text-gray-500 dark:text-gray-400 font-medium text-center sm:text-left order-2 sm:order-1">
+                        <span>
+                            Mostrando <span className="text-gray-700 dark:text-gray-200 font-semibold">{rangeStart}–{rangeEnd}</span> de{" "}
+                            <span className="text-gray-700 dark:text-gray-200 font-semibold">{pagination.total}</span>
                         </span>
-                    </span>
-                    <Pagination className="mx-0 w-auto">
-                        <PaginationContent>
+                        <span className="hidden sm:inline">
+                            {" "}resultados &nbsp;·&nbsp; Página{" "}
+                            <span className="text-gray-700 dark:text-gray-200 font-semibold">{pagination.page}</span> de{" "}
+                            <span className="text-gray-700 dark:text-gray-200 font-semibold">{pagination.totalPages}</span>
+                        </span>
+                    </div>
+
+                    <Pagination className="mx-0 w-auto justify-center sm:justify-end order-1 sm:order-2">
+                        <PaginationContent className="gap-1 sm:gap-1.5">
                             <PaginationItem>
                                 <PaginationPrevious
                                     href="#"
@@ -128,19 +130,50 @@ export function DataTable<TData>({
                                             pagination.onPageChange(pagination.page - 1);
                                         }
                                     }}
-                                    className={!canPreviousPage ? "pointer-events-none opacity-50 cursor-not-allowed" : "cursor-pointer"}
+                                    className={!canPreviousPage ? "pointer-events-none opacity-40 cursor-not-allowed" : "cursor-pointer"}
                                 />
                             </PaginationItem>
-                            <PaginationItem>
-                                {Array.from({ length: pagination.totalPages }, (_, index) => (
-                                    <PaginationLink className={`${pagination.page === index + 1 ? "bg-main text-white" : ""} cursor-pointer`} key={index} href="#" onClick={(e) => {
-                                        e.preventDefault();
-                                        pagination.onPageChange(index + 1);
-                                    }}>
-                                        {index + 1}
-                                    </PaginationLink>
-                                ))}
+
+                            {/* Indicador compacto para mobile */}
+                            <PaginationItem className="sm:hidden">
+                                <span className="text-xs font-medium text-gray-700 dark:text-gray-300 px-2.5 py-1.5 bg-gray-100 dark:bg-gray-800 rounded-md select-none">
+                                    {pagination.page} / {pagination.totalPages}
+                                </span>
                             </PaginationItem>
+
+                            {/* Números de página inteligentes para pantallas medianas/grandes */}
+                            {getPageNumbers(pagination).map((item, idx) => {
+                                if (item === "ellipsis-start" || item === "ellipsis-end") {
+                                    return (
+                                        <PaginationItem key={`${item}-${idx}`} className="hidden sm:inline-block">
+                                            <PaginationEllipsis />
+                                        </PaginationItem>
+                                    );
+                                }
+                                const pageNum = item as number;
+                                const isCurrent = pagination.page === pageNum;
+                                return (
+                                    <PaginationItem key={pageNum} className="hidden sm:inline-block">
+                                        <PaginationLink
+                                            href="#"
+                                            isActive={isCurrent}
+                                            className={`${isCurrent
+                                                    ? "bg-main text-white hover:bg-main hover:text-white"
+                                                    : "hover:bg-gray-100 dark:hover:bg-gray-800"
+                                                } cursor-pointer min-w-9 h-9 text-xs sm:text-sm`}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                if (!isCurrent) {
+                                                    pagination.onPageChange(pageNum);
+                                                }
+                                            }}
+                                        >
+                                            {pageNum}
+                                        </PaginationLink>
+                                    </PaginationItem>
+                                );
+                            })}
+
                             <PaginationItem>
                                 <PaginationNext
                                     href="#"
@@ -151,7 +184,7 @@ export function DataTable<TData>({
                                             pagination.onPageChange(pagination.page + 1);
                                         }
                                     }}
-                                    className={!canNextPage ? "pointer-events-none opacity-50 cursor-not-allowed" : "cursor-pointer"}
+                                    className={!canNextPage ? "pointer-events-none opacity-40 cursor-not-allowed" : "cursor-pointer"}
                                 />
                             </PaginationItem>
                         </PaginationContent>

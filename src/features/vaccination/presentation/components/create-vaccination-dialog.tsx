@@ -1,5 +1,6 @@
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -16,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Syringe } from "lucide-react"
+import { Syringe, X } from "lucide-react"
 import { useGetMedicalRecordsByUserId } from "@/features/medical-record/application/queries"
 import { useAuth } from "@/common/hooks"
 import { useGetPetsByVeterinaryUserId } from "@/features/pet/application/queries"
@@ -87,7 +88,10 @@ export function CreateVaccinationDialog() {
           Agregar Vacuna
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent showCloseButton={false} className="sm:max-w-[425px]">
+        <DialogClose className={"flex justify-end"}>
+          <X className="cursor-pointer" />
+        </DialogClose>
         <DialogHeader>
           <DialogTitle>Registrar Nueva Vacuna</DialogTitle>
           <DialogDescription>
