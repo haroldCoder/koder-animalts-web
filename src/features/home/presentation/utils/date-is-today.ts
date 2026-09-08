@@ -1,6 +1,8 @@
 export const dateIsToday = (date: Date) => {
+    if (!date) return false;
+    const d = new Date(date);
     const today = new Date();
-    return date.getDate() === today.getDate() &&
-        date.getMonth() === today.getMonth() &&
-        date.getFullYear() === today.getFullYear();
+    return d.getUTCDate() === today.getUTCDate() &&
+        d.getUTCMonth() === today.getUTCMonth() &&
+        d.getUTCFullYear() === today.getUTCFullYear();
 };

@@ -26,6 +26,9 @@ const STATUS_LABELS: Record<string, string> = {
 
 export const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
     const dateObj = new Date(appointment.date);
+    console.log(dateObj);
+
+
     const statusStyle = appointment.status
         ? (STATUS_STYLES[appointment.status] ?? "bg-muted text-muted-foreground")
         : null;
@@ -67,7 +70,7 @@ export const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment })
                         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs sm:text-sm text-muted-foreground">
                             <span className="inline-flex items-center gap-1">
                                 <Clock className="size-3.5 shrink-0 text-muted-foreground/80" />
-                                {format(dateObj, "hh:mm a")}
+                                {format(appointment.date, "hh:mm a")}
                             </span>
                             {appointment.petName && (
                                 <span className="inline-flex items-center gap-1 truncate max-w-[180px] sm:max-w-[220px]">

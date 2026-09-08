@@ -21,6 +21,10 @@ export class HttpAppointmentRepository implements IAppointmentRepository {
                 queryParams.append('sortOrder', criteria.sortOrder);
             }
 
+            if (criteria?.status && criteria.status.length > 0) {
+                queryParams.append('status', criteria.status.join(','));
+            }
+
             const response = await apiClient.get<AppointmentResponseDto>(
                 `/appointment/user/${userId}?${queryParams.toString()}`
             );

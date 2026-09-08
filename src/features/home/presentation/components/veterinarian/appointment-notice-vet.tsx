@@ -2,23 +2,29 @@ import { BellRing } from "lucide-react"
 import { CardNotice } from "../card-notice"
 import { useGetAppointmentsByUserId } from "@/features/appointment/application/queries"
 import { useAuth } from "@/common/hooks"
-import { useAppointmentNotice } from "../../hooks"
 import { Error, Loading } from "@/common/presentation/components"
 import { useGetAllVaccinationsQuery } from "@/features/vaccination/application/queries"
 import { CardVaccination } from "../card-vaccination"
 import { useDateSetter } from "@/common/presentation/hooks"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { AppointmentStatusEnum } from "@/features/appointment/domain/enums"
+import { SortOrder } from "@/common/domain/enums"
 
 export const AppointmentNoticeVet = () => {
     const { user } = useAuth()
     const { startDateString, endDateString } = useDateSetter(0, 1);
-    const { data, isLoading, error } = useGetAppointmentsByUserId(user!)
+    const { data: appointmentsData, isLoading, error } = useGetAppointmentsByUserId(user!, {
+        startDate: startDateString,
+        endDate: endDateString,
+        status: [AppointmentStatusEnum.SCHEDULED],
+        sortOrder: SortOrder.ASC
+    })
     const { data: vaccinationsData, isLoading: vaccinationsIsLoading, error: vaccinationsError } = useGetAllVaccinationsQuery(user!, {
         startDate: startDateString,
         endDate: endDateString,
     });
 
-    const { appointmentsData } = useAppointmentNotice(data)
+
 
     return (
         <section>
@@ -34,12 +40,12 @@ export const AppointmentNoticeVet = () => {
                         <Loading />
                     ) : error || vaccinationsError ? (
                         <Error message="Error al cargar las citas" />
-                    ) : appointmentsData.length === 0 && vaccinationsData?.vaccinations?.length === 0 ? (
+                    ) : appointmentsData?.length === 0 && vaccinationsData?.vaccinations?.length === 0 ? (
                         <div className="text-center text-text-2 text-base">¡No hay citas ni vacunaciones próximas agendadas!</div>
                     ) : (
                         <ScrollArea className="h-[440px] pr-7" thumbClassName="bg-main">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {appointmentsData.map((appointment) => (
+                                {appointmentsData?.map((appointment) => (
                                     <CardNotice key={appointment.id} data={appointment}>
                                         <div className="flex flex-col mt-3">
                                             <p className="text-base text-text-2">Dueño: <span className="font-medium text-main">{appointment.ownerName}</span></p>

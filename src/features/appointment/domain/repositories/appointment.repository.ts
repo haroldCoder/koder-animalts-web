@@ -1,9 +1,11 @@
 import { AppointmentDataDto, CreateAppointmentDto } from '../dtos';
 import { FindCriteriaQuery } from '@/common/interfaces';
+import { AppointmentStatusEnum } from '../enums';
 
 export interface FindAppointmentsCriteria extends FindCriteriaQuery {
     startDate?: Date;
     endDate?: Date;
+    status?: AppointmentStatusEnum[];
 }
 
 export interface IAppointmentRepository {
