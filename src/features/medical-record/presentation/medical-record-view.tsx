@@ -1,5 +1,5 @@
-import { useContext, useMemo, useState } from "react";
-import { useAuth } from "@/common/hooks";
+import { useCallback, useContext, useMemo, useState } from "react";
+import { useAuth, useClearParamOnCondition } from "@/common/hooks";
 import { useGetMedicalRecordsByUserId } from "../application/queries";
 import { MedicalRecordEntity } from "../domain/entities";
 import { MedicalRecordCardToggle, MedicalRecordHistoryEmpty } from "./components";
@@ -13,6 +13,7 @@ import { useGetPetsByOwnerUserId, useGetPetsByVeterinaryUserId } from "@/feature
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useParams } from "react-router-dom";
+import { routes } from "@/common/presentation/constants";
 
 export const MedicalRecordView = () => {
     const { medicalRecordId } = useParams();
@@ -35,7 +36,22 @@ export const MedicalRecordView = () => {
         endDate: undefined
     });
 
-    const { data: records, isLoading, error } = useGetMedicalRecordsByUserId(user!, filters);
+    const hasActiveFilters = !!(filters.petId || filters.startDate || filters.endDate)
+
+    const queryFilters = useMemo(() => ({
+        ...filters,
+        medicalRecordId: hasActiveFilters ? undefined : (filters.medicalRecordId ?? medicalRecordId)
+    }), [filters, hasActiveFilters, medicalRecordId]);
+
+    const { data: records, isLoading, error } = useGetMedicalRecordsByUserId(user!, queryFilters);
+
+    const handleClearParam = useCallback(() => {
+        setFilters(prev => ({ ...prev, medicalRecordId: undefined }));
+    }, []);
+
+    useClearParamOnCondition(medicalRecordId, hasActiveFilters, routes.medicalRecord.link,
+        () => handleClearParam()
+    );
 
     const selectedPet = useMemo(() => pets?.find(
         pet => pet.id === filters.petId
@@ -146,7 +162,7 @@ export const MedicalRecordView = () => {
                     />
                 </div>
                 <Button
-                    disabled={!!medicalRecordId}
+                    disabled={!hasActiveFilters}
                     className="cursor-pointer bg-main px-8 py-4 w-full md:w-auto"
                     onClick={() => setFilters({ petId: undefined, startDate: undefined, endDate: undefined })}
                 >
