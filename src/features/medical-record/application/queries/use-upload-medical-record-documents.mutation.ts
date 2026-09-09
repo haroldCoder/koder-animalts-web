@@ -13,7 +13,7 @@ export const useUploadMedicalRecordDocumentsMutation = () => {
             uploadMedicalRecordDocumentsUseCase.execute(medicalRecordId, files),
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ["appointments"]
+                queryKey: ["medical-record"]
             });
         }
     });
