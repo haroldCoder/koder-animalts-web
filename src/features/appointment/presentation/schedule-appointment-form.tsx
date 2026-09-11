@@ -9,11 +9,12 @@ import { Spinner } from "@/components/ui/spinner";
 import { Stethoscope, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { NewAppointmentFormValues } from "./interfaces";
-import { PetSelector } from "@/common/presentation/components";
+import { PetOption, PetSelector } from "@/common/presentation/components";
 import { DateTimePicker } from "@/common/presentation/components";
 import { getMessageError } from "@/common/errors";
 import { routes } from "@/common/presentation/constants";
 import { useNavigate } from "react-router-dom";
+import { PetPresentationMapper } from "@/features/pet/presentation/mappers/pet-options.mapper";
 
 export const ScheduleAppointmentForm = ({ onSuccess }: { onSuccess?: () => void }) => {
     const navigate = useNavigate();
@@ -21,8 +22,8 @@ export const ScheduleAppointmentForm = ({ onSuccess }: { onSuccess?: () => void 
     const { mutateAsync, isPending } = useScheduleAppointmentMutation();
     const { data: pets, isLoading: isLoadingPets } = useGetPetsByVeterinarianClinic(user!);
 
-    const petsOptions = useMemo(() =>
-        pets?.map((p) => ({ value: p.id, label: p.name, image: p.image })) || [],
+    const petsOptions = useMemo<PetOption[]>(() =>
+        PetPresentationMapper.toOptions(pets),
         [pets]
     );
 

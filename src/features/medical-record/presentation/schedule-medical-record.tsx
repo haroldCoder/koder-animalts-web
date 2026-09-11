@@ -18,7 +18,8 @@ import {
 import { MedicalRecordSucess, MedicalRecordTypeSelector, DatePickerVisit } from "./components";
 import { ScheduleAppointmentFormValues } from "./interfaces";
 import { useScheduleAppointmentForm } from "./hooks";
-import { PetSelector } from "@/common/presentation/components";
+import { PetOption, PetSelector } from "@/common/presentation/components";
+import { PetPresentationMapper } from "@/features/pet/presentation/mappers/pet-options.mapper";
 
 
 export const ScheduleMedicalRecord = () => {
@@ -62,13 +63,10 @@ export const ScheduleMedicalRecord = () => {
         }
     };
 
-    const petsOptions = useMemo(() => {
-        return pets?.map((pet) => ({
-            value: pet.id,
-            label: pet.name,
-            image: pet.image
-        })) || [];
-    }, [pets]);
+    const petsOptions = useMemo<PetOption[]>(() =>
+        PetPresentationMapper.toOptions(pets),
+        [pets]
+    );
 
     return (
         <div className="relative max-w-4xl mx-auto p-6 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">

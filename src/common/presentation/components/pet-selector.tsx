@@ -3,10 +3,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Spinner } from "@/components/ui/spinner"
 import { HoverPetAvatar } from "./hover-pet-avatar"
 
+export interface PetOption {
+    value: string;
+    label: string;
+    image?: string;
+}
+
 interface PetSelectorProps {
     control: any;
     errors: any;
-    petsOptions: { value: string; label: string; image?: string }[];
+    petsOptions: PetOption[];
     isLoadingPets: boolean;
 }
 

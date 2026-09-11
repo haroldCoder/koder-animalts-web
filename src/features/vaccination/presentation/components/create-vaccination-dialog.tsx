@@ -21,7 +21,7 @@ import { Syringe, X } from "lucide-react"
 import { useGetMedicalRecordsByUserId } from "@/features/medical-record/application/queries"
 import { useAuth } from "@/common/hooks"
 import { useGetPetsByVeterinaryUserId } from "@/features/pet/application/queries"
-import { DateTimePicker, Loading, PetSelector } from "@/common/presentation/components"
+import { DateTimePicker, Loading, PetOption, PetSelector } from "@/common/presentation/components"
 import { useMemo } from "react"
 import { useCreateVaccinationForm } from "../hooks"
 import { returnNameConsultationType } from "@/common/presentation/utils"
@@ -33,6 +33,7 @@ import { Controller } from "react-hook-form"
 import { CreateVaccinationEntity } from "../../domain/entities"
 import { toast } from "sonner"
 import { getMessageError } from "@/common/errors"
+import { PetPresentationMapper } from "@/features/pet/presentation/mappers/pet-options.mapper"
 
 export function CreateVaccinationDialog() {
   const { user } = useAuth();
@@ -62,14 +63,10 @@ export function CreateVaccinationDialog() {
 
   const { data: medicalRecords, isLoading: isLoadingMedicalRecords } = useGetMedicalRecordsByUserId(user!, { petId: selectedPet });
 
-  const petOptions = useMemo(() => {
-    if (!pets) return [];
-    return pets.map((pet) => ({
-      value: pet.id,
-      label: pet.name,
-      image: pet.image,
-    }));
-  }, [pets]);
+  const petsOptions = useMemo<PetOption[]>(() =>
+    PetPresentationMapper.toOptions(pets),
+    [pets]
+  );
 
   const medicalRecordsOptions = useMemo(() => {
     if (!medicalRecords) return [];
@@ -108,7 +105,7 @@ export function CreateVaccinationDialog() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <PetSelector control={control} petsOptions={petOptions} errors={errors} isLoadingPets={isLoadingPets} />
+              <PetSelector control={control} petsOptions={petsOptions} errors={errors} isLoadingPets={isLoadingPets} />
             </div>
 
             <div className="flex flex-col gap-2 w-full overflow-hidden">
