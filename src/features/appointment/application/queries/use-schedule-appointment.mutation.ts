@@ -14,7 +14,7 @@ export const useScheduleAppointmentMutation = () => {
             scheduleAppointmentUseCase.execute(appointment),
         onSuccess: (_data, variables) => {
             queryClient.invalidateQueries({
-                queryKey: ['appointments', 'user', variables.petId],
+                queryKey: ['appointments', 'user', variables.userId],
             });
         },
     });

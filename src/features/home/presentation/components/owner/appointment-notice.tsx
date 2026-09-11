@@ -4,11 +4,17 @@ import { useAuth } from "@/common/hooks";
 import { Loading } from "@/common/presentation/components";
 import { useAppointmentNotice } from "../../hooks";
 import { CardNotice } from "../card-notice";
+import { useDateSetter } from "@/common/presentation/hooks";
 
 
 export const AppointmentNotice = () => {
     const { user } = useAuth();
-    const { data: appointments, isLoading } = useGetAppointmentsByUserId(user!);
+    const { startDateString, endDateString } = useDateSetter(0, 1);
+
+    const { data: appointments, isLoading } = useGetAppointmentsByUserId(user!, {
+        startDate: startDateString,
+        endDate: endDateString ?? new Date()
+    });
 
     const { appointmentsData: notices } = useAppointmentNotice(appointments);
 

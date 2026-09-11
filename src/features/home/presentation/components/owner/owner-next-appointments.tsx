@@ -8,6 +8,7 @@ import { Error, Loading } from "@/common/presentation/components";
 import { useNavigate } from "react-router-dom";
 import { routes } from "@/common/presentation/constants";
 import { useDateSetter } from "@/common/presentation/hooks";
+import { SortOrder } from "@/common/domain/enums";
 
 export const OwnerNextAppointments = () => {
     const { user } = useAuth();
@@ -20,7 +21,8 @@ export const OwnerNextAppointments = () => {
         isLoading,
         error
     } = useGetAppointmentsByUserId(user!, {
-        startDate: startDateString
+        startDate: startDateString,
+        sortOrder: SortOrder.ASC
     });
 
     const appointmentsData = useMemo(() => {

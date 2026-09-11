@@ -12,14 +12,17 @@ import { NewAppointmentFormValues } from "./interfaces";
 import { PetSelector } from "@/common/presentation/components";
 import { DateTimePicker } from "@/common/presentation/components";
 import { getMessageError } from "@/common/errors";
+import { routes } from "@/common/presentation/constants";
+import { useNavigate } from "react-router-dom";
 
 export const ScheduleAppointmentForm = ({ onSuccess }: { onSuccess?: () => void }) => {
+    const navigate = useNavigate();
     const { user } = useAuth();
     const { mutateAsync, isPending } = useScheduleAppointmentMutation();
     const { data: pets, isLoading: isLoadingPets } = useGetPetsByVeterinarianClinic(user!);
 
     const petsOptions = useMemo(() =>
-        pets?.map((p) => ({ value: p.id, label: p.name })) || [],
+        pets?.map((p) => ({ value: p.id, label: p.name, image: p.image })) || [],
         [pets]
     );
 
@@ -44,7 +47,11 @@ export const ScheduleAppointmentForm = ({ onSuccess }: { onSuccess?: () => void 
             });
             toast.success("¡Cita agendada con éxito!");
             reset();
-            onSuccess?.();
+            if (onSuccess) {
+                onSuccess();
+            } else {
+                navigate(routes.appointments.link);
+            }
         } catch (err) {
             console.log(err);
 
