@@ -11,10 +11,11 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { AppliedFilter, CardDocument, EmptyFilters } from './components'
 import { useGetDocumentsByUserId } from '../application/queries'
-import { useAuth } from '@/common/hooks'
+import { useAuth, useClearParamOnCondition } from '@/common/hooks'
 import { Loading } from '@/common/presentation/components'
 import { useParams } from 'react-router-dom'
 import { DatePicker } from '@/common/presentation/components'
+import { routes } from '@/common/presentation/constants'
 
 
 export const DocumentsView = () => {
@@ -24,6 +25,10 @@ export const DocumentsView = () => {
     const [startDate, setStartDate] = useState<Date | undefined>()
     const [endDate, setEndDate] = useState<Date | undefined>()
     const { medicalRecordId } = useParams();
+
+    const hasActiveFilters = !!(appliedDocumentName || appliedVeterinarianName || startDate || endDate || searchQuery)
+
+    useClearParamOnCondition(medicalRecordId, hasActiveFilters, routes.documents.link);
 
     const { user } = useAuth();
     const { data: documents, isLoading } = useGetDocumentsByUserId(user!, {
@@ -52,8 +57,6 @@ export const DocumentsView = () => {
             return true
         })
     }, [appliedDocumentName, appliedVeterinarianName, startDate, endDate, documents])
-
-    const hasActiveFilters = !!(appliedDocumentName || appliedVeterinarianName || startDate || endDate || searchQuery)
 
     const handleClearFilters = useCallback(() => {
         setSearchQuery("")
