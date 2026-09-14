@@ -11,13 +11,14 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { Calendar, Clock, User, Building2, Tag, FileText, X } from "lucide-react";
 import { STATUS_LABELS } from "../constants";
-import { useUpdateAppointmentStatusMutation } from "../../application/queries";
+import { useUpdateAppointmentStatusMutation } from "../../application/mutations";
 import { AppointmentStatusEnum } from "../../domain/enums";
 import { Spinner } from "@/components/ui/spinner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AppointmentDataDto } from "../../domain/dtos";
 import { MainLayoutContext } from "@/common/presentation/layout";
 import { UpdateStatusPolicy } from "../../domain/policies";
+import { ButtonCompleteStatus } from "./button-complete-status";
 
 interface AppointmentPopUpProps {
     appointment: AppointmentDataDto;
@@ -117,12 +118,16 @@ export const AppointmentPopUp: React.FC<AppointmentPopUpProps> = ({ appointment 
                     </div>
                 )}
             </div>
-
-            {UpdateStatusPolicy.canUpdateToCancel(appointment, user?.role, AppointmentStatusEnum.CANCELLED) && (
-                <Button variant="destructive" className="w-full sm:w-auto cursor-pointer" onClick={handleCancelAppointment} disabled={isPending}>
-                    {isPending ? <Spinner className="text-main" /> : 'Cancelar cita'}
-                </Button>
-            )}
+            <div className="flex flex-row w-full gap-3 justify-end">
+                {UpdateStatusPolicy.canUpdateToCancel(appointment, user?.role, AppointmentStatusEnum.CANCELLED) && (
+                    <Button variant="destructive" className="w-full sm:w-auto cursor-pointer" onClick={handleCancelAppointment} disabled={isPending}>
+                        {isPending ? <Spinner className="text-main" /> : 'Cancelar cita'}
+                    </Button>
+                )}
+                {UpdateStatusPolicy.canUpdateToCompleted(appointment, user?.role, AppointmentStatusEnum.COMPLETED) && (
+                    <ButtonCompleteStatus appointment={appointment} user={user!} content={"Marcar como completada"} />
+                )}
+            </div>
         </DialogContent>
     );
 };
