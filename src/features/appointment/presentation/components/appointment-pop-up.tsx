@@ -118,7 +118,7 @@ export const AppointmentPopUp: React.FC<AppointmentPopUpProps> = ({ appointment 
                     </div>
                 )}
             </div>
-            <div className="flex flex-row w-full gap-3 justify-end">
+            <div className="flex flex-col lg:flex-row w-full  gap-3 justify-end">
                 {UpdateStatusPolicy.canUpdateToCancel(appointment, user?.role, AppointmentStatusEnum.CANCELLED) && (
                     <Button variant="destructive" className="w-full sm:w-auto cursor-pointer" onClick={handleCancelAppointment} disabled={isPending}>
                         {isPending ? <Spinner className="text-main" /> : 'Cancelar cita'}
