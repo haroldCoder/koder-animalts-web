@@ -9,7 +9,6 @@ import { AppointmentStatusEnum } from "../../domain/enums";
 import { AppointmentDataDto } from "../../domain/dtos";
 import { UpdateStatusPolicy } from "../../domain/policies";
 import { MainLayoutContext } from "@/common/presentation/layout";
-import { Loading } from "@/common/presentation/components";
 import { ButtonCompleteStatus } from "./button-complete-status";
 
 interface AppointmentCardProps {
