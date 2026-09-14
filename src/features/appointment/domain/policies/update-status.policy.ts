@@ -8,6 +8,10 @@ export class UpdateStatusPolicy {
             return true;
         }
 
+        if (appointment.status == AppointmentStatusEnum.COMPLETED) {
+            return false;
+        }
+
         if (userRole === UserRole.owner) {
             if (appointment.status !== AppointmentStatusEnum.SCHEDULED
                 || new Date(appointment.date) < new Date()) {
