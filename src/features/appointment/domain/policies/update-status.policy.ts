@@ -17,4 +17,21 @@ export class UpdateStatusPolicy {
 
         return true;
     }
+
+    static canUpdateToCompleted(appointment: AppointmentEntity, userRole: UserRole, newStatus: AppointmentStatusEnum): boolean {
+        if (newStatus != AppointmentStatusEnum.COMPLETED) {
+            return true;
+        }
+
+        if (userRole === UserRole.owner) {
+            return false
+        }
+
+        if (appointment.status !== AppointmentStatusEnum.SCHEDULED
+            || new Date() < new Date(appointment.date)) {
+            return false;
+        }
+
+        return true;
+    }
 }

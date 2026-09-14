@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Calendar, Clock, Tag, Eye } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
@@ -7,6 +7,10 @@ import { Button } from "@/components/ui/button";
 import { AppointmentPopUp } from "./appointment-pop-up";
 import { AppointmentStatusEnum } from "../../domain/enums";
 import { AppointmentDataDto } from "../../domain/dtos";
+import { UpdateStatusPolicy } from "../../domain/policies";
+import { MainLayoutContext } from "@/common/presentation/layout";
+import { Loading } from "@/common/presentation/components";
+import { ButtonCompleteStatus } from "./button-complete-status";
 
 interface AppointmentCardProps {
     appointment: AppointmentDataDto;
@@ -26,8 +30,7 @@ const STATUS_LABELS: Record<string, string> = {
 
 export const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
     const dateObj = new Date(appointment.date);
-    console.log(dateObj);
-
+    const { user } = useContext(MainLayoutContext)!;
 
     const statusStyle = appointment.status
         ? (STATUS_STYLES[appointment.status] ?? "bg-muted text-muted-foreground")
@@ -84,6 +87,11 @@ export const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment })
 
                 {/* Status badge & Action button */}
                 <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-border/40 shrink-0">
+                    {
+                        UpdateStatusPolicy.canUpdateToCompleted(appointment, user!.role, AppointmentStatusEnum.COMPLETED) && (
+                            <ButtonCompleteStatus appointment={appointment} user={user!} />
+                        )
+                    }
                     {statusLabel && statusStyle && (
                         <span className={`shrink-0 inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs font-semibold ${statusStyle}`}>
                             <Tag className="size-3" />
