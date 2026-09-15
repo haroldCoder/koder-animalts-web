@@ -7,10 +7,27 @@ import { Button } from "@/components/ui/button";
 import { PawPrint } from "lucide-react";
 import { Link } from "react-router-dom";
 import { routes } from "@/common/presentation/constants";
+import { useGetAllClinics } from "@/features/clinics/application/queries";
+import { useMemo } from "react";
+import { ClinicOption } from "@/common/presentation/interfaces";
 
 export const OwnerPetsView = () => {
     const { user } = useAuth();
     const { data, isLoading, error } = useGetPetsByOwnerUserId(user!);
+    const { data: clinics, isLoading: isLoadingClinics } = useGetAllClinics();
+
+    const clinicOptions = useMemo<ClinicOption[]>(() => {
+        if (!clinics) return [];
+        return clinics.map((c) => ({
+            value: c.id,
+            label: c.name,
+            aditional: {
+                address: c.address,
+                phone: c.phone,
+                email: c.email
+            }
+        }));
+    }, [clinics])
 
     if (isLoading) {
         return <Loading />;
@@ -19,6 +36,8 @@ export const OwnerPetsView = () => {
     if (error) {
         return <Error message="Error al cargar mascotas" />;
     }
+
+
 
     return (
         <div className="flex flex-col gap-4 h-screen">
@@ -33,7 +52,7 @@ export const OwnerPetsView = () => {
             <ScrollArea className="border rounded-xl">
                 <div className="grid grid-cols-1 max-lg:pb-24 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
                     {data?.map((pet) => (
-                        <CardMainPet key={pet.id} pet={pet} />
+                        <CardMainPet clinicOptions={clinicOptions} isLoadingClinics={isLoadingClinics} key={pet.id} pet={pet} />
                     ))}
                 </div>
             </ScrollArea>

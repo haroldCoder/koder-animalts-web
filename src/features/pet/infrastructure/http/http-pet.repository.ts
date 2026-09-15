@@ -4,6 +4,7 @@ import { IPetRepository } from "../../domain/repositories";
 import { PetResponseEntity } from "../entities";
 import { ApiResponseToDomain } from "../mappers";
 import { CreatePetDto } from "../../domain/dtos";
+import { getMessageError } from "@/common/errors";
 
 export class HttpPetRepository implements IPetRepository {
     async findByOwnerUserId(userId: string): Promise<PetEntity[]> {
@@ -83,6 +84,20 @@ export class HttpPetRepository implements IPetRepository {
             );
         } catch (error) {
             console.error('Error creating pet:', error);
+            throw error;
+        }
+    }
+
+    async updateClinic(petId: string, clinicId: string): Promise<void> {
+        try {
+            await apiClient.patch(
+                `/pet/clinic/${petId}`,
+                {
+                    body: { clinicId }
+                }
+            );
+        } catch (error) {
+            console.error('Error updating pet clinic:', error);
             throw error;
         }
     }
