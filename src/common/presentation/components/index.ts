@@ -10,4 +10,5 @@ export * from './data-table';
 export * from './carousel-select-pet';
 export * from './date-time-picker'
 export * from './not-found-vaccinations';
+export * from './clinic-selector';
 
