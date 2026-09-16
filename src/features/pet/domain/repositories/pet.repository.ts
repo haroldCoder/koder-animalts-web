@@ -6,4 +6,5 @@ export interface IPetRepository {
     findByVeterinarianUserId(userId: string): Promise<PetEntity[]>;
     searchPetByVeterinarianUserId(userId: string, petName?: string, ownerName?: string): Promise<PetEntity[]>;
     createPet(pet: CreatePetDto): Promise<void>;
+    updateClinic(petId: string, clinicId: string): Promise<void>;
 }

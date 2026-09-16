@@ -4,13 +4,14 @@ import { Fragment } from 'react'
 import { Controller } from 'react-hook-form'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { genderOptions, speciesOptions } from '../constants'
-import { Loading } from '@/common/presentation/components'
+import { ClinicSelector } from '@/common/presentation/components'
 import { UseFormReturn } from 'react-hook-form'
 import { CreatePetFormValues } from '../interfaces'
+import { ClinicOption } from '@/common/presentation/interfaces'
 
 interface GeneralInfoFormProps {
   form: UseFormReturn<CreatePetFormValues>
-  clinicsOptions: { value: string, label: string }[]
+  clinicsOptions: ClinicOption[]
   isPendingClinics: boolean
 }
 
@@ -66,23 +67,8 @@ export const GeneralInfoForm = ({ form, clinicsOptions, isPendingClinics }: Gene
               control={control}
               name="clinicId"
               rules={{ required: true }}
-              render={({ field: { onChange } }) => (
-                <Select items={clinicsOptions} onValueChange={onChange}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecciona una clínica" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {
-                      isPendingClinics ?
-                        <Loading />
-                        :
-                        clinicsOptions?.map((clinic) => (
-                          <SelectItem key={clinic.value} value={clinic.value}>
-                            {clinic.label}
-                          </SelectItem>
-                        ))}
-                  </SelectContent>
-                </Select>
+              render={({ field: { onChange, value } }) => (
+                <ClinicSelector clinicsOptions={clinicsOptions} onChange={onChange} isPendingClinics={isPendingClinics} value={value} />
               )}
             />
             {errors.clinicId && <span className="text-xs text-destructive">Este campo es requerido</span>}

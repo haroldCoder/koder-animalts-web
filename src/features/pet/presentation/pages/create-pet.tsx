@@ -66,7 +66,15 @@ export const CreatePet = () => {
 
     const clinicsOptions = useMemo(() => {
         return clinics?.map((clinic) => {
-            return { value: clinic.id, label: clinic.name }
+            return {
+                value: clinic.id,
+                label: clinic.name,
+                aditional: {
+                    address: clinic.address,
+                    phone: clinic.phone,
+                    email: clinic.email
+                }
+            }
         })
     }, [clinics])
 
