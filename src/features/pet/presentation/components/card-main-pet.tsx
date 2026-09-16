@@ -4,20 +4,46 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sparkles, Calendar, Scale, Tag, Syringe, Camera, Heart, Palette } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import { ClinicOption } from "@/common/presentation/interfaces";
+import { ClinicSelector, Loading } from "@/common/presentation/components";
+import { toast } from "sonner";
+import { useUpdateClinicMutation } from "../../application/queries";
+import { getMessageError } from "@/common/errors";
 
 interface Props {
     pet: PetEntity;
+    clinicOptions: ClinicOption[]
+    isLoadingClinics: boolean
 }
 
-export const CardMainPet = ({ pet }: Props) => {
+export const CardMainPet = ({ pet, clinicOptions, isLoadingClinics }: Props) => {
     const [isClicked, setIsClicked] = useState(false);
+    const [isOpenTransfer, setIsOpenTransfer] = useState(false);
+    const updateClinicMutation = useUpdateClinicMutation();
 
     const displayImage = useMemo(() => isClicked && pet.iaImage ? pet.iaImage : pet.image, [isClicked, pet.iaImage, pet.image]);
+
+    const switchClinicPet = (clinicId: string | null) => {
+        if (!clinicId) return;
+        updateClinicMutation.mutate(
+            { petId: pet.id, clinicId },
+            {
+                onSuccess: () => {
+                    toast.success("Mascota trasladada exitosamente");
+                    setIsOpenTransfer(false);
+                },
+                onError: (error) => {
+                    toast.error("Error al trasladar la mascota: " + getMessageError(error));
+                }
+            }
+        );
+    }
 
     return (
         <div className="bg-card text-card-foreground border rounded-xl shadow-sm overflow-hidden flex flex-col h-full max-h-[600px] hover:shadow-md transition-shadow">
             {/* Header / Avatar */}
-            <div className="p-6 pb-4 flex flex-col gap-4 items-center border-b bg-muted/10 relative">
+            <div className="p-6 pb-4 flex flex-col gap-4 items-center border-b bg-muted/10 relative shrink-0">
                 <div
                     className="cursor-pointer flex gap-1 items-start"
                 >
@@ -51,70 +77,106 @@ export const CardMainPet = ({ pet }: Props) => {
                 </div>
             </div>
 
-            {/* Content / Attributes */}
-            <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-y-4 gap-x-2 text-sm flex-shrink-0">
-                {pet.gender && (
-                    <div className="flex items-center gap-2">
-                        <Heart className="w-4 h-4 text-muted-foreground shrink-0" />
-                        <span className="truncate"><span className="text-muted-foreground mr-1">Sexo:</span>{pet.gender}</span>
-                    </div>
-                )}
-                {pet.birthdate && (
-                    <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-muted-foreground shrink-0" />
-                        <span className="truncate">
-                            <span className="text-muted-foreground mr-1">Nacimiento:</span>
-                            {pet.birthdate instanceof Date ? pet.birthdate.toLocaleDateString() : new Date(pet.birthdate).toLocaleDateString()}
-                        </span>
-                    </div>
-                )}
-                {pet.weight && (
-                    <div className="flex items-center gap-2">
-                        <Scale className="w-4 h-4 text-muted-foreground shrink-0" />
-                        <span className="truncate"><span className="text-muted-foreground mr-1">Peso:</span>{pet.weight} kg</span>
-                    </div>
-                )}
-                {pet.color && (
-                    <div className="flex items-center gap-2">
-                        <Palette className="w-4 h-4 text-muted-foreground shrink-0" />
-                        <span className="truncate"><span className="text-muted-foreground mr-1">Color:</span>{pet.color}</span>
-                    </div>
-                )}
-                {pet.microchip && (
-                    <div className="flex items-center gap-2">
-                        <Tag className="w-4 h-4 text-muted-foreground shrink-0" />
-                        <span className="truncate"><span className="text-muted-foreground mr-1">Chip:</span>{pet.microchip}</span>
-                    </div>
-                )}
-                {pet.clinicName && (
-                    <div className="flex items-center gap-2 col-span-2">
-                        <Syringe className="w-4 h-4 text-muted-foreground shrink-0" />
-                        <span className="truncate"><span className="text-muted-foreground mr-1">Clínica:</span>{pet.clinicName}</span>
-                    </div>
-                )}
-            </div>
-
-            {/* Images vertical scroll */}
-            {pet.images && pet.images.length > 0 && (
-                <div className="px-6 pb-6">
-                    <h3 className="text-sm font-semibold text-main mb-3 flex items-center gap-2">
-                        <Camera className="w-4 h-4 shrink-0" />
-                        Galería
-                    </h3>
-                    <ScrollArea className="h-48 rounded-md border p-2">
-                        <div className="grid grid-cols-3 gap-4 pr-3">
-                            {pet.images.map((img, idx) => (
-                                <img
-                                    key={idx}
-                                    src={img}
-                                    alt={`${pet.name} gallery ${idx + 1}`}
-                                    className="w-full h-40 object-cover rounded-lg shadow-sm hover:shadow-md transition-shadow"
-                                />
-                            ))}
+            <ScrollArea className="flex-1 h-40" thumbClassName="bg-amber-500">
+                {/* Content / Attributes */}
+                <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-y-4 gap-x-2 text-sm">
+                    {pet.gender && (
+                        <div className="flex items-center gap-2">
+                            <Heart className="w-4 h-4 text-muted-foreground shrink-0" />
+                            <span className="truncate"><span className="text-muted-foreground mr-1">Sexo:</span>{pet.gender}</span>
                         </div>
-                    </ScrollArea>
+                    )}
+                    {pet.birthdate && (
+                        <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4 text-muted-foreground shrink-0" />
+                            <span className="truncate">
+                                <span className="text-muted-foreground mr-1">Nacimiento:</span>
+                                {pet.birthdate instanceof Date ? pet.birthdate.toLocaleDateString() : new Date(pet.birthdate).toLocaleDateString()}
+                            </span>
+                        </div>
+                    )}
+                    {pet.weight && (
+                        <div className="flex items-center gap-2">
+                            <Scale className="w-4 h-4 text-muted-foreground shrink-0" />
+                            <span className="truncate"><span className="text-muted-foreground mr-1">Peso:</span>{pet.weight} kg</span>
+                        </div>
+                    )}
+                    {pet.color && (
+                        <div className="flex items-center gap-2">
+                            <Palette className="w-4 h-4 text-muted-foreground shrink-0" />
+                            <span className="truncate"><span className="text-muted-foreground mr-1">Color:</span>{pet.color}</span>
+                        </div>
+                    )}
+                    {pet.microchip && (
+                        <div className="flex items-center gap-2">
+                            <Tag className="w-4 h-4 text-muted-foreground shrink-0" />
+                            <span className="truncate"><span className="text-muted-foreground mr-1">Chip:</span>{pet.microchip}</span>
+                        </div>
+                    )}
+                    {pet.clinicName && (
+                        <div className="flex flex-col gap-2 col-span-2">
+                            <div className="flex items-center gap-2">
+                                <Syringe className="w-4 h-4 text-muted-foreground shrink-0" />
+                                {
+                                    isOpenTransfer ? (
+                                        <div className="w-full animate-in fade-in zoom-in-95 duration-300 ease-out border border-amber-500/50 rounded-md shadow-[0_0_15px_rgba(245,158,11,0.2)]">
+                                            <ClinicSelector
+                                                clinicsOptions={clinicOptions}
+                                                onChange={switchClinicPet}
+                                                isPendingClinics={isLoadingClinics || updateClinicMutation.isPending}
+                                                value={pet.clinicName}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <span className="truncate"><span className="text-muted-foreground mr-1">Clínica:</span>{pet.clinicName}</span>
+                                    )
+                                }
+                            </div>
+                            <div className="flex justify-start">
+                                <Button
+                                    onClick={() => setIsOpenTransfer(!isOpenTransfer)}
+                                    className={"cursor-pointer"}
+                                    disabled={updateClinicMutation.isPending}
+                                >
+                                    {
+                                        updateClinicMutation.isPending ?
+                                            <Loading /> : <>
+                                                {isOpenTransfer ? "Cancelar" : "Trasladar Mascota"}
+                                            </>
+                                    }
+
+                                </Button>
+                            </div>
+                        </div>
+                    )}
+
+
+
                 </div>
-            )}
+
+
+                {/* Images vertical scroll */}
+                {pet.images && pet.images.length > 0 && (
+                    <div className="px-6 pb-6">
+                        <h3 className="text-sm font-semibold text-main mb-3 flex items-center gap-2">
+                            <Camera className="w-4 h-4 shrink-0" />
+                            Galería
+                        </h3>
+                        <ScrollArea className="h-48 rounded-md border p-2" thumbClassName="bg-amber-500">
+                            <div className="grid grid-cols-3 gap-4 pr-3">
+                                {pet.images.map((img, idx) => (
+                                    <img
+                                        key={idx}
+                                        src={img}
+                                        alt={`${pet.name} gallery ${idx + 1}`}
+                                        className="w-full h-40 object-cover rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                                    />
+                                ))}
+                            </div>
+                        </ScrollArea>
+                    </div>
+                )}
+            </ScrollArea>
         </div>
     );
 };

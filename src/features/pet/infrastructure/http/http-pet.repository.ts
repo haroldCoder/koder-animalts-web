@@ -86,4 +86,18 @@ export class HttpPetRepository implements IPetRepository {
             throw error;
         }
     }
+
+    async updateClinic(petId: string, clinicId: string): Promise<void> {
+        try {
+            await apiClient.patch(
+                `/pet/clinic/${petId}`,
+                {
+                    body: { clinicId }
+                }
+            );
+        } catch (error) {
+            console.error('Error updating pet clinic:', error);
+            throw error;
+        }
+    }
 }
