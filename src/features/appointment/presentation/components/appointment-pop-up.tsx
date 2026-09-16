@@ -20,6 +20,7 @@ import { MainLayoutContext } from "@/common/presentation/layout";
 import { UpdateStatusPolicy } from "../../domain/policies";
 import { ButtonCompleteStatus } from "./button-complete-status";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Textarea } from "@/components/ui/textarea";
 
 interface AppointmentPopUpProps {
     appointment: AppointmentDataDto;
@@ -115,9 +116,9 @@ export const AppointmentPopUp: React.FC<AppointmentPopUpProps> = ({ appointment 
                             Notas
                         </span>
                         <ScrollArea className={"h-24 max-w-100"} thumbClassName="bg-main hover:bg-main-hover">
-                            <p className="text-sm text-muted-foreground bg-muted p-3 rounded-md">
+                            <Textarea readOnly className="text-sm text-muted-foreground bg-muted p-3 rounded-md">
                                 {appointment.notes}
-                            </p>
+                            </Textarea>
                         </ScrollArea>
                     </div>
 
