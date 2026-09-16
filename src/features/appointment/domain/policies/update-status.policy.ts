@@ -8,13 +8,12 @@ export class UpdateStatusPolicy {
             return true;
         }
 
-        if (appointment.status == AppointmentStatusEnum.COMPLETED) {
+        if (appointment.status !== AppointmentStatusEnum.SCHEDULED) {
             return false;
         }
 
         if (userRole === UserRole.owner) {
-            if (appointment.status !== AppointmentStatusEnum.SCHEDULED
-                || new Date(appointment.date) < new Date()) {
+            if (new Date(appointment.date) < new Date()) {
                 return false;
             }
         }
