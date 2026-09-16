@@ -19,6 +19,7 @@ import { AppointmentDataDto } from "../../domain/dtos";
 import { MainLayoutContext } from "@/common/presentation/layout";
 import { UpdateStatusPolicy } from "../../domain/policies";
 import { ButtonCompleteStatus } from "./button-complete-status";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface AppointmentPopUpProps {
     appointment: AppointmentDataDto;
@@ -107,15 +108,19 @@ export const AppointmentPopUp: React.FC<AppointmentPopUpProps> = ({ appointment 
                 </div>
 
                 {appointment.notes && (
+
                     <div className="flex flex-col gap-1 mt-2">
                         <span className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                             <FileText className="w-4 h-4" />
                             Notas
                         </span>
-                        <p className="text-sm text-muted-foreground bg-muted p-3 rounded-md">
-                            {appointment.notes}
-                        </p>
+                        <ScrollArea className={"max-h-24 max-w-100"} thumbClassName="bg-main hover:bg-main-hover">
+                            <p className="text-sm text-muted-foreground bg-muted p-3 rounded-md">
+                                {appointment.notes}
+                            </p>
+                        </ScrollArea>
                     </div>
+
                 )}
             </div>
             <div className="flex flex-col lg:flex-row w-full  gap-3 justify-end">
