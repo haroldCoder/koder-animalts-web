@@ -19,7 +19,6 @@ export const ButtonCompleteStatus: React.FC<ButtonCompleteStatusProps> = ({ appo
     return (
         <Button
             variant="outline"
-            size="sm"
             disabled={isPending}
             className="h-8 px-2.5 cursor-pointer text-xs text-emerald-600 border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:border-emerald-800 dark:text-emerald-400 dark:hover:bg-emerald-950/40 gap-1.5"
             onClick={() => handleUpdateCompletedStatus(appointment, AppointmentStatusEnum.COMPLETED, user?.role)}
@@ -28,7 +27,7 @@ export const ButtonCompleteStatus: React.FC<ButtonCompleteStatusProps> = ({ appo
                 <>
                     <Tooltip>
                         <TooltipTrigger className={"cursor-pointer"}>
-                            {content ?? <Check className="w-3.5 h-3.5" />}
+                            {content ?? <Check size={16} />}
                         </TooltipTrigger>
                         <TooltipContent>
                             <p>Marcar como completada</p>
