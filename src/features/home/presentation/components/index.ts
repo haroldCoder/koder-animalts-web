@@ -12,4 +12,5 @@ export * from "./veterinarian/search-pet"
 export * from "./veterinarian/appointment-last-visit-vet"
 export * from "./veterinarian/summary-clinic"
 export * from "./appointment-last-visit-empty"
+export * from "./not-found-appoinments-notice"
 

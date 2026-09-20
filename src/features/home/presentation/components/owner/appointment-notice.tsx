@@ -5,6 +5,8 @@ import { Loading } from "@/common/presentation/components";
 import { useAppointmentNotice } from "../../hooks";
 import { CardNotice } from "../card-notice";
 import { useDateSetter } from "@/common/presentation/hooks";
+import { AppointmentStatusEnum } from "@/features/appointment/domain/enums";
+import { NotFoundAppoinmentsNotice } from "../not-found-appoinments-notice";
 
 
 export const AppointmentNotice = () => {
@@ -13,12 +15,13 @@ export const AppointmentNotice = () => {
 
     const { data: appointments, isLoading } = useGetAppointmentsByUserId(user!, {
         startDate: startDateString,
-        endDate: endDateString ?? new Date()
+        endDate: endDateString ?? new Date(),
+        status: [AppointmentStatusEnum.SCHEDULED]
     });
 
     const { appointmentsData: notices } = useAppointmentNotice(appointments);
 
-    if (notices.length === 0 && !isLoading) return <p className="text-lg text-center font-medium text-green-600">¡Estamos al dia con tus citas! 🙌</p>;
+    if (notices.length === 0 && !isLoading) return <NotFoundAppoinmentsNotice message="¡Estamos al dia con tus citas! 🙌" />;
 
     return (
         <section className="px-4 mx-14 mt-6 flex flex-col items-center justify-center">

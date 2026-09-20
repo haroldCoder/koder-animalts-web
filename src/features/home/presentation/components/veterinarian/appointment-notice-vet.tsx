@@ -9,6 +9,7 @@ import { useDateSetter } from "@/common/presentation/hooks"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { AppointmentStatusEnum } from "@/features/appointment/domain/enums"
 import { SortOrder } from "@/common/domain/enums"
+import { NotFoundAppoinmentsNotice } from "../not-found-appoinments-notice"
 
 export const AppointmentNoticeVet = () => {
     const { user } = useAuth()
@@ -41,7 +42,7 @@ export const AppointmentNoticeVet = () => {
                     ) : error || vaccinationsError ? (
                         <Error message="Error al cargar las citas" />
                     ) : appointmentsData?.length === 0 && vaccinationsData?.vaccinations?.length === 0 ? (
-                        <div className="text-center text-text-2 text-base">¡No hay citas ni vacunaciones próximas agendadas!</div>
+                        <NotFoundAppoinmentsNotice message="¡No hay citas ni vacunaciones próximas agendadas!" />
                     ) : (
                         <ScrollArea className="h-[440px] pr-7" thumbClassName="bg-main">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
