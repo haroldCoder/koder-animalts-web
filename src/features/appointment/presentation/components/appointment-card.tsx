@@ -14,6 +14,7 @@ import { ButtonRegisterHistory } from "./button-register-history";
 
 interface AppointmentCardProps {
     appointment: AppointmentDataDto;
+    userId: string;
 }
 
 const STATUS_STYLES: Record<string, string> = {
@@ -28,7 +29,7 @@ const STATUS_LABELS: Record<string, string> = {
     CANCELLED: "Cancelada",
 };
 
-export const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
+export const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, userId }) => {
     const dateObj = new Date(appointment.date);
     const { user } = useContext(MainLayoutContext)!;
 
@@ -93,8 +94,10 @@ export const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment })
                                 visitDate={appointment.date}
                                 reason={appointment.reason}
                                 petId={appointment.petId}
-                                veterinarianId={appointment.veterinarianId}
+                                userId={userId}
                                 notes={appointment.notes}
+                                appointment={appointment}
+                                userRole={user!.role}
                             />
                         )}
                     {

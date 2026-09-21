@@ -1,9 +1,8 @@
-import { MedicalRecordEntity } from "@/features/medical-record/domain/entities";
+import { UserRole } from "@/features/user";
+import { AppointmentEntity } from "../../domain/entities";
 
 export interface RegisterMedicalRecord {
-    visitDate: MedicalRecordEntity['date'];
-    petId: MedicalRecordEntity['petId'];
-    reason: MedicalRecordEntity['reasonForVisit'];
-    veterinarianId: MedicalRecordEntity['veterinaryId'];
-    notes?: MedicalRecordEntity['notes'];
+    appointment: AppointmentEntity;
+    userRole: UserRole,
+    userId: string,
 }

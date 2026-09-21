@@ -1,4 +1,5 @@
 import { useAuth } from "@/common/hooks";
+import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { ScheduleAppointmentFormValues } from "@/features/medical-record/presentation/interfaces";
 import { Stethoscope, Calendar, FileText, Sparkles } from "lucide-react";
@@ -6,10 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loading, PetSelector } from "@/common/presentation/components";
 import { MedicalRecordTypeSelector } from "@/features/medical-record/presentation/components";
-import { RegisterMedicalRecord } from "../interfaces";
 import { useGetPetsByVeterinarianClinic } from "@/features/pet/application/queries";
 import { usePetsOptions } from "@/common/presentation/hooks";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useRegisterMedicalRecordWithAppointmentMutation } from "../../application/mutations";
+import { RegisterMedicalRecord } from "../interfaces";
+import { ConsultationType } from "@/features/medical-record/domain/enums";
+import { FormatDate } from "@/common/utils/format-date";
 
 interface MedicalRecordFormProps extends RegisterMedicalRecord {
     onSuccess?: () => void;
@@ -17,19 +21,21 @@ interface MedicalRecordFormProps extends RegisterMedicalRecord {
 }
 
 export const MedicalRecordForm = ({
-    visitDate,
-    petId,
-    reason,
-    veterinarianId,
-    notes,
     onSuccess,
     onCancel,
+    appointment,
+    userRole,
+    userId,
 }: MedicalRecordFormProps) => {
     const { user } = useAuth();
     const isPending = false;
     const { data: petsData, isPending: isPendigPets } = useGetPetsByVeterinarianClinic(user!);
 
     const { petsOptions } = usePetsOptions({ petsData: petsData });
+
+    const { mutateAsync: registerMedicalRecord, isPending: isLoadingRegister } = useRegisterMedicalRecordWithAppointmentMutation();
+
+    const { petId, date, reason, notes } = appointment;
 
     const {
         register,
@@ -39,7 +45,7 @@ export const MedicalRecordForm = ({
     } = useForm<ScheduleAppointmentFormValues>({
         defaultValues: {
             petId,
-            visitDate: new Date(visitDate),
+            visitDate: new Date(date),
             visitTime: "",
             reasonForVisit: reason || "",
             type: "",
@@ -50,15 +56,26 @@ export const MedicalRecordForm = ({
     });
 
     const onSubmit = async (data: ScheduleAppointmentFormValues) => {
-
+        await registerMedicalRecord({
+            medicalRecord: {
+                petId: petId,
+                userId,
+                type: data.type as ConsultationType,
+                notes: data.notes,
+                diagnosis: data.diagnosis,
+                treatment: data.treatment,
+                reasonForVisit: reason,
+                visitDate: date
+            },
+            appointment,
+            userRole: userRole,
+        }).then(() => {
+            if (onSuccess) onSuccess();
+        }).catch((error) => {
+            toast.error(error.message || "Error al registrar el historial");
+        });
     };
 
-    const formattedDate = new Date(visitDate).toLocaleDateString("es-ES", {
-        weekday: "short",
-        day: "numeric",
-        month: "short",
-        year: "numeric"
-    });
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -78,7 +95,7 @@ export const MedicalRecordForm = ({
                     <div className="flex flex-wrap items-center gap-4 p-3 rounded-xl bg-main-light/70 border border-main/20 text-xs text-text-2">
                         <div className="flex items-center gap-1.5">
                             <Calendar className="size-4 text-main" />
-                            <span><strong className="font-semibold text-text-1">Fecha:</strong> {formattedDate}</span>
+                            <span><strong className="font-semibold text-text-1">Fecha:</strong> {FormatDate.format(date, 'dd/MM/yyyy')}</span>
                         </div>
                         <div className="flex items-center gap-1.5">
                             <FileText className="size-4 text-main" />
@@ -120,17 +137,14 @@ export const MedicalRecordForm = ({
                         {/* Diagnóstico */}
                         <div className="space-y-2">
                             <label className="text-sm font-medium flex items-center gap-1.5">
-                                Diagnóstico <span className="text-destructive">*</span>
+                                Diagnóstico
                             </label>
                             <textarea
                                 rows={3}
                                 placeholder="Diagnóstico clínico, hallazgos físicos del examen..."
                                 className="flex min-h-[80px] w-full rounded-lg border border-input bg-transparent px-3 py-2 text-sm transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-input/30"
-                                {...register("diagnosis", { required: "El diagnóstico es requerido" })}
+                                {...register("diagnosis")}
                             />
-                            {errors.diagnosis && (
-                                <span className="text-xs text-destructive">{errors.diagnosis.message}</span>
-                            )}
                         </div>
 
                         {/* Tratamiento */}
@@ -177,11 +191,11 @@ export const MedicalRecordForm = ({
                 )}
                 <Button
                     type="submit"
-                    disabled={isPending}
+                    disabled={isPending || isLoadingRegister}
                     className="cursor-pointer gap-2 bg-main hover:bg-main-hover text-white px-5"
                 >
-                    {isPending ? <Loading className="size-4" /> : <Sparkles className="size-4" />}
-                    {isPending ? "Guardando..." : "Guardar Historial"}
+                    {isPending || isLoadingRegister ? <Loading className="size-4" /> : <Sparkles className="size-4" />}
+                    {isPending || isLoadingRegister ? "Guardando..." : "Guardar Historial"}
                 </Button>
             </div>
         </form>

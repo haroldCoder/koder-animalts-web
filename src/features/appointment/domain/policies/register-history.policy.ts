@@ -1,9 +1,9 @@
-import { AppointmentDataDto } from "../dtos";
+import { AppointmentEntity } from "../entities";
 import { AppointmentStatusEnum } from "../enums";
 import { UserRole } from "@/features/user";
 
 export class RegisterHistoryPolicy {
-    static canRegisterHistory(appointment: AppointmentDataDto, role: UserRole): boolean {
+    static canRegisterHistory(appointment: AppointmentEntity, role: UserRole): boolean {
         if (role === UserRole.veterinary) {
             return appointment.status !== AppointmentStatusEnum.CANCELLED;
         }

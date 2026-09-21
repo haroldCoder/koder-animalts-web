@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "@/components/ui/spinner";
-import { useScheduleAppointmentMutation } from "../application/queries";
+import { useScheduleMedicalRecordMutation } from "../application/queries";
 import { useGetPetsByVeterinarianClinic } from "@/features/pet/application/queries";
 import { useAuth } from "@/common/hooks";
 import { toast } from "sonner";
@@ -28,7 +28,7 @@ export const ScheduleMedicalRecord = () => {
 
     const { register, handleSubmit, control, errors } = useScheduleAppointmentForm();
 
-    const { mutateAsync: scheduleAppointment, isPending, error: mutationError } = useScheduleAppointmentMutation();
+    const { mutateAsync: scheduleMedicalRecord, isPending, error: mutationError } = useScheduleMedicalRecordMutation();
     const { data: pets, isLoading: isLoadingPets } = useGetPetsByVeterinarianClinic(user!);
 
     useEffect(() => {
@@ -44,7 +44,7 @@ export const ScheduleMedicalRecord = () => {
 
     const onSubmit = async (data: ScheduleAppointmentFormValues) => {
         try {
-            await scheduleAppointment({
+            await scheduleMedicalRecord({
                 petId: data.petId,
                 userId: user!,
                 type: data.type,

@@ -45,7 +45,7 @@ export const UpcomingAppointment = () => {
                     </div>
                     :
                     upcomingAppointments?.map((appointment) => (
-                        <AppointmentCard key={appointment.id} appointment={appointment} />
+                        <AppointmentCard key={appointment.id} userId={user!} appointment={appointment} />
                     ))}
         </div>
     );
