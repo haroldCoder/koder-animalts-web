@@ -48,7 +48,7 @@ export const OwnerNextAppointments = () => {
             ) : (
                 <div className="px-7 w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-5">
                     {appointmentsData.map((appointment) => (
-                        <AppointmentCard key={appointment.id} appointment={appointment} />
+                        <AppointmentCard key={appointment.id} appointment={appointment} userId={user!} />
                     ))}
                 </div>
             )}

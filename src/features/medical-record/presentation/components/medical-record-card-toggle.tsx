@@ -94,7 +94,7 @@ export const MedicalRecordCardToggle: React.FC<MedicalRecordCardToggleProps> = (
                                 <Avatar size="sm" className="border border-border-1 dark:border-border/20">
                                     <AvatarImage src={medicalRecord.petPhoto} alt={medicalRecord.petName} />
                                     <AvatarFallback className="bg-main/10 text-main font-bold">
-                                        {medicalRecord.petName.slice(0, 2).toUpperCase()}
+                                        {medicalRecord.petName?.slice(0, 2).toUpperCase()}
                                     </AvatarFallback>
                                 </Avatar>
                                 <span className="text-sm font-medium text-text-2 dark:text-muted-foreground">

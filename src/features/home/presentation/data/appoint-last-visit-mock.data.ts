@@ -12,6 +12,7 @@ export const appointmentLastVisitMockData: AppointmentEntity[] = [
         status: AppointmentStatusEnum.SCHEDULED,
         petId: "pet-1",
         veterinarianId: "vet-1",
+        haveMedicalRecord: true
     },
     {
         id: "2",
@@ -23,6 +24,7 @@ export const appointmentLastVisitMockData: AppointmentEntity[] = [
         status: AppointmentStatusEnum.SCHEDULED,
         petId: "pet-2",
         veterinarianId: "vet-2",
+        haveMedicalRecord: false
     },
     {
         id: "3",
@@ -34,6 +36,7 @@ export const appointmentLastVisitMockData: AppointmentEntity[] = [
         status: AppointmentStatusEnum.SCHEDULED,
         petId: "pet-3",
         veterinarianId: "vet-3",
+        haveMedicalRecord: true
     },
     {
         id: "4",
@@ -45,6 +48,7 @@ export const appointmentLastVisitMockData: AppointmentEntity[] = [
         status: AppointmentStatusEnum.SCHEDULED,
         petId: "pet-4",
         veterinarianId: "vet-4",
+        haveMedicalRecord: false
     },
     {
         id: "5",
@@ -56,6 +60,7 @@ export const appointmentLastVisitMockData: AppointmentEntity[] = [
         status: AppointmentStatusEnum.SCHEDULED,
         petId: "pet-5",
         veterinarianId: "vet-5",
+        haveMedicalRecord: true
     }
 ];
 
