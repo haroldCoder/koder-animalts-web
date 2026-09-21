@@ -14,16 +14,20 @@ interface PetSelectorProps {
     errors: any;
     petsOptions: PetOption[];
     isLoadingPets: boolean;
+    disabled?: boolean;
+    value?: string;
 }
 
-export const PetSelector = ({ control, errors, petsOptions, isLoadingPets }: PetSelectorProps) => {
+export const PetSelector = ({ control, errors, petsOptions, isLoadingPets, disabled, value }: PetSelectorProps) => {
     return (
         <div className="space-y-2">
             <label className="text-sm font-medium flex items-center gap-1.5">
                 Mascota Paciente <span className="text-destructive">*</span>
             </label>
             <Controller
+                disabled={disabled}
                 control={control}
+                defaultValue={value}
                 name="petId"
                 rules={{ required: true }}
                 render={({ field: { onChange, value } }) => (
@@ -31,6 +35,7 @@ export const PetSelector = ({ control, errors, petsOptions, isLoadingPets }: Pet
                         items={petsOptions}
                         onValueChange={onChange}
                         value={value}
+                        disabled={disabled}
                     >
                         <SelectTrigger className="h-10 cursor-pointer">
                             <SelectValue placeholder={isLoadingPets ? "Cargando mascotas..." : "Selecciona el paciente"} />

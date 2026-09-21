@@ -9,4 +9,5 @@ export interface CreateMedicalRecordDto {
     notes?: string;
     diagnosis?: string;
     treatment?: string;
+    appointmentId?: string;
 }

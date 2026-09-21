@@ -38,7 +38,7 @@ export const AppointmentHistory = () => {
     return (
         <div className="flex flex-col gap-4">
             {pastAppointments.map((appointment) => (
-                <AppointmentCard key={appointment.id} appointment={appointment} />
+                <AppointmentCard key={appointment.id} userId={user!} appointment={appointment} />
             ))}
         </div>
     );

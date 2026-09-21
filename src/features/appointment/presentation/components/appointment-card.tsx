@@ -7,12 +7,14 @@ import { Button } from "@/components/ui/button";
 import { AppointmentPopUp } from "./appointment-pop-up";
 import { AppointmentStatusEnum } from "../../domain/enums";
 import { AppointmentDataDto } from "../../domain/dtos";
-import { UpdateStatusPolicy } from "../../domain/policies";
+import { RegisterHistoryPolicy, UpdateStatusPolicy } from "../../domain/policies";
 import { MainLayoutContext } from "@/common/presentation/layout";
 import { ButtonCompleteStatus } from "./button-complete-status";
+import { ButtonRegisterHistory } from "./button-register-history";
 
 interface AppointmentCardProps {
     appointment: AppointmentDataDto;
+    userId: string;
 }
 
 const STATUS_STYLES: Record<string, string> = {
@@ -27,7 +29,7 @@ const STATUS_LABELS: Record<string, string> = {
     CANCELLED: "Cancelada",
 };
 
-export const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
+export const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, userId }) => {
     const dateObj = new Date(appointment.date);
     const { user } = useContext(MainLayoutContext)!;
 
@@ -86,6 +88,14 @@ export const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment })
 
                 {/* Status badge & Action button */}
                 <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-border/40 shrink-0">
+                    {
+                        RegisterHistoryPolicy.canRegisterHistory(appointment, user!.role) && (
+                            <ButtonRegisterHistory
+                                appointment={appointment}
+                                userId={userId}
+                                userRole={user!.role}
+                            />
+                        )}
                     {
                         UpdateStatusPolicy.canUpdateToCompleted(appointment, user!.role, AppointmentStatusEnum.COMPLETED) && (
                             <ButtonCompleteStatus appointment={appointment} user={user!} />

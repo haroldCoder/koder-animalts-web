@@ -15,6 +15,7 @@ export class ApiResponseToDomain {
             petName: item.pet?.name,
             veterinarianName: item.veterinarian?.user.name,
             clinicName: item.veterinarian?.clinic?.name,
+            haveMedicalRecord: item.hasMedicalRecord
         }));
     }
 
@@ -32,6 +33,7 @@ export class ApiResponseToDomain {
             clinicName: item.veterinarian?.clinic?.name ?? "",
             ownerName: item.pet?.owner.user.name ?? "",
             petPhoto: item.pet?.mainImage ?? "",
+            haveMedicalRecord: item.hasMedicalRecord
         }));
     }
 }
