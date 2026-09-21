@@ -89,7 +89,13 @@ export const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment })
                 <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-border/40 shrink-0">
                     {
                         RegisterHistoryPolicy.canRegisterHistory(appointment, user!.role) && (
-                            <ButtonRegisterHistory appointmentId={appointment.id} />
+                            <ButtonRegisterHistory
+                                visitDate={appointment.date}
+                                reason={appointment.reason}
+                                petId={appointment.petId}
+                                veterinarianId={appointment.veterinarianId}
+                                notes={appointment.notes}
+                            />
                         )}
                     {
                         UpdateStatusPolicy.canUpdateToCompleted(appointment, user!.role, AppointmentStatusEnum.COMPLETED) && (
