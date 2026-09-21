@@ -27,5 +27,6 @@ export interface AppointmentResponseDto {
                 name: string;
             };
         };
+        hasMedicalRecord: boolean;
     }>;
 }

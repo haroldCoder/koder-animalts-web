@@ -35,7 +35,7 @@ export const MedicalRecordForm = ({
 
     const { mutateAsync: registerMedicalRecord, isPending: isLoadingRegister } = useRegisterMedicalRecordWithAppointmentMutation();
 
-    const { petId, date, reason, notes } = appointment;
+    const { petId, date, reason, notes, id } = appointment;
 
     const {
         register,
@@ -65,7 +65,8 @@ export const MedicalRecordForm = ({
                 diagnosis: data.diagnosis,
                 treatment: data.treatment,
                 reasonForVisit: reason,
-                visitDate: date
+                visitDate: date,
+                appointmentId: id
             },
             appointment,
             userRole: userRole,

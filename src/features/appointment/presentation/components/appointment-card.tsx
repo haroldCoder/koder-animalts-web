@@ -91,12 +91,8 @@ export const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, u
                     {
                         RegisterHistoryPolicy.canRegisterHistory(appointment, user!.role) && (
                             <ButtonRegisterHistory
-                                visitDate={appointment.date}
-                                reason={appointment.reason}
-                                petId={appointment.petId}
-                                userId={userId}
-                                notes={appointment.notes}
                                 appointment={appointment}
+                                userId={userId}
                                 userRole={user!.role}
                             />
                         )}

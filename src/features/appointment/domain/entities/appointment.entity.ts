@@ -9,4 +9,5 @@ export interface AppointmentEntity {
     petName?: string;
     veterinarianName?: string;
     clinicName?: string;
+    haveMedicalRecord: boolean;
 }
