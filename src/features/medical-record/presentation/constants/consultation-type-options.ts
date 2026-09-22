@@ -1,6 +1,6 @@
 import { ConsultationType } from "../../domain/enums";
 
-export const appointmentTypeOptions: { value: ConsultationType, label: string }[] = [
+export const consultationTypeOptions: { value: ConsultationType, label: string }[] = [
     { value: ConsultationType.CONSULTATION, label: "Consulta General" },
     { value: ConsultationType.VACCINATION, label: "Vacunación" },
     { value: ConsultationType.SURGERY, label: "Cirugía" },

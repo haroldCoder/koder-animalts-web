@@ -1,7 +1,7 @@
 import { apiClient } from '@/common';
 import { FindAppointmentsCriteria, IAppointmentRepository } from '../../domain/repositories';
 import { AppointmentDataDto, CreateAppointmentDto } from '../../domain/dtos';
-import { AppointmentResponseDto } from '../dtos';
+import { AppointmentResponseDto, CreateAppointmentResponseDto } from '../dtos';
 import { ApiResponseToDomain } from '../mappers';
 
 export class HttpAppointmentRepository implements IAppointmentRepository {
@@ -35,11 +35,13 @@ export class HttpAppointmentRepository implements IAppointmentRepository {
         }
     }
 
-    async createAppointment(appointment: CreateAppointmentDto): Promise<void> {
+    async createAppointment(appointment: CreateAppointmentDto): Promise<string> {
         try {
-            await apiClient.post<void>('/appointment/register', {
+            const res = await apiClient.post<CreateAppointmentResponseDto>('/appointment/register', {
                 body: appointment
             });
+
+            return res.data;
         } catch (error) {
             console.error('Error creating appointment:', error);
             throw error;

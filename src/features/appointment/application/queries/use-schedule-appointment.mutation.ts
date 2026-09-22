@@ -9,7 +9,7 @@ const scheduleAppointmentUseCase = new ScheduleAppointmentUseCase(appointmentRep
 export const useScheduleAppointmentMutation = () => {
     const queryClient = useQueryClient();
 
-    return useMutation({
+    return useMutation<string, Error, CreateAppointmentDto>({
         mutationFn: (appointment: CreateAppointmentDto) =>
             scheduleAppointmentUseCase.execute(appointment),
         onSuccess: (_data, variables) => {

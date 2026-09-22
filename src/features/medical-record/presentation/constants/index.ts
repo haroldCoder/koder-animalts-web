@@ -1,2 +1,2 @@
 export * from "./types-config";
-export * from "./appoinment-type-options";
+export * from "./consultation-type-options";

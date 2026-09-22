@@ -1,26 +1,33 @@
-import { useMemo } from "react";
-import { useForm } from "react-hook-form";
+import { useMemo, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useAuth } from "@/common/hooks";
 import { useScheduleAppointmentMutation } from "../application/queries";
 import { useGetPetsByVeterinarianClinic } from "@/features/pet/application/queries";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { Stethoscope, Sparkles } from "lucide-react";
+import { Stethoscope, Sparkles, FileText } from "lucide-react";
 import { toast } from "sonner";
 import { NewAppointmentFormValues } from "./interfaces";
-import { PetOption, PetSelector } from "@/common/presentation/components";
+import { ConsultationTypeSelector, PetOption, PetSelector } from "@/common/presentation/components";
 import { DateTimePicker } from "@/common/presentation/components";
 import { getMessageError } from "@/common/errors";
 import { routes } from "@/common/presentation/constants";
 import { useNavigate } from "react-router-dom";
 import { PetPresentationMapper } from "@/features/pet/presentation/mappers/pet-options.mapper";
+import { Switch } from "@/components/ui/switch";
+import { cn } from "@/lib/utils";
+import { ConsultationType } from "@/features/medical-record/domain/enums";
+import { useScheduleMedicalRecordMutation } from "@/features/medical-record/application/queries";
+import { consultationTypeOptions } from "@/features/medical-record/presentation/constants";
 
 export const ScheduleAppointmentForm = ({ onSuccess }: { onSuccess?: () => void }) => {
     const navigate = useNavigate();
     const { user } = useAuth();
     const { mutateAsync, isPending } = useScheduleAppointmentMutation();
+    const { mutateAsync: mutateAsyncHistory, isPending: isPendingHistory } = useScheduleMedicalRecordMutation();
     const { data: pets, isLoading: isLoadingPets } = useGetPetsByVeterinarianClinic(user!);
+    const [isRegisterHistory, setIsRegisterHistory] = useState(false)
 
     const petsOptions = useMemo<PetOption[]>(() =>
         PetPresentationMapper.toOptions(pets),
@@ -28,31 +35,55 @@ export const ScheduleAppointmentForm = ({ onSuccess }: { onSuccess?: () => void 
     );
 
     const { register, handleSubmit, control, formState: { errors }, reset } =
-        useForm<NewAppointmentFormValues>({
+        useForm<NewAppointmentFormValues & { type: ConsultationType | null }>({
             defaultValues: {
                 petId: "",
                 visitDate: undefined,
                 reason: "",
                 notes: "",
+                type: null
             },
         });
 
-    const onSubmit = async (data: NewAppointmentFormValues) => {
+    const onSubmit = async (data: NewAppointmentFormValues & { type: ConsultationType | null }) => {
         try {
-            await mutateAsync({
+            const idAppointment = await mutateAsync({
                 petId: data.petId,
                 userId: user!,
                 date: data.visitDate.toISOString(),
                 reason: data.reason,
                 notes: data.notes || undefined,
             });
-            toast.success("¡Cita agendada con éxito!");
-            reset();
-            if (onSuccess) {
-                onSuccess();
-            } else {
-                navigate(routes.appointments.link);
+
+            if (isRegisterHistory) {
+                try {
+                    await mutateAsyncHistory({
+                        userId: user!,
+                        visitDate: data.visitDate.toISOString(),
+                        reasonForVisit: data.reason,
+                        notes: data.notes || undefined,
+                        petId: data.petId,
+                        type: data.type || ConsultationType.CONSULTATION,
+                        appointmentId: idAppointment
+                    });
+
+                    toast.success("¡Registro médico guardado con éxito!");
+                } catch (err) {
+                    toast.error("Error al guardar el registro médico. Intenta de nuevo. " + getMessageError(err));
+                }
             }
+
+            setTimeout(() => {
+                toast.success("¡Cita agendada con éxito!");
+                reset();
+                if (onSuccess) {
+                    onSuccess();
+                } else {
+                    navigate(routes.appointments.link);
+                }
+            }, 1500);
+
+
         } catch (err) {
             console.log(err);
 
@@ -120,24 +151,113 @@ export const ScheduleAppointmentForm = ({ onSuccess }: { onSuccess?: () => void 
                     />
                 </div>
 
+                {/* Register Medical Record Toggle Card */}
+                <div
+                    className={cn(
+                        "rounded-xl border transition-all duration-200 overflow-hidden",
+                        isRegisterHistory
+                            ? "border-main/40 bg-main/[0.03] dark:bg-main/10 shadow-xs"
+                            : "border-border/60 bg-muted/20 hover:bg-muted/40 hover:border-border"
+                    )}
+                >
+                    {/* Header Row */}
+                    <div
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => setIsRegisterHistory((prev) => !prev)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
+                                setIsRegisterHistory((prev) => !prev);
+                            }
+                        }}
+                        className="flex items-center justify-between p-3.5 sm:p-4 cursor-pointer select-none gap-4"
+                    >
+                        <div className="flex items-center gap-3.5 min-w-0">
+                            <div
+                                className={cn(
+                                    "flex items-center justify-center size-10 rounded-lg transition-colors shrink-0",
+                                    isRegisterHistory
+                                        ? "bg-main/15 text-main"
+                                        : "bg-muted text-muted-foreground"
+                                )}
+                            >
+                                <FileText className="size-5" />
+                            </div>
+                            <div className="space-y-0.5 min-w-0">
+                                <label
+                                    htmlFor="register-history"
+                                    className="text-sm font-medium text-foreground cursor-pointer block leading-none"
+                                >
+                                    Registrar historial médico
+                                </label>
+                                <p className="text-xs text-muted-foreground truncate sm:text-wrap">
+                                    Habilitar el registro clínico al agendar esta consulta
+                                </p>
+                            </div>
+                        </div>
+
+                        <Switch
+                            id="register-history"
+                            checked={isRegisterHistory}
+                            onCheckedChange={setIsRegisterHistory}
+                            onClick={(e) => e.stopPropagation()}
+                            className={cn(
+                                "cursor-pointer shrink-0",
+                                isRegisterHistory && "bg-main!"
+                            )}
+                        />
+                    </div>
+
+                    {/* Expandable Section for Consultation Type */}
+                    {isRegisterHistory && (
+                        <div
+                            onClick={(e) => e.stopPropagation()}
+                            className="px-4 pb-4 pt-3 border-t border-border/40 space-y-2 animate-in fade-in slide-in-from-top-2 duration-200"
+                        >
+                            <label className="text-xs font-medium text-foreground/80 flex items-center gap-1">
+                                Tipo de consulta <span className="text-destructive">*</span>
+                            </label>
+                            <Controller
+                                control={control}
+                                name="type"
+                                rules={{ required: isRegisterHistory }}
+                                render={({ field: { onChange, value } }) => (
+                                    <ConsultationTypeSelector
+                                        value={value}
+                                        onChange={onChange}
+                                        disabled={false}
+                                        consultationTypeOptions={consultationTypeOptions}
+                                    />
+                                )}
+                            />
+                            {errors.type && (
+                                <span className="text-xs text-destructive block">
+                                    El tipo de consulta es requerido
+                                </span>
+                            )}
+                        </div>
+                    )}
+                </div>
+
                 {/* Actions */}
                 <div className="flex justify-end gap-3 pt-2">
                     <Button
                         type="button"
                         variant="outline"
                         onClick={() => { reset(); onSuccess?.(); }}
-                        disabled={isPending}
+                        disabled={isPending || isPendingHistory}
                         className="cursor-pointer"
                     >
                         Cancelar
                     </Button>
                     <Button
                         type="submit"
-                        disabled={isPending}
+                        disabled={isPending || isPendingHistory}
                         className="cursor-pointer gap-2 px-6"
                     >
-                        {isPending ? <Spinner className="size-4" /> : <Sparkles className="size-4" />}
-                        {isPending ? "Agendando..." : "Agendar Cita"}
+                        {(isPending || isPendingHistory) ? <Spinner className="size-4" /> : <Sparkles className="size-4" />}
+                        {(isPending || isPendingHistory) ? "Agendando..." : "Agendar Cita"}
                     </Button>
                 </div>
             </form>

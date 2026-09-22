@@ -1,7 +1,7 @@
 import { Control, FieldErrors, Controller } from 'react-hook-form';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { appointmentTypeOptions } from '../constants/appoinment-type-options';
+import { consultationTypeOptions } from '../constants';
 import { ScheduleAppointmentFormValues } from '../interfaces';
+import { ConsultationTypeSelector } from '@/common/presentation/components';
 
 interface MedicalRecordTypeSelectorProps {
     control: Control<ScheduleAppointmentFormValues>;
@@ -20,22 +20,12 @@ export const MedicalRecordTypeSelector = ({ control, errors }: MedicalRecordType
                 name="type"
                 rules={{ required: true }}
                 render={({ field: { onChange, value } }) => (
-                    <Select
-                        items={appointmentTypeOptions}
-                        onValueChange={onChange}
+                    <ConsultationTypeSelector
                         value={value}
-                    >
-                        <SelectTrigger className="h-10 cursor-pointer">
-                            <SelectValue placeholder="Selecciona tipo de cita" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {appointmentTypeOptions.map((opt) => (
-                                <SelectItem key={opt.value} value={opt.value}>
-                                    {opt.label}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                        onChange={onChange}
+                        disabled={false}
+                        consultationTypeOptions={consultationTypeOptions}
+                    />
                 )}
             />
             {errors.type && (

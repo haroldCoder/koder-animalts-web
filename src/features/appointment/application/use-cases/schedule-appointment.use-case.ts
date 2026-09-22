@@ -4,7 +4,7 @@ import { IAppointmentRepository } from '../../domain/repositories';
 export class ScheduleAppointmentUseCase {
     constructor(private readonly appointmentRepository: IAppointmentRepository) { }
 
-    async execute(appointment: CreateAppointmentDto): Promise<void> {
+    async execute(appointment: CreateAppointmentDto): Promise<string> {
         const { petId, userId, date, reason } = appointment;
 
         if (!petId) throw new Error('La mascota es requerida');

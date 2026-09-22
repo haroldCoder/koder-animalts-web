@@ -10,6 +10,6 @@ export interface FindAppointmentsCriteria extends FindCriteriaQuery {
 
 export interface IAppointmentRepository {
     findByUserId(userId: string, criteria?: FindAppointmentsCriteria): Promise<AppointmentDataDto[]>;
-    createAppointment(appointment: CreateAppointmentDto): Promise<void>;
+    createAppointment(appointment: CreateAppointmentDto): Promise<string>;
     updateStatus(id: string, status: string): Promise<void>;
 }
