@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { AppointmentPopUp } from './appointment-pop-up'
 import { AppointmentDataDto } from '../../domain/dtos'
 import { AppointmentStatusEnum } from '../../domain/enums'
