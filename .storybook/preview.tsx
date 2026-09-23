@@ -1,26 +1,32 @@
-import type { Preview } from '@storybook/react-vite'
+import type { Decorator, Preview } from '@storybook/react-vite'
+import { AppProviders } from '@/stories/providers'
 import '../src/index.css'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import React from 'react'
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: { retry: false },
-    mutations: { retry: false },
-  },
-})
+/**
+ * Parámetros propios del proyecto. Se pueden sobrescribir por story:
+ * - `router.initialPath`: ruta inicial del MemoryRouter (para títulos activos y `useLocation`).
+ * - `theme`: 'light' | 'dark' para revisar las variantes de tema sin depender de `next-themes`.
+ */
+interface AppParameters {
+  router?: { initialPath?: string }
+  theme?: 'light' | 'dark'
+}
+
+const withAppProviders: Decorator = (Story, context) => {
+  const { router, theme } = context.parameters as AppParameters
+
+  return (
+    <AppProviders key={context.id} initialPath={router?.initialPath ?? '/'} theme={theme ?? 'light'}>
+      <Story />
+    </AppProviders>
+  )
+}
 
 const preview: Preview = {
-  decorators: [
-    (Story) => (
-      <QueryClientProvider client={queryClient}>
-        <div className="font-sans antialiased text-foreground bg-background p-4 min-h-[400px] flex items-center justify-center">
-          <Story />
-        </div>
-      </QueryClientProvider>
-    ),
-  ],
+  decorators: [withAppProviders],
+  tags: ['autodocs'],
   parameters: {
+    layout: 'padded',
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -29,6 +35,11 @@ const preview: Preview = {
     },
     a11y: {
       test: 'todo',
+    },
+    options: {
+      storySort: {
+        order: ['Common', 'Features', 'UI'],
+      },
     },
   },
 }
