@@ -2,8 +2,12 @@ import type { Decorator } from '@storybook/react-vite'
 import { MainLayoutContext } from '@/common/presentation/layout'
 import type { UserEntity } from '@/features/user/domain/entities'
 import { MockAuthContainer, type MockAuthConfig } from './mock-auth-container'
+import {
+  MockAppointmentContainer,
+  type MockAppointmentConfig,
+} from './mock-appointment-container'
 
-export type { MockAuthConfig }
+export type { MockAuthConfig, MockAppointmentConfig }
 
 /**
  * Inyecta el usuario que exige `MainLayoutContext`.
@@ -33,4 +37,17 @@ export const withMockAuth = (config: MockAuthConfig): Decorator => (
   <MockAuthContainer config={config}>
     <Story />
   </MockAuthContainer>
+)
+
+/**
+ * Intercepta peticiones de citas y mascotas en `apiClient` e inicializa `localStorage.user`
+ * para stories de componentes y vistas del módulo de citas (`UpcomingAppointment`,
+ * `AppointmentHistory`, `AppointmentsList`, `ScheduleAppointmentForm`, etc.).
+ */
+export const withMockAppointments = (
+  config: MockAppointmentConfig = {}
+): Decorator => (Story) => (
+  <MockAppointmentContainer config={config}>
+    <Story />
+  </MockAppointmentContainer>
 )
