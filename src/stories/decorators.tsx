@@ -6,8 +6,12 @@ import {
   MockAppointmentContainer,
   type MockAppointmentConfig,
 } from './mock-appointment-container'
+import {
+  MockVaccinationContainer,
+  type MockVaccinationConfig,
+} from './mock-vaccination-container'
 
-export type { MockAuthConfig, MockAppointmentConfig }
+export type { MockAuthConfig, MockAppointmentConfig, MockVaccinationConfig }
 
 /**
  * Inyecta el usuario que exige `MainLayoutContext`.
@@ -50,4 +54,17 @@ export const withMockAppointments = (
   <MockAppointmentContainer config={config}>
     <Story />
   </MockAppointmentContainer>
+)
+
+/**
+ * Intercepta peticiones de vacunas, mascotas y expedientes médicos en `apiClient`
+ * e inicializa `localStorage.user` para stories del módulo de vacunación
+ * (`Vaccination`, `CreateVaccinationDialog`, `UpdateStatus`, etc.).
+ */
+export const withMockVaccinations = (
+  config: MockVaccinationConfig = {}
+): Decorator => (Story) => (
+  <MockVaccinationContainer config={config}>
+    <Story />
+  </MockVaccinationContainer>
 )
