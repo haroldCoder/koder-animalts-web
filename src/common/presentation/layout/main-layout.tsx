@@ -29,7 +29,7 @@ export const MainLayout = ({ children }: Props) => {
         <MainLayoutContext.Provider value={{ user: userData! }}>
             <div className="flex flex-col h-[100dvh] w-full overflow-hidden">
                 <Header />
-                <ScrollArea className="flex-1 min-h-0 w-full bg-bg-1">
+                <ScrollArea className="flex-1 min-h-0 w-full bg-background">
                     <main className="p-4 lg:p-6 pb-24">
                         {children}
                     </main>
