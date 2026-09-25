@@ -70,7 +70,7 @@ export class HttpAppointmentRequestRepository
 
       await apiClient.patch<
         void
-      >(`${this.basePath}/${data.id}/reject`, {
+      >(`${this.basePath}/${data.id}/reject?userVeterinarianId=${data.userId}`, {
         body,
       });
     } catch (error) {

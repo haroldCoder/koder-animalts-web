@@ -1,4 +1,5 @@
 export interface RejectAppointmentRequestDto {
   id: string;
-  reason?: string;
+  reason: string;
+  userId: string;
 }

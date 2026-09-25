@@ -2,7 +2,7 @@ export interface RawAppointmentRequestApiItem {
   id: string;
   userId: string;
   petId: string;
-  date: string;
+  requestedDate: string;
   reason: string;
   notes?: string;
   status: string;

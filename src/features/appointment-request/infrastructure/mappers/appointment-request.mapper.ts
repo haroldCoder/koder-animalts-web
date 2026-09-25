@@ -9,7 +9,7 @@ export class AppointmentRequestMapper {
       id: item.id,
       userId: item.userId,
       petId: item.petId,
-      date: new Date(item.date),
+      date: new Date(item.requestedDate),
       reason: item.reason,
       notes: item.notes,
       status: item.status,
