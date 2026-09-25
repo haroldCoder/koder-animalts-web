@@ -11,7 +11,7 @@ export class CreateAppointmentRequestUseCase {
   async execute(
     data: CreateAppointmentRequestDto
   ): Promise<void> {
-    const { petId, userId, date, reason } = data;
+    const { petId, userId, requestedDate, reason } = data;
 
     if (!userId) {
       throw new Error('El identificador del usuario es requerido');
@@ -19,7 +19,7 @@ export class CreateAppointmentRequestUseCase {
     if (!petId) {
       throw new Error('La mascota es requerida para solicitar la cita');
     }
-    if (!date) {
+    if (!requestedDate) {
       throw new Error('La fecha y hora preferida de la cita es requerida');
     }
     if (!reason || reason.trim() === '') {

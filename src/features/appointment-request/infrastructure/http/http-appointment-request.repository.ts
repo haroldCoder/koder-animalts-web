@@ -15,16 +15,16 @@ import { AppointmentRequestMapper } from '../mappers';
 
 export class HttpAppointmentRequestRepository
   implements IAppointmentRequestRepository {
-  private readonly basePath = '/api/v1/appointment-requests';
+  private readonly basePath = '/appointment-requests';
 
   async create(
     data: CreateAppointmentRequestDto
   ): Promise<void> {
     try {
-      const payload = {
+      const payload: CreateAppointmentRequestDto = {
         ...data,
-        date:
-          data.date instanceof Date ? data.date.toISOString() : data.date,
+        requestedDate:
+          data.requestedDate instanceof Date ? data.requestedDate.toISOString() : data.requestedDate,
       };
 
       await apiClient.post<

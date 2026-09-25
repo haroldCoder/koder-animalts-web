@@ -10,6 +10,7 @@ import { ScheduleAppointmentForm } from "./schedule-appointment-form";
 import { TabsAppointmentView } from "@/common/presentation/enums";
 import { useSearchParams } from "react-router-dom";
 import { useAvailableTabs } from "./hooks";
+import { RequestAppointment } from "@/features/appointment-request/presentation/components/owner";
 
 type Tab = TabsAppointmentView.UPCOMING | TabsAppointmentView.HISTORY | TabsAppointmentView.MEDICAL_RECORD | TabsAppointmentView.SCHEDULE;
 
@@ -43,6 +44,10 @@ export const AppointmentsAndHistoryView = () => {
                         <Plus className="size-4" />
                         Agendar Cita
                     </Button>
+                )}
+
+                {user.role == UserRole.owner && (
+                    <RequestAppointment />
                 )}
             </div>
 

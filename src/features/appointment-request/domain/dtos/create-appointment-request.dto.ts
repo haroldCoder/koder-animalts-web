@@ -1,9 +1,8 @@
 export interface CreateAppointmentRequestDto {
   userId: string;
   petId: string;
-  date: string | Date;
+  requestedDate: string | Date;
   reason: string;
-  notes?: string;
   clinicId?: string;
   VeterinarianId?: string;
 }
