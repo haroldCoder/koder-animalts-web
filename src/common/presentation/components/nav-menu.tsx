@@ -5,8 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { ownerLinks, veterinaryLinks } from "../constants";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { RequestContentVeterinarian } from "@/features/appointment-request/presentation/components/veterinarian";
-import { RequestPolicy } from "@/features/appointment-request/domain/policies";
+import { RequestContent } from "@/features/appointment-request/presentation/components";
 
 export const NavMenu = () => {
     const { user } = useContext(MainLayoutContext)!;
@@ -19,11 +18,8 @@ export const NavMenu = () => {
             <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t lg:relative lg:bottom-auto lg:left-auto lg:right-auto lg:z-auto lg:bg-transparent lg:border-t-0 shadow-[0_-5px_15px_-10px_rgba(0,0,0,0.1)] lg:shadow-none transition-all lg:flex-1 lg:min-w-0 lg:mx-4">
                 <ScrollArea className="w-full">
                     <div className="flex min-w-full w-max md:justify-center lg:justify-start xl:justify-end items-center gap-2 px-4 py-3 lg:p-0 lg:gap-1">
-                        {
-                            RequestPolicy.canViewRequests(user.role) && (
-                                <RequestContentVeterinarian userRole={user.role} />
-                            )
-                        }
+                        <RequestContent />
+
                         {links.map((link) => {
                             const isActive = location.pathname.endsWith(link.path);
                             return (

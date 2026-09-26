@@ -1,7 +1,9 @@
+import { UserRole } from '@/features/user';
 import {
   ApproveAppointmentRequestDto,
   IAppointmentRequestRepository
 } from '../../domain';
+import { RequestPolicy } from '../../domain/policies';
 
 export class ApproveAppointmentRequestUseCase {
   constructor(
@@ -9,7 +11,8 @@ export class ApproveAppointmentRequestUseCase {
   ) { }
 
   async execute(
-    data: ApproveAppointmentRequestDto
+    data: ApproveAppointmentRequestDto,
+    userRole: UserRole
   ): Promise<void> {
     const { id, userVeterinarianId, clinicId } = data;
 
@@ -21,6 +24,10 @@ export class ApproveAppointmentRequestUseCase {
     }
     if (!clinicId) {
       throw new Error('La clínica asignada es requerida para aprobar la solicitud');
+    }
+
+    if (!RequestPolicy.canModifyRequest(userRole)) {
+      throw new Error('No tienes permisos para aprobar la solicitud de cita');
     }
 
     await this.appointmentRequestRepository.approve(data);

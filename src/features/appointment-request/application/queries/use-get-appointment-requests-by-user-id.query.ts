@@ -10,13 +10,12 @@ const getAppointmentRequestsByUserIdUseCase =
 
 export const useGetAppointmentRequestsByUserId = (
   userId: string,
-  userRole: UserRole,
   criteria?: FindAppointmentRequestsCriteria
 ) => {
   return useQuery<AppointmentRequestEntity[], Error>({
     queryKey: ['appointment-requests', 'user', userId, criteria],
     queryFn: () =>
-      getAppointmentRequestsByUserIdUseCase.execute(userId, userRole, criteria),
+      getAppointmentRequestsByUserIdUseCase.execute(userId, criteria),
     enabled: !!userId,
     staleTime: 1000 * 60 * 5,
   });

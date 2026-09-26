@@ -4,6 +4,7 @@ import { RejectAppointmentRequestUseCase } from '../use-cases';
 import {
   RejectAppointmentRequestDto,
 } from '../../domain';
+import { UserRole } from '@/features/user';
 
 const appointmentRequestRepository = new HttpAppointmentRequestRepository();
 const rejectAppointmentRequestUseCase = new RejectAppointmentRequestUseCase(
@@ -16,10 +17,10 @@ export const useRejectAppointmentRequestMutation = () => {
   return useMutation<
     void,
     Error,
-    RejectAppointmentRequestDto
+    { data: RejectAppointmentRequestDto, userRole: UserRole }
   >({
-    mutationFn: (data: RejectAppointmentRequestDto) =>
-      rejectAppointmentRequestUseCase.execute(data),
+    mutationFn: ({ data, userRole }: { data: RejectAppointmentRequestDto, userRole: UserRole }) =>
+      rejectAppointmentRequestUseCase.execute(data, userRole),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['appointment-requests'],

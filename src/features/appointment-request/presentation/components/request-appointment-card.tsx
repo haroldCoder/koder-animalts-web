@@ -15,14 +15,17 @@ import { PopUpDetailRequest } from "./popup-detail-request";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { UserRole } from "@/features/user";
+import { RequestPolicy } from "../../domain/policies";
 
 interface RequestAppointmentCardProps {
     request: AppointmentRequestEntity;
+    userRole: UserRole
 }
 
 const isPending = (status: string) => status === AppointmentRequestStatus.PENDING;
 
-export const RequestAppointmentCard: React.FC<RequestAppointmentCardProps> = ({ request }) => {
+export const RequestAppointmentCard: React.FC<RequestAppointmentCardProps> = ({ request, userRole }) => {
     const { user } = useAuth();
     const dateObj = new Date(request.date);
 
@@ -41,9 +44,12 @@ export const RequestAppointmentCard: React.FC<RequestAppointmentCardProps> = ({ 
     const handleApprove = async () => {
         try {
             await approve({
-                id: request.id,
-                userVeterinarianId: user!,
-                clinicId: request.clinicId ?? "",
+                data: {
+                    id: request.id,
+                    userVeterinarianId: user!,
+                    clinicId: request.clinicId ?? "",
+                },
+                userRole
             });
             toast.success("Solicitud aprobada con éxito");
         } catch (err) {
@@ -53,7 +59,14 @@ export const RequestAppointmentCard: React.FC<RequestAppointmentCardProps> = ({ 
 
     const handleReject = async () => {
         try {
-            await reject({ id: request.id, reason: reason.text, userId: user! });
+            await reject({
+                data: {
+                    id: request.id,
+                    reason: reason.text,
+                    userId: user!
+                },
+                userRole
+            });
             toast.error("Solicitud rechazada");
             setReason({ open: false, text: "" });
         } catch (err) {
@@ -62,7 +75,7 @@ export const RequestAppointmentCard: React.FC<RequestAppointmentCardProps> = ({ 
     };
 
     return (
-        <article className="relative py-4 w-full bg-card border border-border/50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group">
+        <article className="relative py-4 mt-5 w-full bg-card border border-border/50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group">
             <div className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-xl ${accentColor}`} />
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 pl-5 sm:pl-6 gap-3.5 sm:gap-4">
@@ -137,7 +150,7 @@ export const RequestAppointmentCard: React.FC<RequestAppointmentCardProps> = ({ 
                         </Button>
                     </div>
                 )}
-                {isPending(request.status) && (
+                {isPending(request.status) && RequestPolicy.canModifyRequest(userRole) && (
                     <ActionsRequest
                         handleApprove={handleApprove}
                         handleReject={() => setReason((prev) => ({ ...prev, open: true }))}
