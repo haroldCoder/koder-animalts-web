@@ -6,14 +6,16 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { HoverPetAvatar } from "@/common/presentation/components/hover-pet-avatar";
 import { AppointmentRequestEntity } from "../../domain/entities";
+import { UserRole } from "@/features/user";
 
 interface PopUpDetailRequestProps {
     request: AppointmentRequestEntity;
     statusLabel: string;
     statusStyle: string;
+    userRole: UserRole
 }
 
-export const PopUpDetailRequest = ({ request, statusLabel, statusStyle }: PopUpDetailRequestProps) => {
+export const PopUpDetailRequest = ({ request, statusLabel, statusStyle, userRole }: PopUpDetailRequestProps) => {
     const dateObj = new Date(request.date);
 
     return (
@@ -47,10 +49,17 @@ export const PopUpDetailRequest = ({ request, statusLabel, statusStyle }: PopUpD
                             <div className="size-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                                 <User className="size-4 text-primary" />
                             </div>
-                            <div>
-                                <p className="text-xs text-muted-foreground">Dueño</p>
-                                <p className="font-semibold text-sm">{request.ownerName}</p>
-                            </div>
+                            {
+                                userRole == UserRole.owner ? (
+                                    <span className="truncate">
+                                        Veterinario: <strong className="font-medium text-foreground">{request.veterinarianName}</strong>
+                                    </span>
+                                ) : (
+                                    <span className="truncate">
+                                        Dueño: <strong className="font-medium text-foreground">{request.ownerName}</strong>
+                                    </span>
+                                )
+                            }
                         </div>
                     )}
 

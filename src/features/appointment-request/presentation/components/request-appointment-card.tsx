@@ -109,11 +109,18 @@ export const RequestAppointmentCard: React.FC<RequestAppointmentCardProps> = ({ 
                             )}
                         </div>
 
-                        {request.ownerName && (
+                        {request.ownerName && userRole == UserRole.veterinary ? (
                             <div className="flex items-center gap-1 text-xs text-muted-foreground">
                                 <User className="size-3 shrink-0" />
                                 <span className="truncate">
                                     Dueño: <strong className="font-medium text-foreground">{request.ownerName}</strong>
+                                </span>
+                            </div>
+                        ) : (
+                            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                <User className="size-3 shrink-0" />
+                                <span className="truncate">
+                                    Veterinario: <strong className="font-medium text-foreground">{request.veterinarianName}</strong>
                                 </span>
                             </div>
                         )}
@@ -125,7 +132,7 @@ export const RequestAppointmentCard: React.FC<RequestAppointmentCardProps> = ({ 
                         {statusLabel}
                     </span>
 
-                    <PopUpDetailRequest request={request} statusLabel={statusLabel} statusStyle={statusStyle} />
+                    <PopUpDetailRequest userRole={userRole} request={request} statusLabel={statusLabel} statusStyle={statusStyle} />
                 </div>
             </div>
 
