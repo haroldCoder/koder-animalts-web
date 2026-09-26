@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import { HttpAppointmentRequestRepository } from '../../infrastructure/http';
 import { GetAppointmentRequestsByUserIdUseCase } from '../use-cases';
 import { AppointmentRequestEntity, FindAppointmentRequestsCriteria } from '../../domain';
-import { UserRole } from '@/features/user';
 
 const appointmentRequestRepository = new HttpAppointmentRequestRepository();
 const getAppointmentRequestsByUserIdUseCase =
