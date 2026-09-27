@@ -7,7 +7,7 @@ export const useRequestAppointment = () => {
         date: "",
         reason: "",
         clinicId: "",
-        VeterinarianId: ""
+        veterinarianId: ""
     }
 
     const { form, register, handleSubmit, control, errors } = useFormData<RequestAppointmentFormValues>(defaultValues);

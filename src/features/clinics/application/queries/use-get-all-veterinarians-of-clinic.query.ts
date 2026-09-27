@@ -6,10 +6,10 @@ import { VeterinarianEntity } from "../../domain/entities";
 const clinicRepository = new HttpClinicRepository();
 const getAllVeterinariansOfClinicUseCase = new GetAllVeterinariansOfClinicUseCase(clinicRepository);
 
-export const useGetAllVeterinariansOfClinic = (clinicId: string) => {
+export const useGetAllVeterinariansOfClinic = (clinicId: string | undefined) => {
     return useQuery<VeterinarianEntity[], Error>({
         queryKey: ["veterinarians", clinicId],
-        queryFn: () => getAllVeterinariansOfClinicUseCase.execute(clinicId),
+        queryFn: () => getAllVeterinariansOfClinicUseCase.execute(clinicId!),
         enabled: Boolean(clinicId),
     });
 };

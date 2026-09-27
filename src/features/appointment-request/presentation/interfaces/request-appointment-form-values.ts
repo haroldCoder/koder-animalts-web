@@ -3,5 +3,5 @@ export interface RequestAppointmentFormValues {
     date: string | Date;
     reason: string;
     clinicId?: string;
-    VeterinarianId?: string;
+    veterinarianId?: string;
 }

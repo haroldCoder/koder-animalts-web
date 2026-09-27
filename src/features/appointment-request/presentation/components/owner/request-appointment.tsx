@@ -25,12 +25,15 @@ import {
 import { ClinicOption } from "@/common/presentation/interfaces";
 import { useGetPetsByOwnerUserId } from "@/features/pet/application/queries";
 import { PetPresentationMapper } from "@/features/pet/presentation/mappers/pet-options.mapper";
-import { useGetAllClinics } from "@/features/clinics/application/queries";
+import { useGetAllClinics, useGetAllVeterinariansOfClinic } from "@/features/clinics/application/queries";
 
 import { useRequestAppointment } from "../../hooks";
 import { useCreateAppointmentRequestMutation } from "../../../application/mutations";
 import { RequestAppointmentFormValues } from "../../interfaces";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { VeterinarySelector } from "@/features/veterinary/presentation/components";
+import { VeterinaryOption } from "@/features/veterinary/presentation/interfaces";
+import { VeterinaryPresentationMapper } from "@/features/veterinary/presentation/mappers";
 
 export const RequestAppointment = () => {
     const { user } = useAuth();
@@ -40,6 +43,8 @@ export const RequestAppointment = () => {
 
     const { mutateAsync: createRequest, isPending, error: mutationError } =
         useCreateAppointmentRequestMutation();
+
+    const { data: veterinarians, isLoading: isLoadingVeterinarians } = useGetAllVeterinariansOfClinic(form.watch("clinicId") || undefined);
 
     const { data: pets, isLoading: isLoadingPets } = useGetPetsByOwnerUserId(user!);
     const { data: clinics, isLoading: isLoadingClinics } = useGetAllClinics();
@@ -55,6 +60,11 @@ export const RequestAppointment = () => {
     const petsOptions = useMemo<PetOption[]>(
         () => PetPresentationMapper.toOptions(pets),
         [pets]
+    );
+
+    const veterinariansOptions = useMemo<VeterinaryOption[]>(
+        () => VeterinaryPresentationMapper.toOptions(veterinarians),
+        [veterinarians]
     );
 
     const clinicsOptions = useMemo<ClinicOption[]>(() => {
@@ -74,7 +84,7 @@ export const RequestAppointment = () => {
                 requestedDate: data.date,
                 reason: data.reason,
                 clinicId: data.clinicId || undefined,
-                VeterinarianId: data.VeterinarianId || undefined,
+                veterinarianId: data.veterinarianId || undefined,
             });
             toast.success("Solicitud de cita enviada con éxito", {
                 icon: <CheckCircle className="text-emerald-500 size-5" />,
@@ -154,7 +164,7 @@ export const RequestAppointment = () => {
 
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium flex items-center gap-1.5">
-                                        Selecciona una clínica
+                                        Selecciona una clínica <span className="text-red-600">*</span>
                                     </label>
                                     <ClinicSelector
                                         clinicsOptions={clinicsOptions}
@@ -164,9 +174,28 @@ export const RequestAppointment = () => {
                                         }
                                         value={form.watch("clinicId")}
                                     />
-                                    <p className="text-xs text-muted-foreground">
-                                        Si no seleccionas una clínica, te asignaremos la disponible más cercana.
-                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="bg-card rounded-xl p-6 shadow-sm border border-border/50 space-y-6">
+                                <div className="flex items-center gap-2 border-b border-border/50 pb-4">
+                                    <MessageSquare className="size-5 text-primary" />
+                                    <h2 className="text-lg font-semibold">Veterinario</h2>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium flex items-center gap-1.5">
+                                        Selecciona un veterinario de tu preferencia
+                                    </label>
+                                    <VeterinarySelector
+                                        disabled={!form.watch("clinicId")}
+                                        veterinariansOptions={veterinariansOptions}
+                                        isLoading={isLoadingVeterinarians}
+                                        onValueChange={(value) =>
+                                            form.setValue("veterinarianId", value ?? "")
+                                        }
+                                        value={form.watch("veterinarianId")}
+                                    />
                                 </div>
                             </div>
 

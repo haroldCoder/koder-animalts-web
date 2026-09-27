@@ -4,7 +4,7 @@ import { Eye } from "lucide-react";
 import { Calendar, Clock, User } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { HoverPetAvatar } from "@/common/presentation/components/hover-pet-avatar";
+import { HoverAvatar } from "@/common/presentation/components/hover-avatar";
 import { AppointmentRequestEntity } from "../../domain/entities";
 import { UserRole } from "@/features/user";
 
@@ -37,7 +37,7 @@ export const PopUpDetailRequest = ({ request, statusLabel, statusStyle, userRole
                 <div className="space-y-4 pt-2">
                     {/* Pet */}
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/40">
-                        <HoverPetAvatar src={request.petPhoto} name={request.petName ?? "Mascota"} />
+                        <HoverAvatar src={request.petPhoto} name={request.petName ?? "Mascota"} />
                         <div>
                             <p className="text-xs text-muted-foreground">Mascota</p>
                             <p className="font-semibold text-sm">{request.petName ?? "—"}</p>
