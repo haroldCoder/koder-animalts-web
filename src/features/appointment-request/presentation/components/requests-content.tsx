@@ -10,6 +10,7 @@ import { AppointmentRequestStatus } from "@/features/appointment-request/domain"
 import { MainLayoutContext } from "@/common/presentation/layout";
 import { UserRole } from "@/features/user";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { EmptyRequests } from "./requests-empty";
 
 export const RequestContent = () => {
     const { user } = useAuth();
@@ -58,9 +59,13 @@ export const RequestContent = () => {
                 </DialogHeader>
                 <ScrollArea className={"max-h-[300px]"}>
                     {
-                        requestsData.map((request) => (
-                            <RequestAppointmentCard userRole={userSession.role} key={request.id} request={request} />
-                        ))
+                        requestsData.length === 0 ? (
+                            <EmptyRequests role={userSession.role == UserRole.owner ? "owner" : "veterinary"} />
+                        ) : (
+                            requestsData.map((request) => (
+                                <RequestAppointmentCard userRole={userSession.role} key={request.id} request={request} />
+                            ))
+                        )
                     }
                 </ScrollArea>
             </DialogContent>
