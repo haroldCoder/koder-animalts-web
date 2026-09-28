@@ -11,17 +11,22 @@ import { MainLayoutContext } from "@/common/presentation/layout";
 import { UserRole } from "@/features/user";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { EmptyRequests } from "./requests-empty";
+import { RequestPolicy } from "../../domain/policies";
+import { FilterStatus } from "./owner/filter-status";
+import { useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const RequestContent = () => {
     const { user } = useAuth();
     const { user: userSession } = useContext(MainLayoutContext)!;
+    const [filterStatusOwner, setFilterStatusOwner] = useState<AppointmentRequestStatus[]>([AppointmentRequestStatus.APPROVED, AppointmentRequestStatus.PENDING, AppointmentRequestStatus.REJECTED]);
 
     const filterStatus = useMemo(() => {
-        if (userSession.role === UserRole.owner) return [AppointmentRequestStatus.APPROVED, AppointmentRequestStatus.PENDING, AppointmentRequestStatus.CANCELLED];
+        if (userSession.role === UserRole.owner) return filterStatusOwner;
         return [AppointmentRequestStatus.PENDING];
-    }, []);
+    }, [userSession.role, filterStatusOwner]);
 
-    const { data } = useGetAppointmentRequestsByUserId(user!, {
+    const { data, isLoading } = useGetAppointmentRequestsByUserId(user!, {
         status: filterStatus
     });
 
@@ -57,15 +62,27 @@ export const RequestContent = () => {
                         Solicitudes de cita
                     </DialogTitle>
                 </DialogHeader>
+                {
+                    RequestPolicy.canFilterStatus(userSession.role) && (
+                        <FilterStatus value={filterStatusOwner} handleChange={(value) => {
+                            setFilterStatusOwner(value);
+                        }} />
+                    )
+                }
                 <ScrollArea className={"max-h-[300px]"}>
                     {
-                        requestsData.length === 0 ? (
-                            <EmptyRequests role={userSession.role == UserRole.owner ? "owner" : "veterinary"} />
-                        ) : (
-                            requestsData.map((request) => (
-                                <RequestAppointmentCard userRole={userSession.role} key={request.id} request={request} />
+                        isLoading ? (
+                            Array.from({ length: 4 }).map((_, index) => (
+                                <Skeleton key={index} className="w-full h-16 rounded-md mb-4" />
                             ))
-                        )
+                        ) :
+                            requestsData.length === 0 ? (
+                                <EmptyRequests role={userSession.role == UserRole.owner ? "owner" : "veterinary"} />
+                            ) : (
+                                requestsData.map((request) => (
+                                    <RequestAppointmentCard userRole={userSession.role} key={request.id} request={request} />
+                                ))
+                            )
                     }
                 </ScrollArea>
             </DialogContent>

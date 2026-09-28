@@ -8,4 +8,8 @@ export class RequestPolicy {
     static isCurrentVeterinary(currentVeterinary: boolean, userRole: UserRole): boolean {
         return currentVeterinary && userRole === UserRole.veterinary;
     }
+
+    static canFilterStatus(userRole: UserRole): boolean {
+        return userRole === UserRole.owner;
+    }
 }
