@@ -79,6 +79,22 @@ export class HttpAppointmentRequestRepository
     }
   }
 
+  async cancel(
+    id: string,
+    ownerUserId: string
+  ): Promise<void> {
+    try {
+      await apiClient.patch<void>(`${this.basePath}/${id}/cancel`, {
+        params: {
+          ownerUserId,
+        },
+      });
+    } catch (error) {
+      console.error('Error cancelling appointment request:', error);
+      throw error;
+    }
+  }
+
   async findAllByUserId(
     userId: string,
     criteria?: FindAppointmentRequestsCriteria

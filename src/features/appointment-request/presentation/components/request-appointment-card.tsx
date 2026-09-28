@@ -18,6 +18,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { UserRole } from "@/features/user";
 import { RequestPolicy } from "../../domain/policies";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { ButtonCancelRequest } from "./owner";
 
 interface RequestAppointmentCardProps {
     request: AppointmentRequestEntity;
@@ -138,10 +139,18 @@ export const RequestAppointmentCard: React.FC<RequestAppointmentCardProps> = ({ 
                                 </span>
                             </div>
                         )}
+
+
                     </div>
                 </div>
 
                 <div className="flex flex-wrap items-center justify-between sm:justify-end gap-2.5 w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-border/40 shrink-0">
+                    {
+                        RequestPolicy.canCancelRequest(userRole, request.status as AppointmentRequestStatus) && (
+                            <ButtonCancelRequest request={request} />
+                        )
+                    }
+
                     {RequestPolicy.isCurrentVeterinary(request.currentVeterinary, userRole) && (
                         <Tooltip>
                             <TooltipTrigger className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-main/15 text-main border border-main/30 cursor-help transition-colors hover:bg-main/25">
