@@ -16,6 +16,7 @@ export class AppointmentRequestMapper {
       userVeterinarianId: item.userVeterinarianId,
       clinicId: item.clinicId,
       rejectionReason: item.rejectionReason,
+      currentVeterinary: item.currentVeterinarian,
       petName: item.pet?.name,
       petPhoto: item.pet?.mainImage,
       ownerName: item.owner?.user?.name,

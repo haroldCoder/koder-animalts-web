@@ -11,6 +11,7 @@ export interface RawAppointmentRequestApiItem {
   rejectionReason?: string;
   createdAt?: string;
   updatedAt?: string;
+  currentVeterinarian: boolean;
   pet?: {
     id: string;
     name: string;

@@ -1,12 +1,12 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Eye } from "lucide-react";
-import { Calendar, Clock, User } from "lucide-react";
+import { Eye, Calendar, Clock, User, UserCheck } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { HoverAvatar } from "@/common/presentation/components/hover-avatar";
 import { AppointmentRequestEntity } from "../../domain/entities";
 import { UserRole } from "@/features/user";
+import { RequestPolicy } from "../../domain/policies";
 
 interface PopUpDetailRequestProps {
     request: AppointmentRequestEntity;
@@ -35,6 +35,18 @@ export const PopUpDetailRequest = ({ request, statusLabel, statusStyle, userRole
                 </DialogHeader>
 
                 <div className="space-y-4 pt-2">
+                    {RequestPolicy.isCurrentVeterinary(request.currentVeterinary, userRole) && (
+                        <div className="flex items-center gap-3 p-3 rounded-lg bg-main/10 border border-main/20 text-main">
+                            <div className="size-8 rounded-full bg-main/20 flex items-center justify-center shrink-0">
+                                <UserCheck className="size-4 text-main" />
+                            </div>
+                            <div className="text-xs">
+                                <p className="font-semibold text-foreground">Solicitud dirigida a ti</p>
+                                <p className="text-muted-foreground">El dueño te seleccionó específicamente a ti para atender esta cita.</p>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Pet */}
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/40">
                         <HoverAvatar src={request.petPhoto} name={request.petName ?? "Mascota"} />
@@ -45,21 +57,29 @@ export const PopUpDetailRequest = ({ request, statusLabel, statusStyle, userRole
                     </div>
 
                     {request.ownerName && (
-                        <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/40">
-                            <div className="size-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                                <User className="size-4 text-primary" />
+                        <div className="flex items-center justify-between p-3 rounded-lg bg-muted/40">
+                            <div className="flex items-center gap-3">
+                                <div className="size-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                                    <User className="size-4 text-primary" />
+                                </div>
+                                {
+                                    userRole == UserRole.owner ? (
+                                        <span className="truncate text-sm">
+                                            Veterinario: <strong className="font-medium text-foreground">{request.veterinarianName}</strong>
+                                        </span>
+                                    ) : (
+                                        <span className="truncate text-sm">
+                                            Dueño: <strong className="font-medium text-foreground">{request.ownerName}</strong>
+                                        </span>
+                                    )
+                                }
                             </div>
-                            {
-                                userRole == UserRole.owner ? (
-                                    <span className="truncate">
-                                        Veterinario: <strong className="font-medium text-foreground">{request.veterinarianName}</strong>
-                                    </span>
-                                ) : (
-                                    <span className="truncate">
-                                        Dueño: <strong className="font-medium text-foreground">{request.ownerName}</strong>
-                                    </span>
-                                )
-                            }
+                            {RequestPolicy.isCurrentVeterinary(request.currentVeterinary, userRole) && (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-main/15 text-main shrink-0">
+                                    <UserCheck className="size-3" />
+                                    Te eligió
+                                </span>
+                            )}
                         </div>
                     )}
 

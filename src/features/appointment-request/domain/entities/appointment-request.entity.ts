@@ -11,6 +11,7 @@ export interface AppointmentRequestEntity {
   userVeterinarianId?: string;
   clinicId?: string;
   rejectionReason?: string;
+  currentVeterinary: boolean;
   petName?: string;
   petPhoto?: string;
   ownerName?: string;

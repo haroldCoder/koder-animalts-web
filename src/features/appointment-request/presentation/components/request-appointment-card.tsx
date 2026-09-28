@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Calendar, Clock, PawPrint, User } from "lucide-react";
+import { Calendar, Clock, PawPrint, User, UserCheck } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { AppointmentRequestEntity } from "../../domain/entities";
@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { UserRole } from "@/features/user";
 import { RequestPolicy } from "../../domain/policies";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface RequestAppointmentCardProps {
     request: AppointmentRequestEntity;
@@ -75,7 +76,12 @@ export const RequestAppointmentCard: React.FC<RequestAppointmentCardProps> = ({ 
     };
 
     return (
-        <article className="relative py-4 mt-5 w-full bg-card border border-border/50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group">
+        <article className={`
+        relative py-4 mt-5 w-full 
+        ${RequestPolicy.isCurrentVeterinary(request.currentVeterinary, userRole) &&
+            "bg-gradient-to-l from-main/60 via-main-light/10 to-transparent"
+            } 
+        bg-card border border-border/50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group`}>
             <div className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-xl ${accentColor}`} />
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 pl-5 sm:pl-6 gap-3.5 sm:gap-4">
@@ -110,11 +116,19 @@ export const RequestAppointmentCard: React.FC<RequestAppointmentCardProps> = ({ 
                         </div>
 
                         {request.ownerName && userRole == UserRole.veterinary ? (
-                            <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                                <User className="size-3 shrink-0" />
-                                <span className="truncate">
-                                    Dueño: <strong className="font-medium text-foreground">{request.ownerName}</strong>
-                                </span>
+                            <div className="flex flex-col items-start gap-1.5 text-xs text-muted-foreground">
+                                <div className="flex items-center gap-1.5">
+                                    <User className="size-3 shrink-0" />
+                                    <span className="truncate">
+                                        Dueño: <strong className="font-medium text-foreground">{request.ownerName}</strong>
+                                    </span>
+                                </div>
+
+                                {RequestPolicy.isCurrentVeterinary(request.currentVeterinary, userRole) && (
+                                    <span className="text-[11px] text-main font-medium hidden sm:inline">
+                                        • Te eligió para esta cita
+                                    </span>
+                                )}
                             </div>
                         ) : (
                             <div className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -127,7 +141,18 @@ export const RequestAppointmentCard: React.FC<RequestAppointmentCardProps> = ({ 
                     </div>
                 </div>
 
-                <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-border/40 shrink-0">
+                <div className="flex flex-wrap items-center justify-between sm:justify-end gap-2.5 w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-border/40 shrink-0">
+                    {RequestPolicy.isCurrentVeterinary(request.currentVeterinary, userRole) && (
+                        <Tooltip>
+                            <TooltipTrigger className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-main/15 text-main border border-main/30 cursor-help transition-colors hover:bg-main/25">
+                                <UserCheck className="size-3.5" />
+                                <span>Elegido por el dueño</span>
+                            </TooltipTrigger>
+                            <TooltipContent className="dark:bg-bg-dark-1 dark:text-white">
+                                <p>El dueño te seleccionó específicamente para esta solicitud</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    )}
                     <span className={`shrink-0 inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${statusStyle}`}>
                         {statusLabel}
                     </span>
