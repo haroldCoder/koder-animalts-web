@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useState } from "react";
 
-export const HoverPetAvatar = ({ src, name }: { src?: string; name: string }) => {
+export const HoverAvatar = ({ src, name }: { src?: string; name: string }) => {
     const [open, setOpen] = useState(false);
 
     return (

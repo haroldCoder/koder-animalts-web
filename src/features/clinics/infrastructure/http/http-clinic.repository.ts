@@ -1,7 +1,7 @@
 import { apiClient } from "@/common";
-import { ClinicEntity, ClinicSummaryEntity } from "../../domain/entities";
+import { ClinicEntity, ClinicSummaryEntity, VeterinarianEntity } from "../../domain/entities";
 import { IClinicRepository } from "../../domain/repositories";
-import { ClinicResponseEntity, ClinicSummaryResponseEntity } from "../entities";
+import { ClinicResponseEntity, ClinicSummaryResponseEntity, VeterinariansResponseEntity } from "../entities";
 
 export class HttpClinicRepository implements IClinicRepository {
     async getAllClinics(): Promise<ClinicEntity[]> {
@@ -28,4 +28,15 @@ export class HttpClinicRepository implements IClinicRepository {
             throw error;
         }
     }
+
+    async getAllVeterinariansOfClinic(clinicId: string): Promise<VeterinarianEntity[]> {
+        try {
+            const response = await apiClient.get<VeterinariansResponseEntity>(`/veterinary-clinics/all/veterinarians/${clinicId}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching veterinarians of clinic:', error);
+            throw error;
+        }
+    }
 }
+

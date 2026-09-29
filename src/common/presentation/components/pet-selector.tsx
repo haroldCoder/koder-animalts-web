@@ -1,7 +1,7 @@
 import { Controller } from "react-hook-form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Spinner } from "@/components/ui/spinner"
-import { HoverPetAvatar } from "./hover-pet-avatar"
+import { HoverAvatar } from "./hover-avatar"
 
 export interface PetOption {
     value: string;
@@ -54,7 +54,7 @@ export const PetSelector = ({ control, errors, petsOptions, isLoadingPets, disab
                                 petsOptions.map((opt) => (
                                     <SelectItem key={opt.value} value={opt.value}>
                                         <div className="flex items-center gap-2 w-full">
-                                            <HoverPetAvatar src={opt.image} name={opt.label} />
+                                            <HoverAvatar src={opt.image} name={opt.label} />
                                             <span className="truncate">{opt.label}</span>
                                         </div>
                                     </SelectItem>

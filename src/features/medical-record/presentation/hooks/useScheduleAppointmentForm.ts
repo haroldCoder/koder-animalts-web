@@ -1,21 +1,19 @@
-import { useForm } from "react-hook-form";
 import { ScheduleAppointmentFormValues } from "../interfaces";
+import { useFormData } from "@/common/presentation/hooks";
 
 export const useScheduleAppointmentForm = () => {
 
-    const form = useForm<ScheduleAppointmentFormValues>({
-        defaultValues: {
-            petId: "",
-            visitDate: undefined,
-            reasonForVisit: "",
-            type: "",
-            notes: "",
-            diagnosis: "",
-            treatment: ""
-        }
-    });
+    const defaultValues = {
+        petId: "",
+        visitDate: undefined,
+        reasonForVisit: "",
+        type: "",
+        notes: "",
+        diagnosis: "",
+        treatment: ""
+    }
 
-    const { register, handleSubmit, control, formState: { errors } } = form;
+    const { form, register, handleSubmit, control, errors } = useFormData<ScheduleAppointmentFormValues>(defaultValues);
 
     return { form, register, handleSubmit, control, errors };
 }
