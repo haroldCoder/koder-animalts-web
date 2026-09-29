@@ -6,13 +6,14 @@ import { ChevronDown } from "lucide-react";
 import styles from "./vaccination.module.css";
 import { useMemo, useState, useEffect, useRef, useContext } from "react";
 import { useGetAllVaccinationsQuery } from "../../application/queries";
-import { useAuth } from "@/common/hooks";
+import { useAuth, useClearParamOnCondition } from "@/common/hooks";
 import { useSearchParams } from "react-router-dom";
 import { MainLayoutContext } from "@/common/presentation/layout";
 import { UserRole } from "@/features/user";
 import { useGetPetsByOwnerUserId } from "@/features/pet/application/queries";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { VaccinationStatus } from "../../domain/enums";
+import { routes } from "@/common/presentation/constants";
 
 export const Vaccination = () => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -44,6 +45,12 @@ export const Vaccination = () => {
     }, [petIdSelected, statusFilter, medicalRecordId, startDateString, endDateString]);
 
     const { data: pets, isLoading: isLoadingPets } = useGetPetsByOwnerUserId(user!);
+
+    const hasFilters = petIdSelected !== "" || (statusFilter?.length ?? 0) > 0 || startDateString !== null || endDateString !== null;
+    console.log(petIdSelected !== "", (statusFilter?.length ?? 0) > 0, startDateString !== null, endDateString !== null);
+
+
+    useClearParamOnCondition(medicalRecordId ?? undefined, hasFilters ?? false, routes.vaccinations.link);
 
 
     const vaccinationsMappedData = useMemo(() => {
