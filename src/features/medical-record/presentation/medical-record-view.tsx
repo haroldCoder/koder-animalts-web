@@ -2,10 +2,10 @@ import { useCallback, useContext, useMemo, useState } from "react";
 import { useAuth, useClearParamOnCondition } from "@/common/hooks";
 import { useGetMedicalRecordsByUserId } from "../application/queries";
 import { MedicalRecordEntity } from "../domain/entities";
-import { MedicalRecordCardToggle, MedicalRecordHistoryEmpty } from "./components";
+import { MedicalRecordCardToggle, MedicalRecordHistoryEmpty, TellHistory } from "./components";
 import { ScheduleMedicalRecord } from "./schedule-medical-record";
 import { DatePicker, Error, Loading } from "@/common/presentation/components";
-import { Plus, ClipboardList } from "lucide-react";
+import { Plus, ClipboardList, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MainLayoutContext } from "@/common/presentation/layout";
 import { UserRole } from "@/features/user";
@@ -20,6 +20,7 @@ export const MedicalRecordView = () => {
     const [showForm, setShowForm] = useState(false);
     const { user } = useAuth();
     const { user: userContext } = useContext(MainLayoutContext)!;
+    const [historyVisual, setHistoryVisual] = useState(false);
 
     const { data: pets, isLoading: isLoadingPets } = userContext?.role === UserRole.veterinary ? useGetPetsByVeterinaryUserId(user!) : useGetPetsByOwnerUserId(user!);
     const context = useContext(MainLayoutContext);
@@ -81,17 +82,28 @@ export const MedicalRecordView = () => {
                         Consulta y gestiona el registro clínico completo de tus mascotas
                     </p>
                 </div>
-                {
-                    context?.user.role === UserRole.veterinary && (
-                        <Button
-                            onClick={() => setShowForm(true)}
-                            className="cursor-pointer gap-2 self-start sm:self-auto"
-                        >
-                            <Plus className="size-4" />
-                            Nuevo Registro
-                        </Button>
-                    )
-                }
+                <div className="flex items-center gap-2">
+                    <Button
+                        disabled={!records || records.length === 0}
+                        onClick={() => setHistoryVisual(prev => !prev)}
+                        className="cursor-pointer bg-bg-dark-1 text-gray-300 hover:text-main hover:bg-bg-dark-2 gap-2 self-start sm:self-auto"
+                    >
+                        <Star className="text-main fill-main/20" />
+                        {historyVisual ? "Ver historial en tarjetas" : "Contar historia"}
+                    </Button>
+
+                    {
+                        context?.user.role === UserRole.veterinary && (
+                            <Button
+                                onClick={() => setShowForm(true)}
+                                className="cursor-pointer gap-2 self-start sm:self-auto"
+                            >
+                                <Plus className="size-4" />
+                                Nuevo Registro
+                            </Button>
+                        )
+                    }
+                </div>
             </div>
 
             {/* filters */}
@@ -180,11 +192,21 @@ export const MedicalRecordView = () => {
                     <MedicalRecordHistoryEmpty />
                 </div>
             ) : (
-                <div className="flex flex-col gap-4">
-                    {records.map((record: MedicalRecordEntity) => (
-                        <MedicalRecordCardToggle key={record.id} medicalRecord={record} />
-                    ))}
-                </div>
+                historyVisual ? (
+                    <TellHistory
+                        medicalRecords={records}
+                        pets={pets}
+                        selectedPetId={filters.petId}
+                        onSelectPetId={(petId) => setFilters(prev => ({ ...prev, petId }))}
+                        onBackToCards={() => setHistoryVisual(false)}
+                    />
+                ) : (
+                    <div className="flex flex-col gap-4">
+                        {records.map((record: MedicalRecordEntity) => (
+                            <MedicalRecordCardToggle key={record.id} medicalRecord={record} />
+                        ))}
+                    </div>
+                )
             )}
         </div>
     );
