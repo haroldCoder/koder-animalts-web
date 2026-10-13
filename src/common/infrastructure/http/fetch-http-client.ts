@@ -1,8 +1,14 @@
 import { HttpClient, HttpRequestOptions } from '@/common/domain/interfaces';
 import { HttpException, NetworkException } from '@/common/domain/exceptions';
+import { authSessionStorage } from '@/features/auth/infrastructure/storage';
+
+interface InternalRequestOptions extends HttpRequestOptions {
+  _isRetry?: boolean;
+}
 
 export class FetchHttpClient implements HttpClient {
   private readonly baseUrl: string;
+  private static refreshPromise: Promise<string | null> | null = null;
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
@@ -11,7 +17,7 @@ export class FetchHttpClient implements HttpClient {
   private async request<T>(
     method: string,
     path: string,
-    options: HttpRequestOptions = {}
+    options: InternalRequestOptions = {}
   ): Promise<T> {
     const url = this.buildUrl(path, options.params);
     const headers = this.buildHeaders(options.headers, options.body);
@@ -33,6 +39,20 @@ export class FetchHttpClient implements HttpClient {
             payload = await response.text();
           } catch {
             payload = null;
+          }
+        }
+
+        const isAuthEndpoint =
+          path.includes('/auth/login') ||
+          path.includes('/auth/signup') ||
+          path.includes('/auth/refresh') ||
+          path.includes('/auth/logout');
+
+        // Automatic token refresh handling on 401
+        if (response.status === 401 && !options._isRetry && !isAuthEndpoint) {
+          const newToken = await this.handleTokenRefresh();
+          if (newToken) {
+            return this.request<T>(method, path, { ...options, _isRetry: true });
           }
         }
 
@@ -65,11 +85,60 @@ export class FetchHttpClient implements HttpClient {
     }
   }
 
+  private async handleTokenRefresh(): Promise<string | null> {
+    const refreshToken = authSessionStorage.getRefreshToken();
+    if (!refreshToken) {
+      authSessionStorage.clearSession();
+      return null;
+    }
+
+    if (!FetchHttpClient.refreshPromise) {
+      FetchHttpClient.refreshPromise = (async () => {
+        try {
+          const refreshUrl = this.buildUrl('/auth/refresh');
+          const refreshResponse = await fetch(refreshUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
+            body: JSON.stringify({ refreshToken }),
+          });
+
+          if (!refreshResponse.ok) {
+            authSessionStorage.clearSession();
+            return null;
+          }
+
+          const data = await refreshResponse.json();
+          if (data?.data?.accessToken && data?.data?.refreshToken) {
+            authSessionStorage.updateTokens(
+              data.data.accessToken,
+              data.data.refreshToken,
+              data.data.user
+            );
+            return data.data.accessToken as string;
+          }
+
+          authSessionStorage.clearSession();
+          return null;
+        } catch (e) {
+          console.error('Failed to refresh authentication token:', e);
+          authSessionStorage.clearSession();
+          return null;
+        } finally {
+          FetchHttpClient.refreshPromise = null;
+        }
+      })();
+    }
+
+    return FetchHttpClient.refreshPromise;
+  }
+
   private buildUrl(path: string, params?: Record<string, string | number | boolean>): string {
     const cleanPath = path.startsWith('/') ? path : `/${path}`;
     const isRelative = !this.baseUrl;
 
-    // new URL() requires an absolute URL; use origin as temporary base for relative mode
     const base = isRelative ? window.location.origin : this.baseUrl;
     const url = new URL(`${base}${cleanPath}`);
 
@@ -81,7 +150,6 @@ export class FetchHttpClient implements HttpClient {
       });
     }
 
-    // Return relative URL when no baseUrl was provided (proxy mode)
     if (isRelative) {
       return `${url.pathname}${url.search}`;
     }
@@ -94,13 +162,19 @@ export class FetchHttpClient implements HttpClient {
 
     if (body !== undefined) {
       if (body instanceof FormData) {
-        // Fetch sets the boundary automatically
+        // Fetch sets boundary automatically
       } else if (typeof body === 'object') {
         headers.set('Content-Type', 'application/json');
       }
     }
 
     headers.set('Accept', 'application/json');
+
+    // Automatically attach Bearer token if available
+    const token = authSessionStorage.getAccessToken();
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
 
     if (customHeaders) {
       Object.entries(customHeaders).forEach(([key, value]) => {
