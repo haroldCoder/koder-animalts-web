@@ -1,4 +1,5 @@
+import { authSessionStorage } from "@/features/auth/infrastructure/storage";
+
 export const userExistLocalData = (): boolean => {
-    const user = localStorage.getItem('user');
-    return user ? true : false;
-}
+  return authSessionStorage.isAuthenticated() || !!localStorage.getItem("user");
+};

@@ -2,23 +2,20 @@ import { useContext } from "react";
 import { MainLayoutContext } from "../layout";
 import { UserRole } from "@/features/user/domain/enums";
 import { Button } from "@/components/ui/button";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { NavMenu } from "./nav-menu";
 import { routes } from "../constants";
-import { useQueryClient } from "@tanstack/react-query";
+import { useLogoutUser } from "@/features/auth/application/queries";
 
 export const Header = () => {
     const { user } = useContext(MainLayoutContext)!;
-    const navigation = useNavigate();
     const location = useLocation();
-    const queryClient = useQueryClient();
+    const { mutate: logoutUser, isPending: isLoggingOut } = useLogoutUser();
 
     const logout = () => {
-        localStorage.removeItem('user');
-        queryClient.clear();
-        navigation('/auth');
-    }
+        logoutUser();
+    };
 
 
     const currentRoute = Object.values(routes).find(r => r.link === location.pathname) as { label: string };
@@ -46,7 +43,14 @@ export const Header = () => {
                     <AvatarImage src={user.image ?? ""} />
                     <AvatarFallback className="bg-amber-500 text-white text-xs lg:text-sm">{user.name.charAt(0)}</AvatarFallback>
                 </Avatar>
-                <Button size="sm" className="cursor-pointer px-3 lg:px-6 text-xs lg:text-sm whitespace-nowrap" onClick={() => logout()}>Logout</Button>
+                <Button
+                    size="sm"
+                    disabled={isLoggingOut}
+                    className="cursor-pointer px-3 lg:px-6 text-xs lg:text-sm whitespace-nowrap"
+                    onClick={() => logout()}
+                >
+                    {isLoggingOut ? "Cerrando..." : "Cerrar sesión"}
+                </Button>
             </div>
         </header>
     );

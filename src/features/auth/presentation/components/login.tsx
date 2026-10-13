@@ -18,10 +18,15 @@ export const Login = () => {
     });
 
     const onSubmit = (data: any) => {
-        mutateAsync(data).then(() => {
-            navigate('/select-user');
-        })
-    }
+        mutateAsync(data).then((res) => {
+            const role = res?.data?.user?.role;
+            if (role && role !== 'UNKNOWN') {
+                navigate('/home');
+            } else {
+                navigate('/select-user');
+            }
+        });
+    };
 
     return (
         <div className='flex flex-col bg-transparent gap-4 w-full animate-in fade-in slide-in-from-bottom-4 duration-500'>
