@@ -1,18 +1,28 @@
 import { HttpAuthRepository } from "@/features/auth/infrastructure/http/http-auth.repository";
 import { LoginUseCase } from "../use-cases";
-import { useMutation } from "@tanstack/react-query";
-import { LoginResponseEntity } from "../../infrastructure/entities";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { authSessionStorage } from "../../infrastructure/storage";
+import { AuthResponseDto } from "../../domain/entities";
 
 const authRepository = new HttpAuthRepository();
 const loginUseCase = new LoginUseCase(authRepository);
 
 export const useLoginUser = () => {
-    return useMutation({
-        mutationFn: ({ email, password }: { email: string, password: string }) => {
-            return loginUseCase.execute(email, password);
-        },
-        onSuccess: (data: LoginResponseEntity) => {
-            localStorage.setItem('user', JSON.stringify(data.data));
-        }
-    });
-}
+  const queryClient = useQueryClient();
+
+  return useMutation<AuthResponseDto, Error, { email: string; password: string }>({
+    mutationFn: ({ email, password }) => {
+      return loginUseCase.execute(email, password);
+    },
+    onSuccess: (response) => {
+      if (response?.data?.accessToken && response?.data?.user) {
+        authSessionStorage.saveSession(
+          response.data.accessToken,
+          response.data.refreshToken,
+          response.data.user
+        );
+        queryClient.clear();
+      }
+    },
+  });
+};
