@@ -1,5 +1,3 @@
-export interface SignupResponseEntity {
-    message: string;
-    statusCode: number;
-    data: string;
-}
+import { AuthResponseDto } from "../../domain/entities/auth-session.entity";
+
+export type SignupResponseEntity = AuthResponseDto;
