@@ -10,7 +10,7 @@ interface CardNoticeProps {
 
 export const CardNotice = ({ data, children }: CardNoticeProps) => {
     return (
-        <article className="w-52 min-w-[13rem] flex flex-col items-center text-center p-5 bg-main-light/60 border border-main/20 rounded-2xl hover:shadow-md hover:bg-main-light transition-all cursor-pointer">
+        <article className="w-52 min-w-[13rem] flex flex-col items-center text-center p-5 dark:bg-bg-dark-3/10 bg-main-light/60 border border-main/20 rounded-2xl hover:shadow-md hover:bg-main-light transition-all cursor-pointer">
             <div className="text-center mt-3 mb-6 bg-bg-white-3 px-4 py-2 rounded-full">
                 <p className="text-sm font-semibold text-text-2">{extractHourFromDate(data.date)}</p>
             </div>
@@ -25,7 +25,7 @@ export const CardNotice = ({ data, children }: CardNoticeProps) => {
                 </AvatarFallback>
             </Avatar>
 
-            <p className="text-sm font-medium text-text-1 leading-snug">
+            <p className="text-sm font-medium text-text-1 dark:text-white leading-snug">
                 ¡A <span className="font-bold text-main">{data.petName}</span> le toca su cita <span className="font-bold">{dayLabel(data.date)}</span>!
             </p>
 
