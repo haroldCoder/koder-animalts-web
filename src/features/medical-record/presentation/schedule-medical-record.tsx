@@ -70,7 +70,7 @@ export const ScheduleMedicalRecord = () => {
 
     return (
         <div className="relative max-w-4xl mx-auto p-6 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <ScrollArea className="h-[calc(100dvh-10rem)] w-full px-5">
+            <ScrollArea className="h-[calc(100dvh-25rem)] w-full px-5">
                 {isPending && (
                     <MedicalRecordSucess isOpen={isPending} />
                 )}
