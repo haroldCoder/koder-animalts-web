@@ -10,7 +10,7 @@ export const VisitCard = ({ visit }: VisitCardProps) => {
     return (
         <article
             key={visit.id}
-            className="flex flex-col p-4 sm:p-5 bg-bg-1 border border-border-1 rounded-2xl hover:bg-bg-2 transition-all gap-3"
+            className="flex flex-col p-4 sm:p-5 dark:text-white dark:border-border-1 dark:bg-bg-dark-2 dark:hover:bg-bg-dark-2 bg-bg-1 border border-border-1 rounded-2xl hover:bg-bg-2 transition-all gap-3"
         >
             <div className="flex items-start gap-4">
                 {/* Icono representativo */}
@@ -18,9 +18,9 @@ export const VisitCard = ({ visit }: VisitCardProps) => {
                     <FileText className="w-5 h-5" />
                 </div>
 
-                <div className="flex flex-col min-w-0 flex-1">
+                <div className="flex flex-col min-w-0 gap-4 flex-1">
                     <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                        <h3 className="text-base sm:text-lg font-bold text-text-1 leading-tight">
+                        <h3 className="text-base sm:text-lg font-bold text-text-1 dark:text-main leading-tight">
                             {visit.petName}
                         </h3>
                         <p className="px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-medium whitespace-nowrap">
@@ -31,11 +31,11 @@ export const VisitCard = ({ visit }: VisitCardProps) => {
                         </p>
                     </div>
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs sm:text-sm text-text-2 mt-1 font-medium">
-                        <span className="flex items-center gap-1.5">
+                        <span className="flex items-center dark:text-white gap-1.5">
                             <Stethoscope className="w-4 h-4 text-main shrink-0" />
                             {visit.veterinarianName}
                         </span>
-                        <span className="flex items-center gap-1.5">
+                        <span className="flex items-center dark:text-white gap-1.5">
                             <Building2 className="w-4 h-4 text-main shrink-0" />
                             {visit.clinicName}
                         </span>

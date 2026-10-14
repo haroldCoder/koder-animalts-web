@@ -49,7 +49,7 @@ export const AppointmentNoticeVet = () => {
                                 {appointmentsData?.map((appointment) => (
                                     <CardNotice key={appointment.id} data={appointment}>
                                         <div className="flex flex-col mt-3">
-                                            <p className="text-base text-text-2">Dueño: <span className="font-medium text-main">{appointment.ownerName}</span></p>
+                                            <p className="text-base text-text-2 dark:text-white">Dueño: <span className="font-medium text-main">{appointment.ownerName}</span></p>
                                         </div>
                                     </CardNotice>
                                 ))}
