@@ -9,6 +9,6 @@ export const ButtonRedirectMedicalRecord = ({ medicalRecordId }: { medicalRecord
     }
 
     return (
-        <Button onClick={() => goToMedicalRecord(medicalRecordId)} className={"bg-bg-dark-1 text-text-3 px-4 py-3 cursor-pointer"}>Ver historial</Button>
+        <Button onClick={() => goToMedicalRecord(medicalRecordId)} className={"bg-bg-dark-1 dark:hover:bg-bg-dark-3 dark:hover:text-text-3 text-text-3 px-4 py-3 cursor-pointer"}>Ver historial</Button>
     )
 }

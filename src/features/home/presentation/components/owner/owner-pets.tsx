@@ -27,7 +27,7 @@ export const OwnerPets = () => {
         <section>
             <div className="flex gap-4 items-center">
                 <h2 className="text-2xl font-bold text-text-2">Tus mascotas</h2>
-                <Button onClick={goToCreatePet} className="cursor-pointer flex items-center gap-3 bg-bg-2 hover:bg-bg-3 text-text-2 transition-colors">
+                <Button onClick={goToCreatePet} className="cursor-pointer flex items-center gap-3 dark:text-text-3 dark:bg-bg-dark-2 dark:hover:bg-bg-dark-3 bg-bg-2 hover:bg-bg-3 text-text-2 transition-colors">
                     <Plus className="rounded-full bg-main text-white" />
                     Agregar
                 </Button>
