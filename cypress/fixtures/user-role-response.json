@@ -1,0 +1,12 @@
+{
+  "statusCode": 200,
+  "data": {
+    "user": {
+      "id": "mock-user-id-001",
+      "name": "Carlos Gomez",
+      "email": "testuser@example.com",
+      "role": "none"
+    },
+    "userType": "none"
+  }
+}

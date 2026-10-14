@@ -1,0 +1,15 @@
+{
+  "statusCode": 201,
+  "message": "Usuario registrado exitosamente",
+  "data": {
+    "accessToken": "mock-access-token-xyz-123",
+    "refreshToken": "mock-refresh-token-xyz-123",
+    "user": {
+      "id": "mock-user-id-001",
+      "email": "testuser@example.com",
+      "name": "Carlos Gomez",
+      "image": "https://example.com/avatar.png",
+      "role": "UNKNOWN"
+    }
+  }
+}
