@@ -1,4 +1,4 @@
 export const userTypes = [
-    { label: "Dueño", value: "owner" },
+    { label: "Tutor", value: "owner" },
     { label: "Veterinario", value: "veterinary" },
 ]

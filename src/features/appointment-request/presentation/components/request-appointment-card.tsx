@@ -121,7 +121,7 @@ export const RequestAppointmentCard: React.FC<RequestAppointmentCardProps> = ({ 
                                 <div className="flex items-center gap-1.5">
                                     <User className="size-3 shrink-0" />
                                     <span className="truncate">
-                                        Dueño: <strong className="font-medium text-foreground">{request.ownerName}</strong>
+                                        Tutor: <strong className="font-medium text-foreground">{request.ownerName}</strong>
                                     </span>
                                 </div>
 
@@ -155,10 +155,10 @@ export const RequestAppointmentCard: React.FC<RequestAppointmentCardProps> = ({ 
                         <Tooltip>
                             <TooltipTrigger className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-main/15 text-main border border-main/30 cursor-help transition-colors hover:bg-main/25">
                                 <UserCheck className="size-3.5" />
-                                <span>Elegido por el dueño</span>
+                                <span>Elegido por el tutor</span>
                             </TooltipTrigger>
                             <TooltipContent className="dark:bg-bg-dark-1 dark:text-white">
-                                <p>El dueño te seleccionó específicamente para esta solicitud</p>
+                                <p>El tutor te seleccionó específicamente para esta solicitud</p>
                             </TooltipContent>
                         </Tooltip>
                     )}

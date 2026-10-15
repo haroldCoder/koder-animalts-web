@@ -133,7 +133,7 @@ export const TellHistory: React.FC<TellHistoryProps> = ({
                     <div className="flex items-center gap-2">
                         <Sparkles className="w-4 h-4 text-main" />
                         <h2 className="text-sm font-bold text-text-1 dark:text-white uppercase tracking-wider">
-                            Narrativa Clínica para Dueños
+                            Narrativa Clínica para Tutores
                         </h2>
                     </div>
                 </div>
