@@ -1,116 +1,210 @@
-import { Fragment } from 'react'
-import { Input } from '@/components/ui/input';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Upload, Dog, Link2, Plus } from 'lucide-react';
+import { Fragment, useState, useEffect } from 'react';
+import { Upload } from 'lucide-react';
 import { UseFormReturn } from 'react-hook-form';
 import { CreatePetFormValues } from '../interfaces';
+import { CameraCaptureDialog } from '@/common/presentation/components/camera-capture-dialog';
+import {
+    ProfileImageSection,
+    GalleryImagesSection,
+    IaImageSection,
+} from './media-form';
 
 interface MediaSectionFormProps {
     form: UseFormReturn<CreatePetFormValues>;
-    iaImageMode: "file" | "url";
-    setIaImageMode: (value: "file" | "url") => void;
+    iaImageMode: 'file' | 'url';
+    setIaImageMode: (value: 'file' | 'url') => void;
 }
 
 export const MediaSectionForm = ({ form, iaImageMode, setIaImageMode }: MediaSectionFormProps) => {
-    const { register, formState: { errors }, watch } = form;
+    const {
+        register,
+        setValue,
+        watch,
+        clearErrors,
+        formState: { errors },
+    } = form;
 
-    const imageFile = watch("image");
-    const imagesFiles = watch("images");
-    const iaImageFileWatch = watch("iaImageFile");
+    const imageFile = watch('image');
+    const imagesFiles = watch('images');
+    const iaImageFile = watch('iaImageFile');
+
+    // Register fields with validation rules in react-hook-form
+    useEffect(() => {
+        register('image', {
+            validate: (files) => {
+                const hasFiles = files && files.length > 0;
+                if (hasFiles) return true;
+                return 'Debe seleccionar o tomar una imagen principal para la mascota';
+            },
+        });
+        register('images');
+        register('iaImageFile');
+    }, [register]);
+
+    // Automatically clear errors as soon as a profile image is present
+    useEffect(() => {
+        if (imageFile && imageFile.length > 0) {
+            clearErrors('image');
+        }
+    }, [imageFile, clearErrors]);
+
+    // Camera capture modal state
+    const [cameraConfig, setCameraConfig] = useState<{
+        open: boolean;
+        target: 'profile' | 'gallery' | 'ia';
+        title: string;
+        description: string;
+    }>({
+        open: false,
+        target: 'profile',
+        title: 'Tomar Foto de Perfil',
+        description: 'Captura la fotografía principal de la mascota con la cámara o periférico seleccionado.',
+    });
+
+    // Profile photo handlers
+    const handleSelectProfile = (files: FileList) => {
+        setValue('image', files, {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true,
+        });
+        clearErrors('image');
+    };
+
+    const handleRemoveProfile = () => {
+        setValue('image', undefined as unknown as FileList, {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true,
+        });
+    };
+
+    // Gallery handlers
+    const handleAddGalleryFiles = (newFiles: FileList | File[]) => {
+        const currentFiles = form.getValues('images');
+        const dt = new DataTransfer();
+        if (currentFiles && currentFiles.length > 0) {
+            Array.from(currentFiles).forEach((f) => dt.items.add(f));
+        }
+        Array.from(newFiles).forEach((f) => dt.items.add(f));
+        setValue('images', dt.files, { shouldValidate: true });
+    };
+
+    const handleRemoveGalleryImage = (indexToRemove: number) => {
+        const currentFiles = form.getValues('images');
+        if (!currentFiles) return;
+        const dt = new DataTransfer();
+        Array.from(currentFiles)
+            .filter((_, idx) => idx !== indexToRemove)
+            .forEach((f) => dt.items.add(f));
+
+        setValue(
+            'images',
+            dt.files.length > 0 ? dt.files : (undefined as unknown as FileList),
+            { shouldValidate: true }
+        );
+    };
+
+    // IA handlers
+    const handleSelectIaFile = (files: FileList) => {
+        setValue('iaImageFile', files, { shouldValidate: true });
+        clearErrors('iaImageFile');
+    };
+
+    const handleRemoveIaFile = () => {
+        setValue('iaImageFile', undefined as unknown as FileList, { shouldValidate: true });
+    };
+
+    // Unified camera capture dispatcher
+    const handleCameraCapture = (file: File) => {
+        const dt = new DataTransfer();
+        dt.items.add(file);
+
+        if (cameraConfig.target === 'profile') {
+            handleSelectProfile(dt.files);
+        } else if (cameraConfig.target === 'gallery') {
+            handleAddGalleryFiles(dt.files);
+        } else if (cameraConfig.target === 'ia') {
+            handleSelectIaFile(dt.files);
+        }
+    };
 
     return (
         <Fragment>
-            {/* Media Section */}
-            <div className="bg-card rounded-xl sm:p-6 p-2 shadow-sm border border-border/50 space-y-6">
+            {/* Camera capture dialog modal */}
+            <CameraCaptureDialog
+                open={cameraConfig.open}
+                onOpenChange={(open) => setCameraConfig((prev) => ({ ...prev, open }))}
+                onCapture={handleCameraCapture}
+                title={cameraConfig.title}
+                description={cameraConfig.description}
+            />
+
+            {/* Media Section Container */}
+            <div className="bg-card rounded-xl sm:p-6 p-3 shadow-sm border border-border/50 space-y-6">
                 <div className="flex items-center gap-2 border-b border-border/50 pb-4">
-                    <Upload className="size-5 text-primary" />
-                    <h2 className="text-xl font-semibold">Imágenes y Archivos</h2>
+                    <div className="p-2 bg-primary/10 text-primary rounded-lg">
+                        <Upload className="size-5" />
+                    </div>
+                    <div>
+                        <h2 className="text-xl font-semibold">Imágenes y Archivos</h2>
+                        <p className="text-xs text-muted-foreground">
+                            Sube fotos desde tu dispositivo o captúralas directamente con tus cámaras y periféricos fotográficos.
+                        </p>
+                    </div>
                 </div>
 
                 <div className="space-y-8">
-                    {/* Single Profile Image */}
-                    <div className="space-y-3">
-                        <div>
-                            <label className="text-sm font-medium flex items-center gap-2">Foto de Perfil (Única)</label>
-                            <p className="text-xs text-muted-foreground">Selecciona una imagen principal para la mascota.</p>
-                        </div>
-                        <label className="relative flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-border rounded-xl cursor-pointer bg-muted/30 hover:bg-muted/60 transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                <Upload className="size-8 mb-3 text-muted-foreground" />
-                                <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold text-primary">Haz clic para subir</span> o arrastra el archivo</p>
-                                <p className="text-xs text-muted-foreground">SVG, PNG, JPG o GIF</p>
-                            </div>
-                            <Input {...register("image", { required: true })} type="file" accept="image/*" className="sr-only" />
-                        </label>
-                        {imageFile && imageFile.length > 0 && (
-                            <p className="text-sm text-primary font-medium flex items-center gap-2">
-                                <Dog className="size-4" /> Archivo seleccionado: {imageFile[0].name}
-                            </p>
-                        )}
-                        {errors.image && <span className="text-xs text-destructive">Debe seleccionar una imagen principal para la mascota</span>}
-                    </div>
+                    {/* 1. Single Profile Image Section */}
+                    <ProfileImageSection
+                        imageFile={imageFile}
+                        error={errors.image?.message}
+                        onSelectFile={handleSelectProfile}
+                        onRemove={handleRemoveProfile}
+                        onOpenCamera={() =>
+                            setCameraConfig({
+                                open: true,
+                                target: 'profile',
+                                title: 'Tomar Foto de Perfil',
+                                description: 'Captura una fotografía con tu cámara integrada o cualquier periférico conectado.',
+                            })
+                        }
+                    />
 
-                    {/* Multiple Images */}
-                    <div className="space-y-3">
-                        <div>
-                            <label className="text-sm font-medium flex items-center gap-2">Galería de Imágenes (Múltiples)</label>
-                            <p className="text-xs text-muted-foreground">Puedes seleccionar varios archivos a la vez.</p>
-                        </div>
-                        <label className="relative flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-border rounded-xl cursor-pointer bg-muted/30 hover:bg-muted/60 transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                <Plus className="size-8 mb-3 text-muted-foreground" />
-                                <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold text-primary">Haz clic para añadir</span> varias imágenes</p>
-                                <p className="text-xs text-muted-foreground">Soporta selección múltiple</p>
-                            </div>
-                            <Input type="file" accept="image/*" multiple className="sr-only" {...register("images")} />
-                        </label>
-                        {imagesFiles && imagesFiles.length > 0 && (
-                            <div className="text-sm text-primary font-medium flex flex-col gap-1">
-                                <p>{imagesFiles.length} archivo(s) seleccionado(s):</p>
-                                <ul className="list-disc list-inside text-muted-foreground text-xs ml-2">
-                                    {Array.from(imagesFiles).map((file, i) => (
-                                        <li key={i}>{file.name}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
-                    </div>
+                    {/* 2. Multiple Images Gallery Section */}
+                    <GalleryImagesSection
+                        imagesFiles={imagesFiles}
+                        onAddFiles={handleAddGalleryFiles}
+                        onRemoveImage={handleRemoveGalleryImage}
+                        onOpenCamera={() =>
+                            setCameraConfig({
+                                open: true,
+                                target: 'gallery',
+                                title: 'Tomar Foto para Galería',
+                                description: 'Toma fotos de la mascota y agrégalas a su galería médica.',
+                            })
+                        }
+                    />
 
-                    {/* IA Image - Tabs for URL or File */}
-                    <div className="space-y-4 pt-4 border-t border-border/20">
-                        <div>
-                            <label className="text-sm font-medium">Imagen generada o relacionada con IA</label>
-                            <p className="text-xs text-muted-foreground mt-1">Puedes subir un archivo local o proporcionar una URL.</p>
-                        </div>
-
-                        <Tabs value={iaImageMode} onValueChange={(val) => setIaImageMode(val as "file" | "url")} className="w-full">
-                            <TabsList className="grid w-full grid-cols-2 sm:max-w-md">
-                                <TabsTrigger value="file" className="gap-2"><Upload className="size-4" /> Subir Archivo</TabsTrigger>
-                                <TabsTrigger value="url" className="gap-2"><Link2 className="size-4" /> Usar URL</TabsTrigger>
-                            </TabsList>
-                            <div className="mt-4 w-full sm:max-w-md">
-                                <TabsContent value="file" className="space-y-3">
-                                    <label className="relative flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-border rounded-xl cursor-pointer bg-muted/30 hover:bg-muted/60 transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-                                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                            <Upload className="size-6 mb-2 text-muted-foreground" />
-                                            <p className="mb-1 text-sm text-muted-foreground"><span className="font-semibold text-primary">Haz clic</span> para seleccionar</p>
-                                        </div>
-                                        <input type="file" accept="image/*" className="sr-only" {...register("iaImageFile")} />
-                                    </label>
-                                    {iaImageFileWatch && iaImageFileWatch.length > 0 && (
-                                        <p className="text-sm text-primary font-medium truncate">
-                                            Seleccionado: {iaImageFileWatch[0].name}
-                                        </p>
-                                    )}
-                                </TabsContent>
-                                <TabsContent value="url">
-                                    <Input type="url" placeholder="https://ejemplo.com/imagen.png" {...register("iaImageUrl")} className="h-10" />
-                                </TabsContent>
-                            </div>
-                        </Tabs>
-                    </div>
+                    {/* 3. IA Image Section */}
+                    <IaImageSection
+                        mode={iaImageMode}
+                        onModeChange={setIaImageMode}
+                        iaFile={iaImageFile}
+                        onSelectFile={handleSelectIaFile}
+                        onRemoveFile={handleRemoveIaFile}
+                        onOpenCamera={() =>
+                            setCameraConfig({
+                                open: true,
+                                target: 'ia',
+                                title: 'Tomar Foto para IA',
+                                description: 'Captura una fotografía para análisis o procesamiento con IA.',
+                            })
+                        }
+                        urlRegister={register('iaImageUrl')}
+                    />
                 </div>
             </div>
         </Fragment>
-    )
-}
+    );
+};
