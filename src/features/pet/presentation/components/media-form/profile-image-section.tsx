@@ -8,7 +8,7 @@ import {
     CheckCircle2,
     Sparkles,
 } from 'lucide-react';
-import { formatFileSize } from '../../utils';
+import { formatFileSize } from '@/common/utils';
 
 export interface ProfileImageSectionProps {
     imageFile?: FileList;

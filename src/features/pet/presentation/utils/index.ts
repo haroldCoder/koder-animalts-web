@@ -1,1 +1,1 @@
-export * from './format-file-size';
+export * from '@/common/utils/format-file-size';

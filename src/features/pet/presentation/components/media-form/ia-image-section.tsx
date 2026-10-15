@@ -9,7 +9,7 @@ import {
     Trash2,
 } from 'lucide-react';
 import { UseFormRegisterReturn } from 'react-hook-form';
-import { formatFileSize } from '../../utils';
+import { formatFileSize } from '@/common/utils';
 
 export interface IaImageSectionProps {
     mode: 'file' | 'url';
