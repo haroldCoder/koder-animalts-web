@@ -12,4 +12,5 @@ export * from './date-time-picker'
 export * from './not-found-vaccinations';
 export * from './clinic-selector';
 export * from './consultation-type-selector';
-
+export * from './camera-capture-dialog';
+export * from './camera';
