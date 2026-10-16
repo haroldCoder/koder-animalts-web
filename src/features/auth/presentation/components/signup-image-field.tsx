@@ -93,7 +93,7 @@ export const SignupImageField = ({
                     <span className="text-red-500">*</span>
                 </label>
                 <p className="text-xs text-muted-foreground">
-                    Carga una fotografía personal para tu cuenta de veterinario o dueño.
+                    Carga una fotografía personal para tu cuenta de veterinario o tutor.
                 </p>
             </div>
 
@@ -168,11 +168,10 @@ export const SignupImageField = ({
                         }}
                         onDragLeave={() => setIsDragging(false)}
                         onDrop={handleDrop}
-                        className={`group relative flex flex-col items-center justify-center p-5 border-2 border-dashed rounded-xl cursor-pointer transition-all text-center focus-within:ring-2 focus-within:ring-orange-500 ${
-                            isDragging
+                        className={`group relative flex flex-col items-center justify-center p-5 border-2 border-dashed rounded-xl cursor-pointer transition-all text-center focus-within:ring-2 focus-within:ring-orange-500 ${isDragging
                                 ? 'border-orange-500 bg-orange-50 dark:bg-orange-950/20 scale-[1.01]'
                                 : 'border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 hover:border-orange-400 hover:bg-orange-50/30 dark:hover:bg-orange-950/10'
-                        } ${error ? 'border-red-400 bg-red-50/50 dark:bg-red-950/10' : ''}`}
+                            } ${error ? 'border-red-400 bg-red-50/50 dark:bg-red-950/10' : ''}`}
                     >
                         <div className="p-2.5 bg-orange-100 dark:bg-orange-950/50 text-orange-500 rounded-full mb-2 group-hover:scale-110 transition-transform">
                             <Upload className="size-5" />
@@ -191,9 +190,8 @@ export const SignupImageField = ({
                     {/* Option B: Take photo with camera */}
                     <div
                         onClick={() => setIsCameraOpen(true)}
-                        className={`group relative flex flex-col items-center justify-center p-5 border-2 border-dashed rounded-xl cursor-pointer transition-all text-center focus-within:ring-2 focus-within:ring-orange-500 border-orange-300 dark:border-orange-800/60 bg-orange-50/40 dark:bg-orange-950/15 hover:border-orange-500 hover:bg-orange-50/70 dark:hover:bg-orange-950/30 ${
-                            error ? 'border-red-400' : ''
-                        }`}
+                        className={`group relative flex flex-col items-center justify-center p-5 border-2 border-dashed rounded-xl cursor-pointer transition-all text-center focus-within:ring-2 focus-within:ring-orange-500 border-orange-300 dark:border-orange-800/60 bg-orange-50/40 dark:bg-orange-950/15 hover:border-orange-500 hover:bg-orange-50/70 dark:hover:bg-orange-950/30 ${error ? 'border-red-400' : ''
+                            }`}
                     >
                         <div className="p-2.5 bg-orange-500 text-white rounded-full mb-2 group-hover:scale-110 transition-transform shadow-xs">
                             <Camera className="size-5" />

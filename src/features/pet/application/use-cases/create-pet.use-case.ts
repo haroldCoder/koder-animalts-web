@@ -11,7 +11,7 @@ export class CreatePetUseCase {
             if (!name) throw new Error("Nombre de la mascota es requerido");
             if (!species) throw new Error("Especie es requerida");
             if (isActive === undefined || isActive === null) throw new Error("Estatus es requerido");
-            if (!userId) throw new Error("Dueño es requerido");
+            if (!userId) throw new Error("Tutor es requerido");
             if (!clinicId) throw new Error("Clinica es requerida");
             if (!mainImage) throw new Error("Imagen principal es requerida");
 

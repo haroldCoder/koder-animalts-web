@@ -52,7 +52,7 @@ export const SummaryClinic = () => {
                         </div>
                         <div className="min-w-0">
                             <p className="text-2xl sm:text-3xl font-bold dark:text-white text-text-1">{summaryData.totalOwners}</p>
-                            <p className="text-xs sm:text-sm text-text-3 font-medium mt-0.5 truncate">Total de dueños</p>
+                            <p className="text-xs sm:text-sm text-text-3 font-medium mt-0.5 truncate">Total de tutores</p>
                         </div>
                     </div>
                 </div>
