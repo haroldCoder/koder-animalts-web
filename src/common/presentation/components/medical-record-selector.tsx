@@ -80,7 +80,7 @@ export const MedicalRecordSelector = ({
         const nextVal = !val || val === 'none' ? '' : val;
         onValueChange?.(nextVal);
       }}
-      value={currentValue === '' ? 'none' : currentValue}
+      value={currentValue === '' ? 'Selecciona un historial médico' : currentValue}
       disabled={disabled || isLoading}
     >
       <SelectTrigger className="h-10 cursor-pointer w-full">
