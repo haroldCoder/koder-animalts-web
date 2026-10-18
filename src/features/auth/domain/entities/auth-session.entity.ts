@@ -7,6 +7,7 @@ export interface UserAuthProfile {
   ownerId?: string | null;
   veterinarianId?: string | null;
   clinicId?: string | null;
+  userId?: string | null;
 }
 
 export interface AuthTokens {

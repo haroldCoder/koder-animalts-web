@@ -32,6 +32,9 @@ class AuthSessionStorage {
 
   getUserId(): string | null {
     const user = this.getUser();
+    if (user?.userId) {
+      return user.userId;
+    }
     if (user?.id) {
       return user.id;
     }
