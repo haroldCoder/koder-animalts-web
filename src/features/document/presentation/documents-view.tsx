@@ -5,17 +5,20 @@ import {
     User,
     X,
     Search,
+    UploadCloud,
 } from "lucide-react"
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { AppliedFilter, CardDocument, EmptyFilters } from './components'
+import { AppliedFilter, CardDocument, EmptyFilters, VeterinarianUploadDialog } from './components'
 import { useGetDocumentsByUserId } from '../application/queries'
 import { useAuth, useClearParamOnCondition } from '@/common/hooks'
 import { Loading } from '@/common/presentation/components'
 import { useParams } from 'react-router-dom'
 import { DatePicker } from '@/common/presentation/components'
 import { routes } from '@/common/presentation/constants'
+import { CreateDocumentPolicy } from '../domain/policies'
+import { UserRole } from '@/features/user'
 
 
 export const DocumentsView = () => {
@@ -24,13 +27,17 @@ export const DocumentsView = () => {
     const [appliedVeterinarianName, setAppliedVeterinarianName] = useState("")
     const [startDate, setStartDate] = useState<Date | undefined>()
     const [endDate, setEndDate] = useState<Date | undefined>()
+    const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false)
     const { medicalRecordId } = useParams();
 
     const hasActiveFilters = !!(appliedDocumentName || appliedVeterinarianName || startDate || endDate || searchQuery)
 
     useClearParamOnCondition(medicalRecordId, hasActiveFilters, routes.documents.link);
 
-    const { user } = useAuth();
+    const { user, userProfile } = useAuth();
+    const createDocumentPolicy = useMemo(() => new CreateDocumentPolicy(), []);
+    const canUploadDocument = userProfile?.role ? createDocumentPolicy.canCreateDocument(userProfile.role as UserRole) : false;
+
     const { data: documents, isLoading } = useGetDocumentsByUserId(user!, {
         startDate,
         endDate,
@@ -137,6 +144,17 @@ export const DocumentsView = () => {
                             <span>Limpiar</span>
                         </Button>
                     )}
+
+                    {canUploadDocument && (
+                        <Button
+                            onClick={() => setIsUploadDialogOpen(true)}
+                            className="h-9 gap-1.5 cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90"
+                            size="sm"
+                        >
+                            <UploadCloud className="h-4 w-4" />
+                            <span>Subir Documento</span>
+                        </Button>
+                    )}
                 </div>
             </div>
 
@@ -169,6 +187,12 @@ export const DocumentsView = () => {
                         )}
                     </div>
             }
+
+            <VeterinarianUploadDialog
+                open={isUploadDialogOpen}
+                onOpenChange={setIsUploadDialogOpen}
+                defaultMedicalRecordId={medicalRecordId}
+            />
         </div>
     )
 }
