@@ -3,6 +3,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Spinner } from "@/components/ui/spinner"
 import { HoverAvatar } from "./hover-avatar"
 
+import { Plus } from "lucide-react"
+
 export interface PetOption {
     value: string;
     label: string;
@@ -49,7 +51,7 @@ export const PetSelector = ({
                 const nextVal = !val || val === "none" ? "" : val;
                 onValueChange?.(nextVal);
             }}
-            value={currentValue === "" ? "none" : currentValue}
+            value={currentValue === "" ? "Selecciona la mascota" : currentValue}
             disabled={disabled}
         >
             <SelectTrigger className="h-10 cursor-pointer w-full">
@@ -74,10 +76,19 @@ export const PetSelector = ({
                         )}
                         {petsOptions.map((opt) => (
                             <SelectItem key={opt.value} value={opt.value}>
-                                <div className="flex items-center gap-2 w-full">
-                                    <HoverAvatar src={opt.image} name={opt.label} />
-                                    <span className="truncate">{opt.label}</span>
-                                </div>
+                                {opt.value === "-1" ? (
+                                    <div className="flex items-center gap-2 w-full text-primary font-medium py-0.5">
+                                        <div className="size-6 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                                            <Plus className="size-3.5" />
+                                        </div>
+                                        <span className="truncate">{opt.label}</span>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center gap-2 w-full">
+                                        <HoverAvatar src={opt.image} name={opt.label} />
+                                        <span className="truncate">{opt.label}</span>
+                                    </div>
+                                )}
                             </SelectItem>
                         ))}
                     </>
