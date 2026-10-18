@@ -71,9 +71,7 @@ export const MedicalRecordSelector = ({
       : []
   );
 
-  const defaultPlaceholder = isLoading
-    ? 'Cargando historiales...'
-    : placeholder || (required ? 'Selecciona un historial' : 'Selecciona un historial médico (opcional)');
+  const defaultPlaceholder = placeholder || (required ? 'Selecciona un historial' : 'Selecciona un historial médico (opcional)');
 
   const renderSelect = (currentValue?: string, onValueChange?: (val: string) => void) => (
     <Select
@@ -86,7 +84,12 @@ export const MedicalRecordSelector = ({
       disabled={disabled || isLoading}
     >
       <SelectTrigger className="h-10 cursor-pointer w-full">
-        <SelectValue placeholder={defaultPlaceholder} />
+        {
+          isLoading ?
+            <Spinner className="size-4" />
+            :
+            <SelectValue placeholder={defaultPlaceholder} />
+        }
       </SelectTrigger>
       <SelectContent>
         {isLoading ? (

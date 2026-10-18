@@ -7,6 +7,7 @@ import { useGetMedicalRecordsByUserId } from '@/features/medical-record/applicat
 import { useUploadDocumentMutation } from '@/features/document/application/mutations';
 import { CategoryDocument } from '@/features/document/domain/types';
 import { formatFileSize } from '@/common/utils';
+import { useDateSetter } from '@/common/presentation/hooks';
 
 export interface UploadDocumentPayload {
   title: string;
@@ -50,9 +51,11 @@ export const useVeterinarianUploadForm = ({
   const { data: pets, isLoading: isLoadingPets } = useGetPetsByVeterinaryUserId(user || '');
   const petsOptions = useMemo(() => PetPresentationMapper.toOptions(pets), [pets]);
 
+  const { endDateString: endDate } = useDateSetter(0, 0);
+
   const { data: medicalRecords, isLoading: isLoadingRecords } = useGetMedicalRecordsByUserId(
     user || '',
-    { petId: selectedPetId || undefined }
+    { petId: selectedPetId || undefined, ...(!selectedPetId && { endDate }) },
   );
 
   // File from dropzone
