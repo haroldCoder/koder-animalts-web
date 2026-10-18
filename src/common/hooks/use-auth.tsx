@@ -13,6 +13,9 @@ export interface UseAuthReturn {
   user: string | null;
   userId: string | null;
   userProfile: UserAuthProfile | null;
+  veterinarianId: string | null;
+  ownerId: string | null;
+  clinicId: string | null;
   accessToken: string | null;
   refreshToken: string | null;
   isAuthenticated: boolean;
@@ -49,10 +52,17 @@ export const useAuth = (): UseAuthReturn => {
     }
   }, [queryClient, navigate]);
 
+  const veterinarianId =
+    userProfile?.veterinarianId ||
+    (userProfile?.role === "VETERINARIAN" ? userProfile?.id || userId : null);
+
   return {
     user: userId,
     userId,
     userProfile,
+    veterinarianId,
+    ownerId: userProfile?.ownerId ?? null,
+    clinicId: userProfile?.clinicId ?? null,
     accessToken,
     refreshToken,
     isAuthenticated: !!userId && !!accessToken,

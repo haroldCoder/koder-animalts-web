@@ -14,3 +14,4 @@ export * from './clinic-selector';
 export * from './consultation-type-selector';
 export * from './camera-capture-dialog';
 export * from './camera';
+export * from './medical-record-selector';

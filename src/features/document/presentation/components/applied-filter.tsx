@@ -10,6 +10,8 @@ interface AppliedFilterProps {
     setStartDate?: (date?: Date) => void;
     endDate?: Date;
     setEndDate?: (date?: Date) => void;
+    showMyDocuments?: boolean;
+    setShowMyDocuments?: (show: boolean) => void;
 }
 
 export const AppliedFilter = ({
@@ -20,11 +22,19 @@ export const AppliedFilter = ({
     startDate,
     setStartDate,
     endDate,
-    setEndDate
+    setEndDate,
+    showMyDocuments,
+    setShowMyDocuments,
 }: AppliedFilterProps) => {
     return (
         <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground bg-muted/30 p-3 rounded-lg">
             <span className="font-semibold">Filtros activos:</span>
+            {showMyDocuments && (
+                <span className="flex items-center gap-1 bg-background border px-2 py-0.5 rounded-md text-foreground">
+                    Solo mis documentos
+                    <X className="h-3 w-3 cursor-pointer hover:text-foreground ml-1" onClick={() => setShowMyDocuments?.(false)} />
+                </span>
+            )}
             {appliedDocumentName && (
                 <span className="flex items-center gap-1 bg-background border px-2 py-0.5 rounded-md">
                     Documento: "{appliedDocumentName}"
@@ -46,3 +56,4 @@ export const AppliedFilter = ({
         </div>
     )
 }
+
