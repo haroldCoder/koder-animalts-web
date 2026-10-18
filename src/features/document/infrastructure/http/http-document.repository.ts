@@ -14,6 +14,7 @@ export class HttpDocumentRepository implements DocumentRepository {
         documentName: queries.documentName ?? "",
         veterinarianName: queries.veterinarianName ?? "",
         medicalRecordId: queries.medicalRecordId ?? "",
+        ...(queries.veterinarianId ? { veterinarianId: queries.veterinarianId } : {}),
       }
     });
     return response.data.map((document) => {
@@ -22,9 +23,9 @@ export class HttpDocumentRepository implements DocumentRepository {
         id: document.id,
         createdAt: document.createdAt,
         name: document.title,
-        veterinarian: document.medicalRecord?.veterinarian.user.name ?? "",
-        petName: document.medicalRecord?.pet.name ?? "",
-        date: document.createdAt,
+        veterinarian: document.medicalRecord?.veterinarian?.user?.name ?? "",
+        petName: document.medicalRecord?.pet?.name ?? "",
+        date: new Date(document.createdAt),
         size: document.fileSize ?? 0,
         type: document.fileType as CategoryDocument,
       };
