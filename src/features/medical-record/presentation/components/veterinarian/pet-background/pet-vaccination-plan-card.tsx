@@ -1,5 +1,5 @@
 import React from "react";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { FileEdit } from "lucide-react";
 import {
@@ -106,12 +106,13 @@ export const PetVaccinationPlanCard: React.FC<PetVaccinationPlanCardProps> = ({
                     <FileEdit className="size-3.5 text-main" />
                     Otras Inmunizaciones / Observaciones
                 </Label>
-                <Input
+                <Textarea
                     disabled={isReadOnly}
                     value={data.otherVaccinesNotes}
                     onChange={(e) => onChange({ otherVaccinesNotes: e.target.value })}
                     placeholder="Ej. Vacuna contra Tos de las perreras nasal, refuerzo especial, microchip..."
-                    className="bg-bg-1/30 dark:bg-bg-dark-3/30"
+                    rows={2}
+                    className="bg-bg-1/30 dark:bg-bg-dark-3/30 resize-none text-sm"
                 />
             </div>
         </div>

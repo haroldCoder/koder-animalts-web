@@ -100,12 +100,13 @@ export const PetMedicalReviewCard: React.FC<PetMedicalReviewCardProps> = ({
                         <Utensils className="size-3.5 text-main" />
                         Alimentación
                     </Label>
-                    <Input
+                    <Textarea
                         disabled={isReadOnly}
                         value={data.diet}
                         onChange={(e) => onChange({ diet: e.target.value })}
-                        placeholder="Ej. Concentrado Premium, Dieta BARF, Casera..."
-                        className="bg-bg-1/30 dark:bg-bg-dark-3/30"
+                        placeholder="Ej. Concentrado Premium (marca y cantidad), Dieta BARF, comida casera, horarios..."
+                        rows={2}
+                        className="bg-bg-1/30 dark:bg-bg-dark-3/30 resize-none text-sm"
                     />
                 </div>
             </div>
@@ -175,12 +176,13 @@ export const PetMedicalReviewCard: React.FC<PetMedicalReviewCardProps> = ({
                             <Label className="text-xs text-amber-600 dark:text-amber-400 font-medium">
                                 Detalle de alergias
                             </Label>
-                            <Input
+                            <Textarea
                                 disabled={isReadOnly}
                                 value={data.allergiesDescription}
                                 onChange={(e) => onChange({ allergiesDescription: e.target.value })}
-                                placeholder="Ej. Penicilina, pollo, picadura de pulga..."
-                                className="mt-1 bg-white dark:bg-bg-dark-2 text-xs border-amber-300 dark:border-amber-700/50 focus-visible:ring-amber-400"
+                                placeholder="Ej. Alergia a penicilinas, intolerancia al pollo, dermatitis por picadura de pulga..."
+                                rows={2}
+                                className="mt-1 bg-white dark:bg-bg-dark-2 text-xs border-amber-300 dark:border-amber-700/50 focus-visible:ring-amber-400 resize-none"
                             />
                         </div>
                     )}
