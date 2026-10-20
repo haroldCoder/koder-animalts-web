@@ -3,3 +3,5 @@ export * from './get-pets-by-veterinary-user-id.use-case';
 export * from './search-pet-by-veterinarian-user-id.use-case';
 export * from './create-pet.use-case';
 export * from './update-clinic.use-case';
+export * from './get-pet-background.use-case';
+export * from './update-pet-background.use-case';
