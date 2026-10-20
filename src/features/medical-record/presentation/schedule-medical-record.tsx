@@ -25,7 +25,6 @@ import { useScheduleAppointmentForm } from "./hooks";
 import { PetOption, PetSelector } from "@/common/presentation/components";
 import { PetPresentationMapper } from "@/features/pet/presentation/mappers/pet-options.mapper";
 
-
 export const ScheduleMedicalRecord = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
