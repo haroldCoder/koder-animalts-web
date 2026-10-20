@@ -42,7 +42,7 @@ export const PopUpDetailRequest = ({ request, statusLabel, statusStyle, userRole
                             </div>
                             <div className="text-xs">
                                 <p className="font-semibold text-foreground">Solicitud dirigida a ti</p>
-                                <p className="text-muted-foreground">El dueño te seleccionó específicamente a ti para atender esta cita.</p>
+                                <p className="text-muted-foreground">El tutor te seleccionó específicamente a ti para atender esta cita.</p>
                             </div>
                         </div>
                     )}
@@ -69,7 +69,7 @@ export const PopUpDetailRequest = ({ request, statusLabel, statusStyle, userRole
                                         </span>
                                     ) : (
                                         <span className="truncate text-sm">
-                                            Dueño: <strong className="font-medium text-foreground">{request.ownerName}</strong>
+                                            Tutor: <strong className="font-medium text-foreground">{request.ownerName}</strong>
                                         </span>
                                     )
                                 }

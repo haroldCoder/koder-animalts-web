@@ -18,39 +18,45 @@ export class HttpAuthRepository implements IAuthRepository {
     email: string,
     password: string,
     name: string,
-    image: string | File | null,
+    image?: string | File | null,
     role?: string,
     phone?: string,
     address?: string,
     clinicId?: string,
     specialty?: string
   ): Promise<AuthResponseDto> {
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
-    formData.append("name", name);
-
-    if (image) {
+    if (image instanceof File) {
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("name", name);
       formData.append("image", image);
+      if (role) formData.append("role", role);
+      if (phone) formData.append("phone", phone);
+      if (address) formData.append("address", address);
+      if (clinicId) formData.append("clinicId", clinicId);
+      if (specialty) formData.append("specialty", specialty);
+
+      return await apiClient.post<AuthResponseDto>("/auth/signup", {
+        body: formData,
+      });
     }
-    if (role) {
-      formData.append("role", role);
-    }
-    if (phone) {
-      formData.append("phone", phone);
-    }
-    if (address) {
-      formData.append("address", address);
-    }
-    if (clinicId) {
-      formData.append("clinicId", clinicId);
-    }
-    if (specialty) {
-      formData.append("specialty", specialty);
-    }
+
+    const payload: Record<string, any> = {
+      email,
+      name,
+      password,
+    };
+
+    if (typeof image === "string" && image) payload.image = image;
+    if (role) payload.role = role;
+    if (phone) payload.phone = phone;
+    if (address) payload.address = address;
+    if (clinicId) payload.clinicId = clinicId;
+    if (specialty) payload.specialty = specialty;
 
     const response = await apiClient.post<AuthResponseDto>("/auth/signup", {
-      body: formData,
+      body: payload,
     });
 
     return response;

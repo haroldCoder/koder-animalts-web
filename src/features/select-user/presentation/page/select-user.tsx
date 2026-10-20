@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useMemo, useState } from "react";
@@ -9,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserAvailable } from "../hooks";
 import { useAuth } from "@/common/hooks";
 import { Spinner } from "@/components/ui/spinner";
+import { User, Stethoscope, CheckCircle2 } from "lucide-react";
 
 export const SelectUser = () => {
     const [userType, setUserType] = useState<"owner" | "veterinary">("owner");
@@ -20,7 +20,7 @@ export const SelectUser = () => {
     const { userAvailable, loading } = useUserAvailable(userId!);
 
     const usersTypeRender = useMemo(() => {
-        return userTypes.filter((user) => select ? userType == user.value : true);
+        return userTypes.filter((user) => (select ? userType === user.value : true));
     }, [select, userType]);
 
     useEffect(() => {
@@ -38,53 +38,82 @@ export const SelectUser = () => {
     }
 
     if (loading) {
-        return <div className="w-full h-screen flex justify-center items-center">
-            <Spinner className="w-10" />
-        </div>;
+        return (
+            <div className="w-full min-h-screen flex flex-col justify-center items-center gap-3 bg-background">
+                <Spinner className="size-8 text-primary" />
+                <p className="text-xs text-muted-foreground animate-pulse">Verificando usuario...</p>
+            </div>
+        );
     }
 
     return (
-        <div className="w-full h-screen flex justify-center items-center">
-            <section className="w-1/2 p-5 bg-mist-300 rounded-2xl">
-                <div className="w-full">
-                    <h2 className="text-xl font-bold text-left">Selecciona un usuario</h2>
+        <div className="min-h-screen w-full flex items-center justify-center p-4 bg-muted/20 dark:bg-background animate-in fade-in duration-300">
+            <section className="w-full max-w-md sm:max-w-lg p-6 sm:p-8 bg-card text-card-foreground border border-border/70 rounded-2xl shadow-xl space-y-6">
+                <div className="text-center space-y-1.5">
+                    <h1 className="text-2xl font-bold tracking-tight text-foreground">
+                        Completa tu perfil
+                    </h1>
+                    <p className="text-sm text-muted-foreground">
+                        Selecciona tu rol para configurar tu experiencia en la plataforma.
+                    </p>
                 </div>
-                <div className="w-full flex flex-col mt-5">
-                    <Tabs defaultValue="login" className="w-full flex justify-center items-center">
-                        <TabsList className="w-1/2 p-1 bg-slate-400 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl mb-8">
-                            {
-                                usersTypeRender.map((userType) => (
-                                    <TabsTrigger
-                                        key={userType.value}
-                                        onClick={() => setUserType(userType.value as "owner" | "veterinary")}
-                                        value={userType.value}
-                                        className="rounded-lg text-sm font-medium transition-all duration-300 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-950 py-2.5"
-                                    >
-                                        {userType.label}
-                                    </TabsTrigger>
-                                ))
-                            }
+
+                <div className="space-y-6">
+                    <Tabs
+                        value={userType}
+                        onValueChange={(val) => setUserType(val as "owner" | "veterinary")}
+                        className="w-full"
+                    >
+                        <TabsList className="grid w-full grid-cols-2 p-1 bg-muted/60 dark:bg-muted/30 rounded-xl">
+                            {usersTypeRender.map((type) => (
+                                <TabsTrigger
+                                    key={type.value}
+                                    value={type.value}
+                                    disabled={select}
+                                    className="gap-2 rounded-lg text-sm font-medium py-2 transition-all data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-xs"
+                                >
+                                    {type.value === "owner" ? (
+                                        <User className="size-4" />
+                                    ) : (
+                                        <Stethoscope className="size-4" />
+                                    )}
+                                    {type.label}
+                                </TabsTrigger>
+                            ))}
                         </TabsList>
                     </Tabs>
 
-                    {
-                        !select && (
-                            userType === "owner" ? (
-                                <FormOwner setSelect={setSelect} />
-                            ) : (
-                                <FormVeterinarian setSelect={setSelect} />
-                            ))
-                    }
+                    {!select ? (
+                        userType === "owner" ? (
+                            <FormOwner setSelect={setSelect} />
+                        ) : (
+                            <FormVeterinarian setSelect={setSelect} />
+                        )
+                    ) : (
+                        <div className="flex flex-col items-center justify-center p-5 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-center space-y-2 animate-in fade-in zoom-in-95">
+                            <div className="p-2 bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded-full">
+                                <CheckCircle2 className="size-5" />
+                            </div>
+                            <p className="text-sm font-semibold text-foreground">
+                                Información guardada con éxito
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                                Tu rol ha sido configurado. Ya puedes ingresar al inicio.
+                            </p>
+                        </div>
+                    )}
 
                     <Button
                         disabled={!select}
-                        className="w-full h-12 mt-7 rounded-xl bg-mist-700 hover:bg-mist-800 text-white dark:bg-mist-700 dark:hover:bg-mist-800 dark:text-white transition-colors"
+                        className="w-full h-11 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 font-medium transition-all shadow-sm cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
                         onClick={() => {
-                            navigate("/home")
+                            navigate("/home");
                         }}
-                    >Continuar</Button>
+                    >
+                        Continuar al inicio
+                    </Button>
                 </div>
             </section>
         </div>
-    )
-}
+    );
+};

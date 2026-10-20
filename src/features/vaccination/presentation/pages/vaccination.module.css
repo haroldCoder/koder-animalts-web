@@ -36,6 +36,8 @@
 }
 
 
+
+
 .table tbody tr {
     transition: background-color 0.2s ease;
 }
@@ -52,9 +54,17 @@
     color: var(--color-text-dark);
 }
 
+@media (prefers-color-scheme: dark) {
+    .table tbody tr td {
+        background-color: transparent !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--color-text-withe-2);
+    }
+}
+
 /* Dark mode adjustments if the global CSS uses these classes */
 :global(.dark) .table tbody tr:hover td {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--color-bg-dark-2);
 }
 
 :global(.dark) .table tbody tr td {

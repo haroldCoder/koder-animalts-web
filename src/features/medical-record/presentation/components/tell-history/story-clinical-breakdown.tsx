@@ -69,7 +69,7 @@ export const StoryClinicalBreakdown: React.FC<StoryClinicalBreakdownProps> = ({
                 <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                 <div>
                     <span className="text-xs font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wider">
-                        Consejo para el dueño en casa
+                        Consejo para el tutor en casa
                     </span>
                     <p className="text-xs sm:text-sm text-text-2 dark:text-gray-200 mt-1 leading-relaxed">
                         {homeCareTip}

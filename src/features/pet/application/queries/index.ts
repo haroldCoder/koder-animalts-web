@@ -4,3 +4,5 @@ export * from './use-search-pet-by-veterinarian-user-id.query';
 export * from './use-get-pets-by-veterinarian-clinic.query';
 export * from './use-pet-mutation.query';
 export * from './use-update-clinic-mutation.query';
+export * from './use-get-pet-background.query';
+export * from './use-update-pet-background.mutation';

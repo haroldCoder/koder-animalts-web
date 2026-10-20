@@ -15,8 +15,20 @@ export const usePetMutationQuery = () => {
             queryClient.invalidateQueries({
                 queryKey: ["pets", "owner", variables.userId]
             });
+            queryClient.invalidateQueries({
+                queryKey: ["pets"]
+            });
+            queryClient.invalidateQueries({
+                queryKey: ["pets-clinic"]
+            });
+            queryClient.invalidateQueries({
+                queryKey: ["get-pets-vet"]
+            });
+            queryClient.invalidateQueries({
+                queryKey: ["search-pets-vet"]
+            });
         }
-    })
+    });
 
     return mutation;
 }

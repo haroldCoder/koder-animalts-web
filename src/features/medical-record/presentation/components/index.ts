@@ -6,3 +6,4 @@ export * from './date-picker-visit';
 export * from './expanded-content-area-toggle';
 export * from './upload-documents';
 export * from './tell-history';
+export * from './veterinarian';

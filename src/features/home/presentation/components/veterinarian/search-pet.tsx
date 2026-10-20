@@ -7,6 +7,8 @@ import { Loading } from "@/common/presentation/components"
 import { PetEntity } from "@/features/pet/domain/entities"
 import { PetCard } from "../pet-card"
 import { ChevronRight } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
 export const SearchPet = () => {
     const [search, setSearch] = useState('')
@@ -45,8 +47,8 @@ export const SearchPet = () => {
         <section className='my-4'>
             <div className='w-full flex justify-center'>
                 <form onSubmit={(e) => e.preventDefault()} className='flex gap-3 md:w-3/4 lg:w-1/2'>
-                    <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" placeholder='Nombre de la mascota o dueño' className='w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-main text-black' />
-                    <button type='submit' className='bg-main px-16 text-white py-2 rounded-lg cursor-pointer hover:bg-main-hover transition'>Buscar</button>
+                    <Input value={search} onChange={(e) => setSearch(e.target.value)} type="text" placeholder='Nombre de la mascota o tutor' className='w-full p-2 py-6 rounded-lg border border-gray-300 dark:text-white focus:outline-none focus:ring-2 focus:ring-main text-black' />
+                    <Button type='submit' className='bg-main px-16 text-white py-6 rounded-lg cursor-pointer hover:bg-main-hover transition'>Buscar</Button>
                 </form>
             </div>
             <div className="mt-6 mx-14">

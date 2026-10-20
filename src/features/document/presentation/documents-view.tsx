@@ -5,17 +5,20 @@ import {
     User,
     X,
     Search,
+    UploadCloud,
 } from "lucide-react"
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { AppliedFilter, CardDocument, EmptyFilters } from './components'
+import { AppliedFilter, CardDocument, EmptyFilters, VeterinarianUploadDialog } from './components'
 import { useGetDocumentsByUserId } from '../application/queries'
 import { useAuth, useClearParamOnCondition } from '@/common/hooks'
 import { Loading } from '@/common/presentation/components'
 import { useParams } from 'react-router-dom'
 import { DatePicker } from '@/common/presentation/components'
 import { routes } from '@/common/presentation/constants'
+import { CreateDocumentPolicy } from '../domain/policies'
+import { UserRole } from '@/features/user'
 
 
 export const DocumentsView = () => {
@@ -24,19 +27,25 @@ export const DocumentsView = () => {
     const [appliedVeterinarianName, setAppliedVeterinarianName] = useState("")
     const [startDate, setStartDate] = useState<Date | undefined>()
     const [endDate, setEndDate] = useState<Date | undefined>()
+    const [showMyDocuments, setShowMyDocuments] = useState(false)
+    const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false)
     const { medicalRecordId } = useParams();
 
-    const hasActiveFilters = !!(appliedDocumentName || appliedVeterinarianName || startDate || endDate || searchQuery)
+    const hasActiveFilters = !!(appliedDocumentName || appliedVeterinarianName || startDate || endDate || searchQuery || showMyDocuments)
 
     useClearParamOnCondition(medicalRecordId, hasActiveFilters, routes.documents.link);
 
-    const { user } = useAuth();
+    const { user, userProfile, veterinarianId } = useAuth();
+    const createDocumentPolicy = useMemo(() => new CreateDocumentPolicy(), []);
+    const canUploadDocument = userProfile?.role ? createDocumentPolicy.canCreateDocument(userProfile.role as UserRole) : false;
+
     const { data: documents, isLoading } = useGetDocumentsByUserId(user!, {
         startDate,
         endDate,
         documentName: appliedDocumentName,
         veterinarianName: appliedVeterinarianName,
-        medicalRecordId
+        medicalRecordId,
+        veterinarianId: showMyDocuments ? (veterinarianId || undefined) : undefined,
     });
 
     const filteredDocuments = useMemo(() => {
@@ -45,7 +54,7 @@ export const DocumentsView = () => {
             if (appliedDocumentName && !doc.name.toLowerCase().includes(appliedDocumentName.toLowerCase())) {
                 return false
             }
-            if (appliedVeterinarianName && !doc.veterinarian.toLowerCase().includes(appliedVeterinarianName.toLowerCase())) {
+            if (appliedVeterinarianName && doc.veterinarian && !doc.veterinarian.toLowerCase().includes(appliedVeterinarianName.toLowerCase())) {
                 return false
             }
             if (startDate && doc.date < startOfDay(startDate)) {
@@ -64,6 +73,7 @@ export const DocumentsView = () => {
         setAppliedVeterinarianName("")
         setStartDate(undefined)
         setEndDate(undefined)
+        setShowMyDocuments(false)
     }, [])
 
     return (
@@ -137,6 +147,29 @@ export const DocumentsView = () => {
                             <span>Limpiar</span>
                         </Button>
                     )}
+
+                    {canUploadDocument && (
+                        <>
+                            <Button
+                                variant={showMyDocuments ? "default" : "outline"}
+                                size="sm"
+                                onClick={() => setShowMyDocuments((prev) => !prev)}
+                                className="h-9 gap-1.5 cursor-pointer"
+                            >
+                                <User className="h-4 w-4" />
+                                <span>Mostrar mis documentos</span>
+                            </Button>
+
+                            <Button
+                                onClick={() => setIsUploadDialogOpen(true)}
+                                className="h-9 gap-1.5 cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90"
+                                size="sm"
+                            >
+                                <UploadCloud className="h-4 w-4" />
+                                <span>Subir Documento</span>
+                            </Button>
+                        </>
+                    )}
                 </div>
             </div>
 
@@ -145,7 +178,7 @@ export const DocumentsView = () => {
                     <Loading /> :
 
                     <div className="flex flex-col gap-4">
-                        {(appliedDocumentName || appliedVeterinarianName || startDate || endDate) && (
+                        {(appliedDocumentName || appliedVeterinarianName || startDate || endDate || showMyDocuments) && (
                             <AppliedFilter
                                 appliedDocumentName={appliedDocumentName}
                                 setAppliedDocumentName={setAppliedDocumentName}
@@ -155,6 +188,8 @@ export const DocumentsView = () => {
                                 setStartDate={setStartDate}
                                 endDate={endDate}
                                 setEndDate={setEndDate}
+                                showMyDocuments={showMyDocuments}
+                                setShowMyDocuments={setShowMyDocuments}
                             />
                         )}
 
@@ -169,6 +204,12 @@ export const DocumentsView = () => {
                         )}
                     </div>
             }
+
+            <VeterinarianUploadDialog
+                open={isUploadDialogOpen}
+                onOpenChange={setIsUploadDialogOpen}
+                defaultMedicalRecordId={medicalRecordId}
+            />
         </div>
     )
 }

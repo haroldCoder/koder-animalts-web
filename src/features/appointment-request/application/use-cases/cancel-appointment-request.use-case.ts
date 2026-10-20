@@ -21,7 +21,7 @@ export class CancelAppointmentRequestUseCase {
     }
 
     if (!ownerUserId) {
-      throw new Error('El identificador del usuario dueño es requerido');
+      throw new Error('El identificador del tutor es requerido');
     }
 
     if (status) {

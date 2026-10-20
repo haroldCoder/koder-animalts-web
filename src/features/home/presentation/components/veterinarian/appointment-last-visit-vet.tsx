@@ -28,7 +28,7 @@ export const AppointmentLastVisitVet = () => {
         <section className="px-4 sm:mx-14 mt-10 mb-10">
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold text-text-2">Últimas Visitas</h2>
-                <Link to={`${routes.appointments.link}?tab=HISTORY`} className="bg-transparent text-main hover:bg-main-light shadow-none cursor-pointer">
+                <Link to={`${routes.appointments.link}?tab=HISTORY`} className="bg-transparent text-main dark:hover:bg-transparent hover:bg-main-light shadow-none cursor-pointer">
                     Ver más visitas
                 </Link>
             </div>

@@ -80,7 +80,7 @@ export function DataTable<TData>({
                     ))}
                 </TableHeader>
 
-                <TableBody className="table-body">
+                <TableBody className="table-body dark:bg-bg-dark-2">
                     {isLoading ? (
                         <TableRow>
                             <TableCell colSpan={columns.length} className="h-24 text-center">
@@ -158,8 +158,8 @@ export function DataTable<TData>({
                                             href="#"
                                             isActive={isCurrent}
                                             className={`${isCurrent
-                                                    ? "bg-main text-white hover:bg-main hover:text-white"
-                                                    : "hover:bg-gray-100 dark:hover:bg-gray-800"
+                                                ? "bg-main text-white hover:bg-main hover:text-white"
+                                                : "hover:bg-gray-100 dark:hover:bg-gray-800"
                                                 } cursor-pointer min-w-9 h-9 text-xs sm:text-sm`}
                                             onClick={(e) => {
                                                 e.preventDefault();
