@@ -40,11 +40,21 @@ export const usePetOptionsWithRegister = ({
     };
 
     const handlePetCreated = async (newPet: any) => {
+        let petList: any[] = [];
         if (refetchPets) {
-            await refetchPets();
+            const result: any = await refetchPets();
+            if (result?.data && Array.isArray(result.data)) {
+                petList = result.data;
+            }
         }
-        if (newPet?.id) {
-            onSelectPet?.(newPet.id);
+        const createdId =
+            newPet?.id ||
+            newPet?.data?.id ||
+            (Array.isArray(newPet?.data) ? newPet?.data[0]?.id : undefined) ||
+            (petList.length > 0 ? petList[petList.length - 1]?.id : undefined);
+
+        if (createdId) {
+            onSelectPet?.(createdId);
         }
         setIsRegisterPatientOpen(false);
     };

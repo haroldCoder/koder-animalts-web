@@ -45,7 +45,7 @@ export class HttpPetRepository implements IPetRepository {
         }
     }
 
-    async createPet(pet: CreatePetDto): Promise<void> {
+    async createPet(pet: CreatePetDto): Promise<any> {
         try {
             const formData = new FormData();
 
@@ -75,12 +75,14 @@ export class HttpPetRepository implements IPetRepository {
                 });
             }
 
-            await apiClient.post<PetResponseEntity>(
+            const response = await apiClient.post<any>(
                 '/pet/register',
                 {
                     body: formData
                 }
             );
+
+            return response?.data || response;
         } catch (error) {
             console.error('Error creating pet:', error);
             throw error;

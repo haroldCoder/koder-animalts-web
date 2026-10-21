@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePetMutationQuery } from "@/features/pet/application/queries";
+import { useGetAllClinics } from "@/features/clinics/application/queries";
 import { speciesOptions, genderOptions } from "@/features/pet/presentation/constants";
 import { useAuth } from "@/common/hooks";
 import { PetPhotoPicker } from "./pet-photo-picker";
@@ -36,6 +37,7 @@ export const RegisterPetStep: React.FC<RegisterPetStepProps> = ({
 }) => {
     const { userProfile, clinicId: authClinicId } = useAuth();
     const queryClient = useQueryClient();
+    const { data: clinics = [] } = useGetAllClinics();
 
     const [mainPhoto, setMainPhoto] = useState<File | null>(null);
     const [photoError, setPhotoError] = useState<string | null>(null);
@@ -62,7 +64,7 @@ export const RegisterPetStep: React.FC<RegisterPetStepProps> = ({
     const effectiveClinicId =
         authClinicId ||
         userProfile?.clinicId ||
-        "";
+        (clinics.length > 0 ? clinics[0].id : "");
 
     const handleFormSubmit = async (data: NewPetFormData) => {
         if (!mainPhoto) {

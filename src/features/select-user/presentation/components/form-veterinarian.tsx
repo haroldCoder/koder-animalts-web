@@ -7,6 +7,7 @@ import { useGetAllClinics } from '@/features/clinics/application/queries';
 import { useMemo } from 'react';
 import { useSelectVeterinary } from '../../application/queries';
 import { useAuth } from '@/common/hooks';
+import { authSessionStorage } from '@/features/auth/infrastructure/storage';
 import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
 
@@ -40,6 +41,18 @@ export const FormVeterinarian = ({ setSelect }: FormVeterinarianProps) => {
 
         selectVeterinary({ ...data, clinicId: data.clinicId.value, userId: user })
             .then(() => {
+                const currentUser = authSessionStorage.getUser();
+                if (currentUser) {
+                    authSessionStorage.saveSession(
+                        authSessionStorage.getAccessToken() || "",
+                        authSessionStorage.getRefreshToken() || "",
+                        {
+                            ...currentUser,
+                            role: 'VETERINARIAN',
+                            clinicId: data.clinicId.value,
+                        }
+                    );
+                }
                 setSelect(true);
                 toast.success("Perfil de veterinario configurado correctamente", {
                     duration: 1500,

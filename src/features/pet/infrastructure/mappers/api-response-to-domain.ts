@@ -1,12 +1,17 @@
 import { PetEntity } from "../../domain/entities";
-import { PetResponseEntity } from "../entities";
 
 export class ApiResponseToDomain {
-    static toPetEntityData(response: PetResponseEntity): PetEntity[] {
-        return response.data.map((pet) => ({
+    static toPetEntityData(response: any): PetEntity[] {
+        const list = Array.isArray(response)
+            ? response
+            : Array.isArray(response?.data)
+            ? response.data
+            : [];
+
+        return list.map((pet: any) => ({
             id: pet.id,
             name: pet.name,
-            birthdate: new Date(pet.birthDate).toLocaleDateString(),
+            birthdate: pet.birthDate ? new Date(pet.birthDate).toLocaleDateString() : "",
             image: pet.mainImage,
             breed: pet.breed,
             isActive: pet.isActive,
@@ -15,7 +20,7 @@ export class ApiResponseToDomain {
             microchip: pet.microchip,
             color: pet.color,
             iaImage: pet.iaImage,
-            images: pet.images,
+            images: pet.images || [],
             clinicName: pet.clinicName,
         }));
     }
