@@ -1,0 +1,39 @@
+{
+  "statusCode": 200,
+  "message": "Pet background retrieved successfully",
+  "data": {
+    "id": "55555555-5555-4555-8555-555555555555",
+    "petId": "44444444-4444-4444-8444-444444444444",
+    "provenance": "Criadero San Bernardo",
+    "diet": "Concentrado Premium 350g al día",
+    "isNeutered": true,
+    "neuteredDate": "2023-04-10",
+    "previousIllnesses": "Cirugía profiláctica dental en 2023",
+    "hasAllergies": true,
+    "allergiesDescription": "Alergia a proteína de pollo y pulgas",
+    "lastVaccinationDate": "2024-02-15",
+    "canineVaccines": {
+      "rabies": true,
+      "parvovirus": true,
+      "distemper": true,
+      "hepatitis": false,
+      "leptospirosis": false,
+      "parainfluenza": false,
+      "kennelCough": false
+    },
+    "felineVaccines": {
+      "rabies": false,
+      "felineViralRhinotracheitis": false,
+      "calicivirus": false,
+      "panleukopenia": false,
+      "felineLeukemia": false
+    },
+    "deworming": {
+      "internalParasites": true,
+      "externalParasites": true,
+      "lastInternalDewormingDate": "2024-03-01",
+      "lastExternalDewormingDate": "2024-03-01"
+    },
+    "otherVaccinesNotes": "Refuerzo anual programado para marzo"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "statusCode": 200,
+  "data": [
+    {
+      "id": "44444444-4444-4444-8444-444444444444",
+      "name": "Firulais",
+      "birthDate": "2022-01-01T00:00:00.000Z",
+      "mainImage": "https://images.unsplash.com/photo-1543466835-00a7907e9de1",
+      "breed": "Golden Retriever",
+      "isActive": true,
+      "species": "Canino",
+      "weight": 25,
+      "microchip": "123456789",
+      "color": "Dorado",
+      "images": [],
+      "clinicName": "Hospital Veterinario Animal Care"
+    }
+  ]
+}

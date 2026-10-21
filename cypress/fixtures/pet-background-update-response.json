@@ -1,0 +1,39 @@
+{
+  "statusCode": 200,
+  "message": "Pet background updated successfully",
+  "data": {
+    "id": "55555555-5555-4555-8555-555555555555",
+    "petId": "44444444-4444-4444-8444-444444444444",
+    "provenance": "Adopción de Rescate",
+    "diet": "Dieta especial hipoalergénica",
+    "isNeutered": true,
+    "neuteredDate": "2023-04-10",
+    "previousIllnesses": "Tratamiento por gastroenteritis en 2024",
+    "hasAllergies": true,
+    "allergiesDescription": "Alergia confirmada al pollo",
+    "lastVaccinationDate": "2024-02-15",
+    "canineVaccines": {
+      "rabies": true,
+      "parvovirus": true,
+      "distemper": true,
+      "hepatitis": true,
+      "leptospirosis": true,
+      "parainfluenza": false,
+      "kennelCough": false
+    },
+    "felineVaccines": {
+      "rabies": false,
+      "felineViralRhinotracheitis": false,
+      "calicivirus": false,
+      "panleukopenia": false,
+      "felineLeukemia": false
+    },
+    "deworming": {
+      "internalParasites": true,
+      "externalParasites": true,
+      "lastInternalDewormingDate": "2024-04-01",
+      "lastExternalDewormingDate": "2024-04-01"
+    },
+    "otherVaccinesNotes": "Se aplicó refuerzo polivalente"
+  }
+}

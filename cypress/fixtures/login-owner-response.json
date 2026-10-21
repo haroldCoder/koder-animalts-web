@@ -1,0 +1,16 @@
+{
+  "statusCode": 200,
+  "message": "Inicio de sesión exitoso",
+  "data": {
+    "accessToken": "mock-access-token-owner-123",
+    "refreshToken": "mock-refresh-token-owner-123",
+    "user": {
+      "id": "22222222-2222-4222-8222-222222222222",
+      "email": "carlos.gomez@example.com",
+      "name": "Carlos Gomez",
+      "image": "https://example.com/avatar.png",
+      "role": "OWNER",
+      "ownerId": "33333333-3333-4333-8333-333333333333"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "statusCode": 200,
+  "data": {
+    "user": {
+      "id": "22222222-2222-4222-8222-222222222222",
+      "name": "Carlos Gomez",
+      "email": "carlos.gomez@example.com",
+      "role": "OWNER",
+      "image": "https://example.com/avatar.png"
+    },
+    "userType": "owner"
+  }
+}
