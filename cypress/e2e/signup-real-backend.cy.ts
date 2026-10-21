@@ -104,9 +104,10 @@ describe('Flujo de Registro (SignUp) con Backend Real (Sin Mocks)', () => {
     cy.get('input[placeholder="Especialidad"]').type('Medicina General');
     cy.get('input[placeholder="Teléfono"]').type('3109876543');
 
-    // Seleccionar el primer consultorio disponible de la lista que devolvió el backend
+    // Seleccionar específicamente la clínica con UUID válido: "Hospital Veterinario Animal Care"
     cy.get('[data-slot="select-trigger"]').click();
-    cy.get('[data-slot="select-item"]').first().click();
+    cy.contains('[data-slot="select-item"]', 'Hospital Veterinario Animal Care').click();
+    cy.get('[data-slot="select-trigger"]').should('contain', 'Hospital Veterinario Animal Care');
 
     // El botón 'Continuar' debe estar deshabilitado antes de guardar
     cy.contains('button', 'Continuar').should('be.disabled');
